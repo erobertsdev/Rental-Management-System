@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+// TODO: Remove FXML loader version to get rid of stupid WARNING
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
