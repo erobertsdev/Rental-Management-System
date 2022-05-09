@@ -19,14 +19,14 @@ public class Helper {
 
     /** Get system language
      * @return system language */
-    public String getLanguage() {
+    public static String getLanguage() {
         Locale locale = Locale.getDefault();
-        return locale.getLanguage();
+        return locale.getDisplayLanguage();
     }
 
     /** Returns system country
      * @return system country */
-    public String getCountry() {
+    public static String getCountry() {
         Locale locale = Locale.getDefault();
         return locale.getDisplayCountry();
     }

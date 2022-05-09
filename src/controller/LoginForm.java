@@ -13,6 +13,6 @@ public class LoginForm implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        zoneLabel.setText(Helper.getLocale().toString());
+        zoneLabel.setText(Helper.getCountry() + " : " + Helper.getLanguage());
     }
 }
