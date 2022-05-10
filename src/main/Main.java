@@ -1,5 +1,6 @@
 package main;
 
+import helper.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 // TODO: Remove FXML loader version to get rid of stupid WARNING
 public class Main extends Application {
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\loginForm.fxml")));
@@ -19,6 +21,8 @@ public class Main extends Application {
     }
 
     public static void main(String[] args){
+        JDBC.openConnection(); // Opens DB connection
+//        JDBC.closeConnection(); // Closes DB Connection
         launch(args);
     }
 }

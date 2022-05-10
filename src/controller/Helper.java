@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /** Class with helper functions */
-public class Helper {
+abstract public class Helper {
 
     /** Set Locale
      * @return The locale of the system */
