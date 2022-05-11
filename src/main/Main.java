@@ -7,7 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 // TODO: Remove FXML loader version to get rid of stupid WARNING
 public class Main extends Application {
@@ -23,6 +25,13 @@ public class Main extends Application {
     public static void main(String[] args){
         JDBC.openConnection(); // Opens DB connection
 //        JDBC.closeConnection(); // Closes DB Connection
+
+        // Create resource bundle object
+        ResourceBundle rb = ResourceBundle.getBundle("RBMain/RBMain", Locale.getDefault());
+
+        if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr"))
+            System.out.println(rb.getString("title"));
+
         launch(args);
     }
 }
