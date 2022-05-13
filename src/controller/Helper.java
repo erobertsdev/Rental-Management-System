@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.scene.control.Alert;
+
 import java.util.Locale;
 import java.util.Objects;
 
@@ -40,5 +42,14 @@ abstract public class Helper {
      * @return system locale */
     public static Locale getLocale() {
         return setLocale();
+    }
+
+    /** Method to produce error dialog   */
+    public static void errorDialog(String error) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error");
+        alert.setContentText(error);
+        alert.showAndWait();
     }
 }
