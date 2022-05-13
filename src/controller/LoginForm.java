@@ -13,9 +13,9 @@ import java.util.ResourceBundle;
 
 public class LoginForm extends Helper implements Initializable {
     @FXML private Label zoneLabel;
-    @FXML private static Label errorMessage;
-    @FXML private static TextField usernameTextField;
-    @FXML private static TextField passwordTextField;
+    @FXML private Label errorMessage;
+    @FXML private TextField usernameTextField;
+    @FXML private TextField passwordTextField;
 
     @FXML private void handleLogin(ActionEvent event) {
     final String userName = usernameTextField.getText();
