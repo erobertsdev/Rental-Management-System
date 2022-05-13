@@ -27,11 +27,14 @@ public class Main extends Application {
 //        JDBC.closeConnection(); // Closes DB Connection
 
         // Create resource bundle object
-        ResourceBundle rb = ResourceBundle.getBundle("RBMain/RBMain", Locale.getDefault());
+//        ResourceBundle rb = ResourceBundle.getBundle("../RBMain/RBMain", Locale.getDefault());
+//
+//        if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr"))
+//            System.out.println(rb.getString("title"));
 
-        if(Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr"))
-            System.out.println(rb.getString("title"));
-
+        // Test FRENCH
+        // TODO: Need to fix ZoneID on FXML Form, displays incorrectly
+//         Locale.setDefault(new Locale("fr"));
         launch(args);
     }
 }

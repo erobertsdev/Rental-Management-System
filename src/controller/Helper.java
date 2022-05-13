@@ -6,6 +6,11 @@ import java.util.Objects;
 /** Class with helper functions */
 abstract public class Helper {
 
+    public static String translateText(String text) {
+        // Return translated text
+        return null; //
+    }
+
     /** Set Locale
      * @return The locale of the system */
     private static Locale setLocale() {
