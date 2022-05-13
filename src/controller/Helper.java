@@ -7,20 +7,15 @@ import java.util.Objects;
 
 /** Class with helper functions */
 abstract public class Helper {
-
-    public static String translateText(String text) {
-        // Return translated text
-        return null; //
-    }
-
     /** Set Locale
      * @return The locale of the system */
     private static Locale setLocale() {
         Locale locale = Locale.getDefault();
         if (Objects.equals(locale.getLanguage(), "fr")) {
             locale = new Locale("fr", "CA");
+        } else {
+            locale = new Locale("en", "US");
         }
-        locale = new Locale("en", "US");
         return locale;
     }
 

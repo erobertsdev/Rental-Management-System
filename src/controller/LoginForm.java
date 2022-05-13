@@ -28,13 +28,13 @@ public class LoginForm extends Helper implements Initializable {
     final String password = passwordTextField.getText();
 
     if ((userName.length() != 0) && (password.length() != 0)) {
-        // Check DB for userName/PW Match
+        // Check DB for user/pw match
         boolean match = JDBC.checkLogin(userName, password);
         // Match found: TODO: Open Appointments FXML Form
         if (match) {
             System.out.println("Match found: " + userName + " | " + password);
         } else {
-            // NO MATCH: Display error TODO: fr translation
+            // Shows dialog if no user/pw match found
             if (language.equals("fr")) {
                 Helper.errorDialog("Nom d'utilisateur / Mot de passe incorrect. Veuillez vérifier l'orthographe et réessayer.");
             } else {
@@ -53,7 +53,7 @@ public class LoginForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(Helper.getLanguage());
+        System.out.println(Helper.getLocale());
         if (Helper.getLanguage().equals("fr")) {
             usernameLabel.setText("Nom d'utilisateur");
             passwordLabel.setText("Mot de passe");
