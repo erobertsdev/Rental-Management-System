@@ -1,6 +1,7 @@
 package helper;
 
 import java.sql.*;
+import java.util.Objects;
 
 public abstract class JDBC {
 
@@ -80,5 +81,23 @@ public abstract class JDBC {
             String customerName = rs.getString("Customer_Name");
             System.out.print(customerId + " | " + customerName + "\n");
         }
+    }
+
+    /**
+     * Method to loop through users table and look for a username/password match
+     * @return true if user/password match is found, false otherwise */
+    public static boolean checkLogin(String userName, String password) throws SQLException {
+        boolean match = false;
+        String sql = "SELECT * FROM USERS";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            String user = rs.getString("User_Name");
+            String userPassword = rs.getString("Password");
+            if((Objects.equals(user, userName)) && (Objects.equals(userPassword, password))) {
+                match = true;
+            }
+        }
+        return match;
     }
 }
