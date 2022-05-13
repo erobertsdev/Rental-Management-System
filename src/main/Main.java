@@ -34,7 +34,7 @@ public class Main extends Application {
 
         // Test FRENCH
         // TODO: Need to fix ZoneID on FXML Form, displays incorrectly
-//         Locale.setDefault(new Locale("fr"));
+//        Locale.setDefault(new Locale("fr", "CA"));
         launch(args);
     }
 }

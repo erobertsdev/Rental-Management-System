@@ -28,7 +28,7 @@ abstract public class Helper {
      * @return system language */
     public static String getLanguage() {
         Locale locale = Locale.getDefault();
-        return locale.getDisplayLanguage();
+        return locale.getLanguage();
     }
 
     /** Returns system country
@@ -46,9 +46,9 @@ abstract public class Helper {
 
     /** Method to produce error dialog   */
     public static void errorDialog(String error) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText("Error");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Error (Erreur)");
+        alert.setHeaderText(null);
         alert.setContentText(error);
         alert.showAndWait();
     }

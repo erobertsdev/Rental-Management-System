@@ -4,6 +4,7 @@ import helper.JDBC;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.w3c.dom.Text;
@@ -15,8 +16,12 @@ import java.util.ResourceBundle;
 
 public class LoginForm extends Helper implements Initializable {
     @FXML private Label zoneLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
     @FXML private TextField usernameTextField;
     @FXML private TextField passwordTextField;
+    @FXML private Button loginButton;
+    private final String language = Helper.getLanguage();
 
     @FXML private void handleLogin(ActionEvent event) throws SQLException {
     final String userName = usernameTextField.getText();
@@ -29,17 +34,31 @@ public class LoginForm extends Helper implements Initializable {
         if (match) {
             System.out.println("Match found: " + userName + " | " + password);
         } else {
-            // NO MATCH: Display error TODO: French translation
-            Helper.errorDialog("Incorrect username/password. Please check your spelling and try again.");
+            // NO MATCH: Display error TODO: fr translation
+            if (language.equals("fr")) {
+                Helper.errorDialog("Nom d'utilisateur / Mot de passe incorrect. Veuillez vérifier l'orthographe et réessayer.");
+            } else {
+                Helper.errorDialog("Incorrect username/password. Please check your spelling and try again.");
+            }
         }
-        // TODO: Append result to login_activity.txt
     } else {
-         Helper.errorDialog("Username and password are required.");
+        if (language.equals("fr")) {
+            Helper.errorDialog("Le nom d'utilisateur et le mot de passe sont requis.");
+        } else {
+            Helper.errorDialog("Username and password are required.");
+        }
+
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(Helper.getLanguage());
+        if (Helper.getLanguage().equals("fr")) {
+            usernameLabel.setText("Nom d'utilisateur");
+            passwordLabel.setText("Mot de passe");
+            loginButton.setText("Connexion");
+        }
         zoneLabel.setText(Helper.getLocale().toString());
     }
 }
