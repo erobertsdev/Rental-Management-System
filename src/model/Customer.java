@@ -8,6 +8,15 @@ public class Customer {
     private String postalCode;
     private String phoneNumber;
 
+    public Customer(int id, String name, String address, int division, String postalCode, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.division = division;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+    }
+
     public int getId() {
         return id;
     }
