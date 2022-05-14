@@ -33,6 +33,16 @@ abstract public class Helper {
         return locale.getDisplayCountry();
     }
 
+    /** Get Country name from Country ID
+     * @return String country name */
+    public static String getCountryFromId(int id) {
+        return switch (id) {
+            case 1 -> "U.S";
+            case 2 -> "UK";
+            default -> "Canada";
+        };
+    }
+
     /** Returns results from setLocale()
      * @return system locale */
     public static Locale getLocale() {
