@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerForm">
    <children>
       <Label layoutX="46.0" layoutY="14.0" text="Customers">
@@ -38,9 +37,9 @@
             <TableColumn prefWidth="75.0" text="C1" />
          </columns>
       </TableView>
-      <Button fx:id="editCustomerButton1" layoutX="576.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleEditCustomer" text="Edit" />
-      <Button fx:id="addCustomerButton1" layoutX="642.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleAddCustomer" text="Add" />
-      <Button fx:id="deleteCustomerButton1" layoutX="708.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleDeleteCustomer" text="Delete" />
+      <Button fx:id="editApptButton" layoutX="576.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleEditAppt" text="Edit" />
+      <Button fx:id="addApptButton" layoutX="642.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleAddAppt" text="Add" />
+      <Button fx:id="deleteApptButton" layoutX="708.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleDeleteAppt" text="Delete" />
       <Label fx:id="customerInstructionsLabel" layoutX="52.0" layoutY="251.0" text="Select a customer to show their appointments." />
    </children>
 </AnchorPane>

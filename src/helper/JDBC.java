@@ -114,11 +114,11 @@ public abstract class JDBC {
         ResultSet rs = ps.executeQuery(sql);
         while(rs.next()) {
             // Might have to make ID and Division ints
-            String customerId = String.valueOf(rs.getInt("Customer_ID"));
+            int customerId = rs.getInt("Customer_ID");
             String customerName = rs.getString("Customer_Name");
             String customerAddress = rs.getString("Address");
             // Make this translate the division, maybe
-            String customerDivision = String.valueOf(rs.getInt("Division_ID"));
+            int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
 
