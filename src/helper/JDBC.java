@@ -1,5 +1,9 @@
 package helper;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Customer;
+
 import java.sql.*;
 import java.util.Objects;
 
@@ -99,5 +103,28 @@ public abstract class JDBC {
             }
         }
         return match;
+    }
+
+    /**
+     * Retrieve data from customers table and fill Customers tableview */
+    public static ObservableList<Customer> getCustomers() throws SQLException {
+        String sql = "SELECT * FROM CUSTOMERS";
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            // Might have to make ID and Division ints
+            String customerId = String.valueOf(rs.getInt("Customer_ID"));
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            // Make this translate the division, maybe
+            String customerDivision = String.valueOf(rs.getInt("Division_ID"));
+            String customerPostal = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone);
+            customers.add(customer);
+        }
+        return customers;
     }
 }

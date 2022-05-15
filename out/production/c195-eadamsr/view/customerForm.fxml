@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerForm">
+   <children>
+      <Label layoutX="46.0" layoutY="14.0" text="Customers">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="customersTableview" layoutX="46.0" layoutY="49.0" prefHeight="200.0" prefWidth="715.0">
+        <columns>
+          <TableColumn fx:id="customerIdCol" prefWidth="22.0" text="ID" />
+            <TableColumn fx:id="customerNameCol" prefWidth="136.0" text="Name" />
+            <TableColumn fx:id="customerAddressCol" prefWidth="283.0" text="Address" />
+            <TableColumn fx:id="customerDivisionCol" prefWidth="97.0" text="Division" />
+            <TableColumn fx:id="customerPostalCol" prefWidth="82.0" text="Postal Code" />
+            <TableColumn fx:id="customerPhoneCol" minWidth="9.0" prefWidth="94.0" text="Phone Number" />
+        </columns>
+      </TableView>
+      <Label layoutX="46.0" layoutY="307.0" text="Appointments">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="editCustomerButton" layoutX="563.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleEditCustomer" text="Edit" />
+      <Button fx:id="addCustomerButton" layoutX="629.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleAddCustomer" text="Add" />
+      <Button fx:id="deleteCustomerButton" layoutX="695.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleDeleteCustomer" text="Delete" />
+      <TableView fx:id="appointmentsTableview" layoutX="46.0" layoutY="348.0" prefHeight="200.0" prefWidth="715.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="C1" />
+         </columns>
+      </TableView>
+      <Button fx:id="editCustomerButton1" layoutX="576.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleEditCustomer" text="Edit" />
+      <Button fx:id="addCustomerButton1" layoutX="642.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleAddCustomer" text="Add" />
+      <Button fx:id="deleteCustomerButton1" layoutX="708.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleDeleteCustomer" text="Delete" />
+      <Label fx:id="customerInstructionsLabel" layoutX="52.0" layoutY="251.0" text="Select a customer to show their appointments." />
+   </children>
+</AnchorPane>

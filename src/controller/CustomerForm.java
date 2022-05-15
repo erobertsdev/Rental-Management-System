@@ -25,6 +25,6 @@ public class CustomerForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Fill Customers Table
     }
 }
