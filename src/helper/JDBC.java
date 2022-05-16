@@ -132,11 +132,12 @@ public abstract class JDBC {
 
     /**
      * Retrieve Appointments associated with Customer_ID */
-    public static ObservableList<Appointment> getAppointmentsById(int id) throws SQLException {
+    // TODO: FIX THIS STUPID THING
+    public static ObservableList<Appointment> getAppointmentsById(String id) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID = ?";
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, String.valueOf(id));
+        ps.setString(1, id);
         ResultSet rs = ps.executeQuery(sql);
         while(rs.next()) {
             // TODO: Add the stuff from Appointment model here
