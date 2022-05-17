@@ -82,20 +82,12 @@ public class CustomerForm<Item> extends Helper implements Initializable {
 
             /** Event listener to detect when row in Customers tableview is selected and
              * populate the Appointments tableview with that customer's appointments */
-//            customersTableview.setOnMouseClicked((
-//                   MouseEvent event) -> {
-//               if(event.getButton().equals(MouseButton.PRIMARY)){
-//                   System.out.println(customersTableview.getSelectionModel().getSelectedItem());
-//                   System.out.println(getCellValue());
-//               }
-//           });
-
-            // Technically a Lambda function TODO: GET IT TO WORK
+            // ****** Lambda function *******
             customersTableview.setRowFactory(tv -> {
                 TableRow<Customer> row = new TableRow<>();
                 row.setOnMouseClicked(event -> {
                     // check for non-empty rows
-                    if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
+                    if (!row.isEmpty()) {
                         Customer element = row.getItem();
                         int col = element.getId();
                         try {
@@ -107,7 +99,6 @@ public class CustomerForm<Item> extends Helper implements Initializable {
                             apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
                             apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
                             apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
