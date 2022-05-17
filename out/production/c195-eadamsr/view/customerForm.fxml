@@ -34,7 +34,13 @@
       <Button fx:id="deleteCustomerButton" layoutX="695.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleDeleteCustomer" text="Delete" />
       <TableView fx:id="appointmentsTableview" layoutX="46.0" layoutY="348.0" prefHeight="200.0" prefWidth="715.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="C1" />
+            <TableColumn fx:id="apptIdCol" prefWidth="37.0" text="ID" />
+            <TableColumn fx:id="apptTitleCol" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="apptDescriptionCol" prefWidth="75.0" text="Description" />
+            <TableColumn fx:id="apptLocationCol" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="apptTypeCol" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="apptStartCol" prefWidth="75.0" text="Start" />
+            <TableColumn fx:id="apptEndCol" prefWidth="75.0" text="End" />
          </columns>
       </TableView>
       <Button fx:id="editApptButton" layoutX="576.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleEditAppt" text="Edit" />
