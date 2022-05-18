@@ -3,22 +3,29 @@ package controller;
 import com.mysql.cj.xdevapi.Table;
 import helper.JDBC;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static helper.JDBC.getAppointmentsById;
 
-public class CustomerForm<Item> extends Helper implements Initializable {
+public class CustomerForm extends Helper implements Initializable {
     @FXML private TableView<Customer> customersTableview;
     @FXML private TableColumn<Customer, Integer> customerIdCol;
     @FXML private TableColumn<Customer, String> customerNameCol;
@@ -37,12 +44,35 @@ public class CustomerForm<Item> extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, String> apptTypeCol;
     @FXML private TableColumn<Appointment, Timestamp> apptStartCol;
     @FXML private TableColumn<Appointment, Timestamp> apptEndCol;
+    public static Customer selectedCustomer = null;
 
-    public void handleEditCustomer() {
-
+    public static Customer getSelectedCustomer() {
+        return selectedCustomer;
     }
 
-    public void handleAddCustomer() {
+    public void handleEditCustomer(ActionEvent event) throws IOException {
+        try {
+            // Get selected customer info
+            selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
+
+            // Throw error if no customer selected
+            if (customersTableview.getSelectionModel().getSelectedItem() == null) {
+                Helper.errorDialog("Please select a customer to edit.");
+            }
+            Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml"))));
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException e){
+            Helper.errorDialog("Problem editing customer. Please try again.");
+        }
+    }
+
+    public void handleAddCustomer(ActionEvent event) throws IOException {
+
+        // Open add customer dialog
+
+        // Add customer to DB
 
     }
 

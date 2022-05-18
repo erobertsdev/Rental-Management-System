@@ -153,7 +153,6 @@ public abstract class JDBC {
 
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
             appointments.add(appointment);
-            System.out.println("YO");
         }
         return appointments;
     }
