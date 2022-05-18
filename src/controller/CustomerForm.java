@@ -58,11 +58,12 @@ public class CustomerForm extends Helper implements Initializable {
             // Throw error if no customer selected
             if (customersTableview.getSelectionModel().getSelectedItem() == null) {
                 Helper.errorDialog("Please select a customer to edit.");
+            } else {
+                Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml"))));
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(scene);
+                window.show();
             }
-            Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml"))));
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
         } catch (IOException e){
             Helper.errorDialog("Problem editing customer. Please try again.");
         }
