@@ -18,6 +18,7 @@ public abstract class JDBC {
     private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
     private static final String userName = "sqlUser"; // Username
     public static Connection connection;  // Connection Interface
+    public static int currentUser;
 
     public static void openConnection()
     {
@@ -44,6 +45,23 @@ public abstract class JDBC {
             System.out.println("Error:" + e.getMessage());
         }
     }
+
+    /**
+     * Get current user
+     * @return currentUser
+     */
+    public static int getCurrentUser() {
+        return currentUser;
+    }
+
+    /**
+     * Sets the current user
+     * @param user ID of the user who just logged in
+     */
+    public static void setCurrentUser(int user) {
+        currentUser = user;
+    }
+
 
     // ---------------CRUD OPERATIONS---------------
     // Create/insert a record into a table, just an example
@@ -100,6 +118,7 @@ public abstract class JDBC {
             String user = rs.getString("User_Name");
             String userPassword = rs.getString("Password");
             if((Objects.equals(user, userName)) && (Objects.equals(userPassword, password))) {
+                setCurrentUser(rs.getInt("User_ID"));
                 match = true;
             }
         }
@@ -132,7 +151,7 @@ public abstract class JDBC {
 
     /**
      * Retrieve Appointments associated with Customer_ID */
-    // TODO: FIX THIS STUPID THING
+    // TODO: Might need to also add one using USER_ID instead/also
     public static ObservableList<Appointment> getAppointmentsById(String id) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID=" + id;
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -156,4 +175,24 @@ public abstract class JDBC {
         }
         return appointments;
     }
+
+    /** Add a new customer to the DB */
+    public static void addCustomer(String name, String address, String postal,
+                                      String phone, int divisionId) throws Exception {
+        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
+                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
+                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setString(2,address);
+        ps.setString(3,postal);
+        ps.setString(4,phone);
+        ps.setInt(5, getCurrentUser());
+        ps.setInt(6, getCurrentUser());
+        ps.setInt(7, divisionId);
+
+        ps.executeUpdate();
+
+    }
+
 }
