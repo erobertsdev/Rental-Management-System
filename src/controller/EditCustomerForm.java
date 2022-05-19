@@ -22,6 +22,7 @@ public class EditCustomerForm extends Helper implements Initializable {
     @FXML private TextField customerPhoneTextField;
     @FXML private TextField customerStreetTextField;
     @FXML private TextField customerPostalTextField;
+    private int customerId;
     // TODO: get these boxes working
     @FXML private ComboBox countryCombo;
     @FXML private ComboBox stateCombo;

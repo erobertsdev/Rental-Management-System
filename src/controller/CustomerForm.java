@@ -70,11 +70,11 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     public void handleAddCustomer(ActionEvent event) throws IOException {
-
-        // Open add customer dialog
-
-        // Add customer to DB
-
+        // Open edit customer dialog
+        Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml"))));
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+        window.show();
     }
 
     public void handleDeleteCustomer() {
