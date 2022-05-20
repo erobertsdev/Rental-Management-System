@@ -43,6 +43,13 @@ abstract public class Helper {
         };
     }
 
+    /** Get user name from User Id
+     * @return String username */
+    public static String getUsernameFromId(int id) {
+        return id == 1 ? "test" : "admin";
+    }
+
+
     /** Returns results from setLocale()
      * @return system locale */
     public static Locale getLocale() {

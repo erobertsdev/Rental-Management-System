@@ -177,19 +177,21 @@ public abstract class JDBC {
     }
 
     /** Add a new customer to the DB */
-    public static void addCustomer(String name, String address, String postal,
+    // TODO: Test
+    public static void addCustomer(int id, String name, String address, String postal,
                                       String phone, int divisionId) throws Exception {
-        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
+        String sql = "INSERT INTO customers (?, Customer_Name, Address, Postal_Code, Phone, "+
                 "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
                 "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, name);
-        ps.setString(2,address);
-        ps.setString(3,postal);
-        ps.setString(4,phone);
-        ps.setInt(5, getCurrentUser());
+        ps.setInt(1, id);
+        ps.setString(2, name);
+        ps.setString(3,address);
+        ps.setString(4,postal);
+        ps.setString(5,phone);
         ps.setInt(6, getCurrentUser());
-        ps.setInt(7, divisionId);
+        ps.setInt(7, getCurrentUser());
+        ps.setInt(8, divisionId);
 
         ps.executeUpdate();
 
