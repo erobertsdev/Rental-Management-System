@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -52,29 +53,31 @@ public class CustomerForm extends Helper implements Initializable {
 
     public void handleEditCustomer(ActionEvent event) throws IOException {
         try {
-            // Get selected customer info
-            selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
-
             // Throw error if no customer selected
             if (customersTableview.getSelectionModel().getSelectedItem() == null) {
                 Helper.errorDialog("Please select a customer to edit.");
             } else {
-                Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml"))));
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(scene);
-                window.show();
+            // Get selected customer info
+                selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/editCustomerForm.fxml")));
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
             }
         } catch (IOException e){
+            e.printStackTrace();
             Helper.errorDialog("Problem editing customer. Please try again.");
         }
     }
 
     public void handleAddCustomer(ActionEvent event) throws IOException {
         // Open edit customer dialog
-        Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml"))));
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml")));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void handleDeleteCustomer() {

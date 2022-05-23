@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
 import model.Customer;
+import model.Division;
 
 import java.sql.*;
 import java.util.Objects;
@@ -174,6 +175,31 @@ public abstract class JDBC {
             appointments.add(appointment);
         }
         return appointments;
+    }
+
+    /**
+     * Retrieve All Divisions
+     * @return ObservableList of all divisions info */
+    // TODO: Might need to also add one using USER_ID instead/also
+    public static ObservableList<Division> getAllDivisions() throws SQLException {
+        String sql = "SELECT * FROM first_level_divisions";
+        ObservableList<Division> divisions = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setString(1, id);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int divisionId = rs.getInt("Division_ID");
+            String divisionName = rs.getString("Division");
+            Timestamp createDate = rs.getTimestamp("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            Timestamp lastUpdate = rs.getTimestamp("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int countryId = rs.getInt("Country_ID");
+
+            Division division = new Division(divisionId, divisionName, createDate, createdBy, lastUpdate, lastUpdatedBy, countryId);
+            divisions.add(division);
+        }
+        return divisions;
     }
 
     /** Add a new customer to the DB */

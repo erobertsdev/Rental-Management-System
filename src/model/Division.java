@@ -1,11 +1,14 @@
 package model;
 
+import java.sql.Timestamp;
+
 public class Division {
     private int divisionId;
     private String divisionName;
     private int CountryId;
 
-    public Division(int divisionId, String divisionName, int countryId) {
+    public Division(int divisionId, String divisionName, Timestamp createDate,
+                    String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int countryId) {
         this.divisionId = divisionId;
         this.divisionName = divisionName;
         CountryId = countryId;
