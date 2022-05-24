@@ -1,12 +1,17 @@
 package controller;
 
+import helper.JDBC;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import model.Division;
 
+import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Objects;
 
 /** Class with helper functions */
 abstract public class Helper {
+
     /** Set Locale
      * @return The locale of the system */
     private static Locale setLocale() {
@@ -64,4 +69,21 @@ abstract public class Helper {
         alert.setContentText(error);
         alert.showAndWait();
     }
+
+    /**
+     * Returns a Division object specified by ID
+     * @param divisionID The ID of the division object to be returned
+     * @return division
+     */
+    public static Division getDivision(int divisionID) throws SQLException {
+        ObservableList<Division> divisions = JDBC.getAllDivisions();
+        for (Division d : divisions) {
+            if (d.getDivisionId() == divisionID) {
+                return d;
+            }
+        }
+        return null;
+    }
 }
+
+
