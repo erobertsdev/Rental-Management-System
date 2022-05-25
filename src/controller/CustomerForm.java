@@ -73,7 +73,7 @@ public class CustomerForm extends Helper implements Initializable {
 
     public void handleAddCustomer(ActionEvent event) throws IOException {
         // Open edit customer dialog
-        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\editCustomerForm.fxml")));
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/editCustomerForm.fxml")));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
