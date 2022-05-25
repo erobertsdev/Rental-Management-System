@@ -172,7 +172,7 @@ public abstract class JDBC {
      * Retrieve Appointments associated with Customer_ID */
     // TODO: Might need to also add one using USER_ID instead/also
     public static ObservableList<Appointment> getAppointmentsById(String id) throws SQLException {
-        String sql = "SELECT Division_Id, Division FROM first_level_divisions WHERE Country_ID=" + id;
+        String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID=" + id;
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
 //        ps.setString(1, id);

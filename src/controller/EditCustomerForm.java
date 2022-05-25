@@ -1,6 +1,8 @@
 package controller;
 
 import helper.JDBC;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -19,7 +21,7 @@ public class EditCustomerForm extends Helper implements Initializable {
     @FXML private TextField customerPhoneTextField;
     @FXML private TextField customerStreetTextField;
     @FXML private TextField customerPostalTextField;
-    @FXML private ComboBox<Country> countryCombo;
+    @FXML private ComboBox<String> countryCombo;
     @FXML private ComboBox<Division> stateCombo;
     private final Customer selectedCustomer = CustomerForm.getSelectedCustomer();
 
@@ -27,6 +29,8 @@ public class EditCustomerForm extends Helper implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("Customer: " + selectedCustomer);
         if (selectedCustomer != null) {
+            ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
+            countryCombo.setItems(countries);
             customerIdTextField.setText(Integer.toString(selectedCustomer.getId()));
             customerNameTextField.setText(selectedCustomer.getName());
             customerPhoneTextField.setText(selectedCustomer.getPhoneNumber());
