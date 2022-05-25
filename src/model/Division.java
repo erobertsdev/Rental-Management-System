@@ -14,7 +14,7 @@ public class Division {
         CountryId = countryId;
     }
 
-    public Division(int divisionId, String divisionName) {
+    public Division(String divisionName) {
     }
 
     public int getDivisionId() {
