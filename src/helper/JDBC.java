@@ -87,14 +87,12 @@ public abstract class JDBC {
         return divisionName;
     }
 
-
-    // TODO: FIX THIS PIECE OF SHIT IT KEEPS COMPLAINING
     /**
      * Return ID of division when given name
      * @return int divisionId */
     public static int divisionIdFromName(String name) throws SQLException {
         int divisionId = 0;
-        String sql = "SELECT * FROM first_level_divisions WHERE Division=" + name;
+        String sql = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + name + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
         while (rs.next()) {
