@@ -65,14 +65,60 @@ public abstract class JDBC {
 
 
     // ---------------CRUD OPERATIONS---------------
-    // Create/insert a record into a table, just an example
-    public static int insert(String customerName, int customerId) throws SQLException {
-        String sql = "INSERT INTO CUSTOMERS (Customer_Name, Customer_ID) VALUES (?, ?)"; // ? are bind variables, indexed starting at 1
+
+//    public static void addCustomer(String customerId, String customerName, String address, String postal, String phone, DateT createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, division) throws SQLException {
+//        String sql = "INSERT INTO CUSTOMERS (Customer_ID) VALUES (?, ?)"; // ? are bind variables, indexed starting at 1
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setString(1, customerName); // assigns customerName to the first bind variable in the sql string
+//        ps.setInt(2, customerId); // assigned customerId to the second bind variable
+//    }
+
+    /**
+     * Return name of division when given ID
+     * @return String divisionName */
+    public static String divisionNameFromId(int id) throws SQLException {
+        String divisionName = null;
+        String sql = "SELECT Division FROM first_level_divisions WHERE Division_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, customerName); // assigns customerName to the first bind variable in the sql string
-        ps.setInt(2, customerId); // assigned customerId to the second bind variable
-        int rowsAffected = ps.executeUpdate(); // returns the number of rows affected, in this case should be 1
-        return rowsAffected;
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            divisionName = rs.getString("Division");
+        }
+        return divisionName;
+    }
+
+
+    // TODO: FIX THIS PIECE OF SHIT IT KEEPS COMPLAINING
+    /**
+     * Return ID of division when given name
+     * @return int divisionId */
+    public static int divisionIdFromName(String name) throws SQLException {
+        int divisionId = 0;
+        String sql = "SELECT * FROM first_level_divisions WHERE Division=" + name;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            divisionId = rs.getInt("Division_ID");
+        }
+        return divisionId;
+    }
+
+    /**
+     * Method to add customer to database */
+    public static void addCustomer(String customerName, String address, String postal,
+                                      String phone, int divisionID) throws SQLException {
+        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
+                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
+                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, customerName);
+        ps.setString(2,address);
+        ps.setString(3,postal);
+        ps.setString(4,phone);
+        ps.setInt(5, getCurrentUser());
+        ps.setInt(6, getCurrentUser());
+        ps.setInt(7, divisionID);
+        ps.executeUpdate();
     }
 
     // Update a record, example
@@ -219,24 +265,24 @@ public abstract class JDBC {
     }
 
     /** Add a new customer to the DB */
-    // TODO: Test
-    public static void addCustomer(int id, String name, String address, String postal,
-                                      String phone, int divisionId) throws Exception {
-        String sql = "INSERT INTO customers (?, Customer_Name, Address, Postal_Code, Phone, "+
-                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
-                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, id);
-        ps.setString(2, name);
-        ps.setString(3,address);
-        ps.setString(4,postal);
-        ps.setString(5,phone);
-        ps.setInt(6, getCurrentUser());
-        ps.setInt(7, getCurrentUser());
-        ps.setInt(8, divisionId);
-
-        ps.executeUpdate();
-
-    }
+//    // TODO: Test
+//    public static void addCustomer(int id, String name, String address, String postal,
+//                                      String phone, int divisionId) throws Exception {
+//        String sql = "INSERT INTO customers (?, Customer_Name, Address, Postal_Code, Phone, "+
+//                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
+//                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setInt(1, id);
+//        ps.setString(2, name);
+//        ps.setString(3,address);
+//        ps.setString(4,postal);
+//        ps.setString(5,phone);
+//        ps.setInt(6, getCurrentUser());
+//        ps.setInt(7, getCurrentUser());
+//        ps.setInt(8, divisionId);
+//
+//        ps.executeUpdate();
+//
+//    }
 
 }

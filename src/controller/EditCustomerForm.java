@@ -48,8 +48,27 @@ public class EditCustomerForm extends Helper implements Initializable {
         stateCombo.setItems(countryNames); // Add appropriate "states" according to selected countries
     }
 
-    public void handleSaveButton() {
-
+    public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
+        if (selectedCustomer != null) {
+            System.out.println("Updating customer");
+            // Run Update
+            // Return to customer screen
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+            Scene scene = new Scene(parent);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            // Add customer to DB
+            JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
+                    customerPhoneTextField.getText(), JDBC.divisionIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+            // Return to customer screen
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+            Scene scene = new Scene(parent);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void handleCancelButton(ActionEvent event) throws IOException {
@@ -71,6 +90,10 @@ public class EditCustomerForm extends Helper implements Initializable {
             customerPhoneTextField.setText(selectedCustomer.getPhoneNumber());
             customerStreetTextField.setText(selectedCustomer.getAddress());
             customerPostalTextField.setText(selectedCustomer.getPostalCode());
+        } else {
+            customerIdTextField.setText("Auto-Generated");
+            ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
+            countryCombo.setItems(countries);
         }
 
     }
