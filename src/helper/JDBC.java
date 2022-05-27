@@ -183,15 +183,12 @@ public abstract class JDBC {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
         while(rs.next()) {
-            // Might have to make ID and Division ints
             int customerId = rs.getInt("Customer_ID");
             String customerName = rs.getString("Customer_Name");
             String customerAddress = rs.getString("Address");
-            // Make this translate the division, maybe
             int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
-
             Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone);
             customers.add(customer);
         }
@@ -264,26 +261,4 @@ public abstract class JDBC {
         }
         return divisions;
     }
-
-    /** Add a new customer to the DB */
-//    // TODO: Test
-//    public static void addCustomer(int id, String name, String address, String postal,
-//                                      String phone, int divisionId) throws Exception {
-//        String sql = "INSERT INTO customers (?, Customer_Name, Address, Postal_Code, Phone, "+
-//                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
-//                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
-//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ps.setInt(1, id);
-//        ps.setString(2, name);
-//        ps.setString(3,address);
-//        ps.setString(4,postal);
-//        ps.setString(5,phone);
-//        ps.setInt(6, getCurrentUser());
-//        ps.setInt(7, getCurrentUser());
-//        ps.setInt(8, divisionId);
-//
-//        ps.executeUpdate();
-//
-//    }
-
 }
