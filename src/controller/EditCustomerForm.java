@@ -44,6 +44,7 @@ public class EditCustomerForm extends Helper implements Initializable {
         }
         countryNames = JDBC.getDivisionsById(String.valueOf(countryId)); // Retrieve all states in selected country
         stateCombo.setItems(countryNames); // Add appropriate "states" according to selected country
+        stateCombo.setValue(null); // Clears the state if a new country is selected
     }
 
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
