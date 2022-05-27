@@ -140,7 +140,7 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to add customer to database */
+     * Method to modify existing customer */
     public static void updateCustomer(int customerId, String customerName, String address, String postal,
                                    String phone, int divisionID) throws SQLException {
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
@@ -156,23 +156,13 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
-    // Update a record, example
-    public static int update(int customerId, String customerName) throws SQLException {
-        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?,  WHERE Customer_Id = ?";
+    /***
+     * Method to delete customer from database */
+    public static void deleteCustomer(int customerId) throws SQLException {
+        String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, customerName); // assigns customerName to the first bind variable in the sql string
-        ps.setInt(2, customerId); // assigned customerId to the second bind variable
-        int rowsAffected = ps.executeUpdate(); // returns the number of rows affected, in this case should be 1
-        return rowsAffected;
-    }
-
-    // Delete a record, example
-    public static int delete(int customerId) throws SQLException {
-        String sql = "DELETE FROM CUSTOMERS WHERE Customer_Id = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setInt(1, customerId); // Customer ID to be deleted
-        int rowsAffected = ps.executeUpdate(); // returns the number of rows affected, in this case should be 1
-        return rowsAffected;
+        ps.setInt(1, customerId);
+        ps.executeUpdate();
     }
 
     // -----------------RUNNING QUERIES-----------------------

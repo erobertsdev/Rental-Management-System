@@ -33,6 +33,14 @@ public class EditCustomerForm extends Helper implements Initializable {
     private final Customer selectedCustomer = CustomerForm.getSelectedCustomer();
 
     /**
+     * Check that all fields are filled out before saving */
+    public boolean checkInputs() {
+        boolean valid = false;
+        return !customerNameTextField.getText().isEmpty() && !customerStreetTextField.getText().isEmpty() && !customerPhoneTextField.getText().isEmpty() &&
+                !customerPostalTextField.getText().isEmpty() && countryCombo.getValue() != null && stateCombo.getValue() != null;
+    }
+
+    /**
      * Sets Countries in Country combobox and retrieves and sets the 1st level data in the state combobox */
     public void handleSelectCountry(ActionEvent event) throws IOException, SQLException {
         int countryId = 0;
@@ -48,25 +56,29 @@ public class EditCustomerForm extends Helper implements Initializable {
     }
 
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
-        if (selectedCustomer != null) {
-            JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
-                    customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
-            // Return to customer screen
-            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
-            Scene scene = new Scene(parent);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+        if (!checkInputs()) {
+            Helper.errorDialog("All fields are required.");
         } else {
-            // Add customer to DB
-            JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
-                    customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
-            // Return to customer screen
-            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
-            Scene scene = new Scene(parent);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            if (selectedCustomer != null) {
+                JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
+                        customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+                // Return to customer screen
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                // Add customer to DB
+                JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
+                        customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+                // Return to customer screen
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            }
         }
     }
 

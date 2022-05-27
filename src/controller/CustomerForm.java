@@ -81,7 +81,22 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     public void handleDeleteCustomer() {
-
+        // Throw error if no customer selected
+        if (customersTableview.getSelectionModel().getSelectedItem() == null) {
+            Helper.errorDialog("Please select a customer to delete.");
+        } else {
+            // Get selected customer info
+            Customer selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
+            // Delete customer from database
+            try {
+                JDBC.deleteCustomer(selectedCustomer.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Helper.errorDialog("Problem deleting customer. Please try again.");
+            }
+            // Refresh tableview
+            customersTableview.getItems().remove(selectedCustomer);
+        }
     }
 
     public void handleEditAppt() {
