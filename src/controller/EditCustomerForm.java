@@ -13,9 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Country;
 import model.Customer;
-import model.Division;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,13 +43,13 @@ public class EditCustomerForm extends Helper implements Initializable {
             case "Canada" -> countryId = 3;
         }
         countryNames = JDBC.getDivisionsById(String.valueOf(countryId)); // Retrieve all states in selected country
-        stateCombo.setItems(countryNames); // Add appropriate "states" according to selected countries
+        stateCombo.setItems(countryNames); // Add appropriate "states" according to selected country
     }
 
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (selectedCustomer != null) {
-            System.out.println("Updating customer");
-            // Run Update
+            JDBC.updateCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
+                    customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
             // Return to customer screen
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
             Scene scene = new Scene(parent);
@@ -61,7 +59,7 @@ public class EditCustomerForm extends Helper implements Initializable {
         } else {
             // Add customer to DB
             JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
-                    customerPhoneTextField.getText(), JDBC.divisionIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+                    customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
             // Return to customer screen
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
             Scene scene = new Scene(parent);
@@ -81,8 +79,16 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // TODO: Populate country/state with selected user's data
+        // TODO: FIGURE OUT HOW TO GET USER'S COUNTRY (Country_ID)
         if (selectedCustomer != null) {
+            String customerState = null;
+            String customerCountry = null;
+            try {
+                customerState = JDBC.stateNameFromId(selectedCustomer.getDivision());
+                customerCountry = JDBC.countryFromDivisionId(selectedCustomer.getDivision());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
             countryCombo.setItems(countries);
             customerIdTextField.setText(Integer.toString(selectedCustomer.getId()));
@@ -90,11 +96,13 @@ public class EditCustomerForm extends Helper implements Initializable {
             customerPhoneTextField.setText(selectedCustomer.getPhoneNumber());
             customerStreetTextField.setText(selectedCustomer.getAddress());
             customerPostalTextField.setText(selectedCustomer.getPostalCode());
+            countryCombo.setItems(countries);
+            countryCombo.setValue(customerCountry);
+            stateCombo.setValue(customerState);
         } else {
             customerIdTextField.setText("Auto-Generated");
             ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
             countryCombo.setItems(countries);
         }
-
     }
 }

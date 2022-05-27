@@ -74,9 +74,9 @@ public abstract class JDBC {
 //    }
 
     /**
-     * Return name of division when given ID
+     * Return name of state (division) when given ID
      * @return String divisionName */
-    public static String divisionNameFromId(int id) throws SQLException {
+    public static String stateNameFromId(int id) throws SQLException {
         String divisionName = null;
         String sql = "SELECT Division FROM first_level_divisions WHERE Division_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -88,9 +88,9 @@ public abstract class JDBC {
     }
 
     /**
-     * Return ID of division when given name
+     * Return ID of state (division) when given name
      * @return int divisionId */
-    public static int divisionIdFromName(String name) throws SQLException {
+    public static int stateIdFromName(String name) throws SQLException {
         int divisionId = 0;
         String sql = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + name + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -102,6 +102,26 @@ public abstract class JDBC {
     }
 
     /**
+     * Return name of Country from Division ID
+     * @return string countryName */
+    public static String countryFromDivisionId(int id) throws SQLException {
+      int countryId = 0;
+      String countryName = null;
+      String sql = "SELECT Country_ID FROM first_level_divisions WHERE Division_ID = " + id;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            countryId = rs.getInt("Country_ID");
+        }
+        switch (countryId) {
+            case 1 -> countryName = "U.S";
+            case 2 -> countryName = "UK";
+            case 3 -> countryName = "Canada";
+        }
+        return countryName;
+    }
+
+    /**
      * Method to add customer to database */
     public static void addCustomer(String customerName, String address, String postal,
                                       String phone, int divisionID) throws SQLException {
@@ -110,9 +130,26 @@ public abstract class JDBC {
                 "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
-        ps.setString(2,address);
-        ps.setString(3,postal);
-        ps.setString(4,phone);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
+        ps.setInt(5, getCurrentUser());
+        ps.setInt(6, getCurrentUser());
+        ps.setInt(7, divisionID);
+        ps.executeUpdate();
+    }
+
+    /**
+     * Method to add customer to database */
+    public static void updateCustomer(String customerName, String address, String postal,
+                                   String phone, int divisionID) throws SQLException {
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ? Address = ?, Postal_Code = ?, Phone = ?, " +
+                "Last_Update = ?, Last_Updated_By = ?, Division_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
         ps.setInt(5, getCurrentUser());
         ps.setInt(6, getCurrentUser());
         ps.setInt(7, divisionID);
@@ -121,7 +158,7 @@ public abstract class JDBC {
 
     // Update a record, example
     public static int update(int customerId, String customerName) throws SQLException {
-        String sql = "UPDATE CUSTOMERS SET Customer_Name = ? WHERE Customer_Id = ?";
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?,  WHERE Customer_Id = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName); // assigns customerName to the first bind variable in the sql string
         ps.setInt(2, customerId); // assigned customerId to the second bind variable
