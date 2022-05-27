@@ -63,16 +63,6 @@ public abstract class JDBC {
         currentUser = user;
     }
 
-
-    // ---------------CRUD OPERATIONS---------------
-
-//    public static void addCustomer(String customerId, String customerName, String address, String postal, String phone, DateT createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, division) throws SQLException {
-//        String sql = "INSERT INTO CUSTOMERS (Customer_ID) VALUES (?, ?)"; // ? are bind variables, indexed starting at 1
-//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ps.setString(1, customerName); // assigns customerName to the first bind variable in the sql string
-//        ps.setInt(2, customerId); // assigned customerId to the second bind variable
-//    }
-
     /**
      * Return name of state (division) when given ID
      * @return String divisionName */
@@ -165,19 +155,6 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
-    // -----------------RUNNING QUERIES-----------------------
-    // Retrieve Customer ID and customer Name, for example
-    public static void select() throws SQLException {
-        String sql = "SELECT * FROM CUSTOMERS";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
-        while(rs.next()) {
-            int customerId = rs.getInt("Customer_ID");
-            String customerName = rs.getString("Customer_Name");
-            System.out.print(customerId + " | " + customerName + "\n");
-        }
-    }
-
     /**
      * Method to loop through users table and look for a username/password match
      * @return true if user/password match is found, false otherwise */
@@ -244,7 +221,6 @@ public abstract class JDBC {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID=" + id;
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ps.setString(1, id);
         ResultSet rs = ps.executeQuery(sql);
         while(rs.next()) {
             int appointmentId = rs.getInt("Appointment_ID");

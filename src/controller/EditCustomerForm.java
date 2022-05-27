@@ -33,7 +33,8 @@ public class EditCustomerForm extends Helper implements Initializable {
     private final Customer selectedCustomer = CustomerForm.getSelectedCustomer();
 
     /**
-     * Check that all fields are filled out before saving */
+     * Check that all fields are filled out before saving/updating customer
+     * @return boolean false if there are empty inputs */
     public boolean checkInputs() {
         return !customerNameTextField.getText().isEmpty() && !customerStreetTextField.getText().isEmpty() && !customerPhoneTextField.getText().isEmpty() &&
                 !customerPostalTextField.getText().isEmpty() && countryCombo.getValue() != null && stateCombo.getValue() != null;

@@ -51,6 +51,14 @@ public class CustomerForm extends Helper implements Initializable {
         return selectedCustomer;
     }
 
+    /**
+     * Method to check if customer has appointments before deleting
+     * @return boolean true if customer has appointments
+     */
+    public boolean checkForAppointments(int customerId) throws SQLException {
+        return JDBC.getAppointmentsById(String.valueOf(customerId)).size() != 0;
+    }
+
     public void handleEditCustomer(ActionEvent event) throws IOException {
         try {
             // Throw error if no customer selected
@@ -80,22 +88,27 @@ public class CustomerForm extends Helper implements Initializable {
         stage.show();
     }
 
-    public void handleDeleteCustomer() {
+    public void handleDeleteCustomer() throws SQLException {
+        selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
         // Throw error if no customer selected
         if (customersTableview.getSelectionModel().getSelectedItem() == null) {
             Helper.errorDialog("Please select a customer to delete.");
         } else {
-            // Get selected customer info
-            Customer selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
-            // Delete customer from database
-            try {
-                JDBC.deleteCustomer(selectedCustomer.getId());
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Helper.errorDialog("Problem deleting customer. Please try again.");
+            if (checkForAppointments(selectedCustomer.getId())) {
+                Helper.errorDialog("All of a customer's appointments must be deleted before the customer can be deleted.");
+            } else {
+                // Get selected customer info
+                Customer selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
+                // Delete customer from database
+                try {
+                    JDBC.deleteCustomer(selectedCustomer.getId());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    Helper.errorDialog("Problem deleting customer. Please try again.");
+                }
+                // Refresh tableview
+                customersTableview.getItems().remove(selectedCustomer);
             }
-            // Refresh tableview
-            customersTableview.getItems().remove(selectedCustomer);
         }
     }
 
