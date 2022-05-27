@@ -141,18 +141,18 @@ public abstract class JDBC {
 
     /**
      * Method to add customer to database */
-    public static void updateCustomer(String customerName, String address, String postal,
+    public static void updateCustomer(int customerId, String customerName, String address, String postal,
                                    String phone, int divisionID) throws SQLException {
-        String sql = "UPDATE CUSTOMERS SET Customer_Name = ? Address = ?, Postal_Code = ?, Phone = ?, " +
-                "Last_Update = ?, Last_Updated_By = ?, Division_ID = ?";
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
+                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);
         ps.setString(3, postal);
         ps.setString(4, phone);
         ps.setInt(5, getCurrentUser());
-        ps.setInt(6, getCurrentUser());
-        ps.setInt(7, divisionID);
+        ps.setInt(6, divisionID);
+        ps.setInt(7, customerId);
         ps.executeUpdate();
     }
 

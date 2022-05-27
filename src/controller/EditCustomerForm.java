@@ -49,7 +49,7 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (selectedCustomer != null) {
-            JDBC.updateCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
+            JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
                     customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
             // Return to customer screen
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
