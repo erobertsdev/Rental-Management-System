@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -8,22 +9,25 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class AppointmentForm {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AppointmentForm implements Initializable {
 
     @FXML
-    private TextField apptDescriptionTextField;
+    private TextField appointmentDescriptionTextField;
 
     @FXML
-    private TextField apptIdTextField;
+    private TextField appointmentIdTextField;
 
     @FXML
-    private TextField apptLocationTextField;
+    private TextField appointmentLocationTextField;
 
     @FXML
-    private TextField apptTitleTextField;
+    private TextField appointmentTitleTextField;
 
     @FXML
-    private TextField apptTypeTextField;
+    private TextField appointmentTypeTextField;
 
     @FXML
     private Button cancelButton;
@@ -61,4 +65,8 @@ public class AppointmentForm {
     @FXML
     private ComboBox<?> userCombo;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }

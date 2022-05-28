@@ -202,7 +202,6 @@ public abstract class JDBC {
         String sql = "SELECT Division_ID, Division FROM first_level_divisions WHERE Country_ID=" + id;
         ObservableList<String> divisions = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ps.setString(1, id);
         ResultSet rs = ps.executeQuery(sql);
         while(rs.next()) {
             String divisionName = rs.getString("Division");
@@ -260,5 +259,14 @@ public abstract class JDBC {
             divisions.add(division);
         }
         return divisions;
+    }
+
+    /**
+     * Method to delete appointment from database */
+    public static void deleteAppointment(int appointmentId) throws SQLException {
+        String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setInt(1, appointmentId);
+        ps.executeUpdate();
     }
 }

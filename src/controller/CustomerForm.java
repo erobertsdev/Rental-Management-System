@@ -46,6 +46,7 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, Timestamp> apptStartCol;
     @FXML private TableColumn<Appointment, Timestamp> apptEndCol;
     public static Customer selectedCustomer = null;
+    public static Appointment selectedAppointment = null;
 
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
@@ -129,7 +130,23 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     public void handleDeleteAppt() {
-
+        // Get selected appointment info
+        selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
+        // Throw error if no appointment selected
+        if (appointmentsTableview.getSelectionModel().getSelectedItem() == null) {
+            Helper.errorDialog("Please select an appointment to delete.");
+        } else {
+            // Delete appointment from database
+            try {
+                JDBC.deleteAppointment(selectedAppointment.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                Helper.errorDialog("Problem deleting appointment. Please try again.");
+            }
+            // Refresh tableview
+            appointmentsTableview.getItems().remove(selectedAppointment);
+            Helper.errorDialog("Appointment successfully deleted.");
+        }
     }
 
 
