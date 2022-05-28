@@ -3,17 +3,26 @@ package controller;
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import model.Appointment;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AppointmentForm implements Initializable {
@@ -37,6 +46,7 @@ public class AppointmentForm implements Initializable {
     @FXML private ComboBox<String> userCombo;
     private final ObservableList<String> hours = FXCollections.observableArrayList();
     private final ObservableList<String> minutes = FXCollections.observableArrayList();
+    private final Appointment selectedAppointment = CustomerForm.getSelectedAppointment();
 
     /** Method to check that no fields are null
      * @return boolean false if there are empty inputs */
@@ -45,6 +55,15 @@ public class AppointmentForm implements Initializable {
                 !appointmentTypeTextField.getText().isEmpty() && contactCombo.getValue() != null && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
                 endDatePicker.getValue() != null && startHourChoice.getValue() != null && startMinuteChoice.getValue() != null && endHourChoice.getValue() != null &&
                 endMinuteChoice.getValue() != null;
+    }
+
+    /** Method to save appointment */
+    public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
+        if (!checkInputs()) {
+            Helper.errorDialog("All fields are required.");
+        } else {
+
+        }
     }
 
     @Override

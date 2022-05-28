@@ -55,6 +55,7 @@ public class EditCustomerForm extends Helper implements Initializable {
         stateCombo.setValue(null); // Clears the state if a new country is selected
     }
 
+    /** Method to add or update customer */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");

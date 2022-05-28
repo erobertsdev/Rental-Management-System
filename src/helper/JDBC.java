@@ -8,6 +8,7 @@ import model.Customer;
 import model.Division;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public abstract class JDBC {
@@ -325,5 +326,38 @@ public abstract class JDBC {
             userNames.add(userName);
         }
         return userNames;
+    }
+
+    /** Method to add appointment to database */
+    public static void addAppointment(Appointment appointment) throws SQLException {
+        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, appointment.getTitle());
+        ps.setString(2, appointment.getDescription());
+        ps.setString(3, appointment.getLocation());
+        ps.setString(4, appointment.getType());
+        ps.setTimestamp(5, appointment.getStart());
+        ps.setTimestamp(6, appointment.getEnd());
+        ps.setInt(7, appointment.getCustomer_id());
+        ps.setInt(8, appointment.getUser_id());
+        ps.setInt(9, appointment.getContact_id());
+        ps.executeUpdate();
+    }
+
+    /** Method to update appointment in database */
+    public static void updateAppointment(Appointment appointment) throws SQLException {
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, appointment.getTitle());
+        ps.setString(2, appointment.getDescription());
+        ps.setString(3, appointment.getLocation());
+        ps.setString(4, appointment.getType());
+        ps.setTimestamp(5, appointment.getStart());
+        ps.setTimestamp(6, appointment.getEnd());
+        ps.setInt(7, appointment.getCustomer_id());
+        ps.setInt(8, appointment.getUser_id());
+        ps.setInt(9, appointment.getContact_id());
+        ps.setInt(10, appointment.getId());
+        ps.executeUpdate();
     }
 }

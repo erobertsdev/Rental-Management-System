@@ -51,6 +51,7 @@ public class CustomerForm extends Helper implements Initializable {
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
     }
+    public static Appointment getSelectedAppointment() { return selectedAppointment; }
 
     /**
      * Method to check if customer has appointments before deleting
@@ -114,14 +115,29 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
-    // TODO: These
-    public void handleEditAppt() {
-        // Get selected appointment info
-
-        // Open Appointment Form
+    /** Method to edit selected appointment and open appointment form */
+    public void handleEditAppointment(ActionEvent event) throws IOException {
+        try {
+            // Throw error if no appointment selected
+            if (appointmentsTableview.getSelectionModel().getSelectedItem() == null) {
+                Helper.errorDialog("Please select an appointment to edit.");
+            } else {
+                // Get selected appointment info
+                selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/editAppointmentForm.fxml")));
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+            Helper.errorDialog("Problem editing appointment. Please try again.");
+        }
     }
 
-    public void handleAddAppt(ActionEvent event) throws IOException {
+    /** Method to open appointmentForm to add appointment */
+    public void handleAddAppointment(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/AppointmentForm.fxml")));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -129,7 +145,7 @@ public class CustomerForm extends Helper implements Initializable {
         stage.show();
     }
 
-    public void handleDeleteAppt() {
+    public void handleDeleteAppointment() {
         // Get selected appointment info
         selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
         // Throw error if no appointment selected
