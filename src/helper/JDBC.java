@@ -124,7 +124,7 @@ public abstract class JDBC {
         ps.setString(3, postal);
         ps.setString(4, phone);
         ps.setInt(5, getCurrentUser());
-        ps.setInt(6, getCurrentUser());
+        ps.setInt(6, getCurrentUser()); // TODO: convert ID to username
         ps.setInt(7, divisionID);
         ps.executeUpdate();
     }
@@ -140,7 +140,7 @@ public abstract class JDBC {
         ps.setString(2, address);
         ps.setString(3, postal);
         ps.setString(4, phone);
-        ps.setInt(5, getCurrentUser());
+        ps.setInt(5, getCurrentUser()); // TODO: convert ID to username
         ps.setInt(6, divisionID);
         ps.setInt(7, customerId);
         ps.executeUpdate();
