@@ -1,5 +1,6 @@
 package controller;
 
+import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AppointmentForm implements Initializable {
@@ -22,8 +24,8 @@ public class AppointmentForm implements Initializable {
     @FXML private TextField appointmentTitleTextField;
     @FXML private TextField appointmentTypeTextField;
     @FXML private Button cancelButton;
-    @FXML private ComboBox<?> contactCombo;
-    @FXML private ComboBox<?> customerCombo;
+    @FXML private ComboBox<String> contactCombo;
+    @FXML private ComboBox<String> customerCombo;
     @FXML private AnchorPane endDate;
     @FXML private DatePicker endDatePicker;
     @FXML private ChoiceBox<String> endHourChoice;
@@ -48,7 +50,21 @@ public class AppointmentForm implements Initializable {
         endMinuteChoice.setItems(minutes);
 
         // Retrieve all contacts and populate contact combobox
-        ObservableList<String> contactNames = JDBC.getContactNames();
+        ObservableList<String> contactNames = null;
+        try {
+            contactNames = JDBC.getContactNames();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         contactCombo.setItems(contactNames);
+
+        // Retrieve all customers and populate customer combobox
+        ObservableList<String> customerNames = null;
+        try {
+            customerNames = JDBC.getCustomerNames();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        customerCombo.setItems(customerNames);
     }
 }

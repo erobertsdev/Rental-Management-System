@@ -287,4 +287,30 @@ public abstract class JDBC {
         }
         return contacts;
     }
+
+    /** Method to retrieve and return all contact names */
+    public static ObservableList<String> getContactNames() throws SQLException {
+        String sql = "SELECT Contact_Name FROM CONTACTS";
+        ObservableList<String> contactNames = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            String contactName = rs.getString("Contact_Name");
+            contactNames.add(contactName);
+        }
+        return contactNames;
+    }
+
+    /** Method to retrieve and return all customer names */
+    public static ObservableList<String> getCustomerNames() throws SQLException {
+        String sql = "SELECT Customer_Name FROM CUSTOMERS";
+        ObservableList<String> customerNames = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            String customerName = rs.getString("Customer_Name");
+            customerNames.add(customerName);
+        }
+        return customerNames;
+    }
 }
