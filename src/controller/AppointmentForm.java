@@ -38,6 +38,15 @@ public class AppointmentForm implements Initializable {
     private final ObservableList<String> hours = FXCollections.observableArrayList();
     private final ObservableList<String> minutes = FXCollections.observableArrayList();
 
+    /** Method to check that no fields are null
+     * @return boolean false if there are empty inputs */
+    public boolean checkInputs() {
+        return !appointmentDescriptionTextField.getText().isEmpty() && !appointmentLocationTextField.getText().isEmpty() && !appointmentTitleTextField.getText().isEmpty() &&
+                !appointmentTypeTextField.getText().isEmpty() && contactCombo.getValue() != null && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
+                endDatePicker.getValue() != null && startHourChoice.getValue() != null && startMinuteChoice.getValue() != null && endHourChoice.getValue() != null &&
+                endMinuteChoice.getValue() != null;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Populate Hour and minute choicebox values
