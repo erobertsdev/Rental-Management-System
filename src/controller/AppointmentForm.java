@@ -38,7 +38,7 @@ public class AppointmentForm implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Hour and minute choicebox values
+        // Populate Hour and minute choicebox values
         hours.addAll("0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
                 "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
         minutes.addAll("0", "15", "30", "45");
@@ -47,5 +47,8 @@ public class AppointmentForm implements Initializable {
         startMinuteChoice.setItems(minutes);
         endMinuteChoice.setItems(minutes);
 
+        // Retrieve all contacts and populate contact combobox
+        ObservableList<String> contactNames = JDBC.getContactNames();
+        contactCombo.setItems(contactNames);
     }
 }

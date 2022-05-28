@@ -3,6 +3,7 @@ package helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.Contact;
 import model.Customer;
 import model.Division;
 
@@ -268,5 +269,22 @@ public abstract class JDBC {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setInt(1, appointmentId);
         ps.executeUpdate();
+    }
+
+    /**
+     * Method to retrieve all contacts from database */
+    public static ObservableList<Contact> getContacts() throws SQLException {
+        String sql = "SELECT * FROM CONTACTS";
+        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int contactId = rs.getInt("Contact_ID");
+            String contactName = rs.getString("Contact_Name");
+            String contactEmail = rs.getString("Email");
+            Contact contact = new Contact(contactId, contactName, contactEmail);
+            contacts.add(contact);
+        }
+        return contacts;
     }
 }
