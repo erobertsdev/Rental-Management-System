@@ -313,4 +313,17 @@ public abstract class JDBC {
         }
         return customerNames;
     }
+
+    /** Method to retrieve and return all user names */
+    public static ObservableList<String> getUserNames() throws SQLException {
+        String sql = "SELECT User_Name FROM USERS";
+        ObservableList<String> userNames = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            String userName = rs.getString("User_Name");
+            userNames.add(userName);
+        }
+        return userNames;
+    }
 }

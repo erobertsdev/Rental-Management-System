@@ -34,7 +34,7 @@ public class AppointmentForm implements Initializable {
     @FXML private DatePicker startDatePicker;
     @FXML private ChoiceBox<String> startHourChoice;
     @FXML private ChoiceBox<String> startMinuteChoice;
-    @FXML private ComboBox<?> userCombo;
+    @FXML private ComboBox<String> userCombo;
     private final ObservableList<String> hours = FXCollections.observableArrayList();
     private final ObservableList<String> minutes = FXCollections.observableArrayList();
 
@@ -66,5 +66,14 @@ public class AppointmentForm implements Initializable {
             e.printStackTrace();
         }
         customerCombo.setItems(customerNames);
+
+        // Retrieve all users and populate user combobox
+        ObservableList<String> userNames = null;
+        try {
+            userNames = JDBC.getUserNames();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        userCombo.setItems(userNames);
     }
 }
