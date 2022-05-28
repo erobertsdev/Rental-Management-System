@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="endDate" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="416.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentForm">
    <children>
       <Label layoutX="191.0" layoutY="26.0" text="Add/Edit Appointment">
@@ -20,15 +19,15 @@
       <Label layoutX="343.0" layoutY="104.0" text="Contact" />
       <ComboBox fx:id="contactCombo" layoutX="410.0" layoutY="100.0" prefWidth="150.0" />
       <Label layoutX="52.0" layoutY="81.0" text="Appointment ID" />
-      <TextField fx:id="apptIdTextField" disable="true" layoutX="155.0" layoutY="77.0" />
+      <TextField fx:id="appointmentIdTextField" disable="true" layoutX="155.0" layoutY="77.0" />
       <Label layoutX="52.0" layoutY="112.0" text="Title" />
-      <TextField fx:id="apptTitleTextField" layoutX="155.0" layoutY="108.0" />
+      <TextField fx:id="appointmentTitleTextField" layoutX="155.0" layoutY="108.0" />
       <Label layoutX="52.0" layoutY="147.0" text="Description" />
-      <TextField fx:id="apptDescriptionTextField" layoutX="155.0" layoutY="143.0" />
+      <TextField fx:id="appointmentDescriptionTextField" layoutX="155.0" layoutY="143.0" />
       <Label layoutX="51.0" layoutY="181.0" text="Location" />
-      <TextField fx:id="apptLocationTextField" layoutX="154.0" layoutY="177.0" />
+      <TextField fx:id="appointmentLocationTextField" layoutX="154.0" layoutY="177.0" />
       <Label layoutX="51.0" layoutY="213.0" text="Type" />
-      <TextField fx:id="apptTypeTextField" layoutX="154.0" layoutY="209.0" />
+      <TextField fx:id="appointmentTypeTextField" layoutX="154.0" layoutY="209.0" />
       <Label layoutX="52.0" layoutY="273.0" text="Start" />
       <Label layoutX="55.0" layoutY="305.0" text="End" />
       <DatePicker fx:id="startDatePicker" layoutX="90.0" layoutY="269.0" />
