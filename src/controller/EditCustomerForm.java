@@ -71,6 +71,7 @@ public class EditCustomerForm extends Helper implements Initializable {
                 stage.show();
             } else {
                 // Add customer to DB
+                // TODO: Change Created_By from int to currentUser name
                 JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
                         customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
                 CustomerForm.addingCustomer = false;
