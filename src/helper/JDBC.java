@@ -57,6 +57,19 @@ public abstract class JDBC {
         return currentUser;
     }
 
+    /** Method to get current user's name
+     * @return String current user's name */
+    public static String getCurrentUserName(int userId) throws SQLException {
+        String userName = null;
+        String sql = "SELECT User_Name FROM users WHERE User_ID = " + userId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            userName = rs.getString("User_Name");
+        }
+        return userName;
+    }
+
     /**
      * Sets the current user
      * @param user ID of the user who just logged in
@@ -125,8 +138,8 @@ public abstract class JDBC {
         ps.setString(2, address);
         ps.setString(3, postal);
         ps.setString(4, phone);
-        ps.setInt(5, getCurrentUser());
-        ps.setInt(6, getCurrentUser()); // TODO: convert ID to username
+        ps.setString(5, getCurrentUserName(currentUser));
+        ps.setInt(6, getCurrentUser());
         ps.setInt(7, divisionID);
         ps.executeUpdate();
     }
@@ -142,7 +155,7 @@ public abstract class JDBC {
         ps.setString(2, address);
         ps.setString(3, postal);
         ps.setString(4, phone);
-        ps.setInt(5, getCurrentUser()); // TODO: convert ID to username
+        ps.setInt(5, getCurrentUser());
         ps.setInt(6, divisionID);
         ps.setInt(7, customerId);
         ps.executeUpdate();

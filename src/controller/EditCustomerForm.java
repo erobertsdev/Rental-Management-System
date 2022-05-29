@@ -30,7 +30,7 @@ public class EditCustomerForm extends Helper implements Initializable {
     @FXML private ComboBox<String> countryCombo;
     @FXML private ComboBox<String> stateCombo;
     public ObservableList<String> countryNames;
-    private final Customer selectedCustomer = CustomerForm.getSelectedCustomer();
+    private Customer selectedCustomer = CustomerForm.getSelectedCustomer();
 
     /**
      * Check that all fields are filled out before saving/updating customer
@@ -75,6 +75,7 @@ public class EditCustomerForm extends Helper implements Initializable {
                 JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
                         customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
                 CustomerForm.addingCustomer = false;
+                selectedCustomer = null;
                 // Return to customer screen
                 Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                 Scene scene = new Scene(parent);
