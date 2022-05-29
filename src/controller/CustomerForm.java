@@ -129,7 +129,7 @@ public class CustomerForm extends Helper implements Initializable {
             } else {
                 // Get selected appointment info
                 selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
-                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/editAppointmentForm.fxml")));
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/AppointmentForm.fxml")));
                 Scene scene = new Scene(parent);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);

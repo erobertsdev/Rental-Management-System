@@ -373,4 +373,32 @@ public abstract class JDBC {
         ps.setInt(10, appointment.getId());
         ps.executeUpdate();
     }
+
+    // ********Methods to be used for Appointment form*********
+
+    /**
+     * Method to retrieve contact name using contact id */
+    public static String getContactName(int contactId) throws SQLException {
+        String sql = "SELECT Contact_Name FROM CONTACTS WHERE Contact_ID = " + contactId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        String contactName = "";
+        while(rs.next()) {
+            contactName = rs.getString("Contact_Name");
+        }
+        return contactName;
+    }
+
+    /** 
+     * Method to retrieve customer name using customer id */
+    public static String getCustomerName(int customerId) throws SQLException {
+        String sql = "SELECT Customer_Name FROM CUSTOMERS WHERE Customer_ID = " + customerId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        String customerName = "";
+        while(rs.next()) {
+            customerName = rs.getString("Customer_Name");
+        }
+        return customerName;
+    }
 }

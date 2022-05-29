@@ -109,5 +109,17 @@ public class AppointmentForm implements Initializable {
             e.printStackTrace();
         }
         userCombo.setItems(userNames);
+
+        // Retrieve selected appointment information and populate form when editing appointment
+        if (!CustomerForm.addingAppointment) {
+            // set comboboxes
+            try {
+                contactCombo.setValue(JDBC.getContactName(selectedAppointment.getContact_id()));
+                customerCombo.setValue(JDBC.getCustomerName(selectedAppointment.getCustomer_id()));
+                userCombo.setValue(JDBC.getCurrentUserName(JDBC.getCurrentUser()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
