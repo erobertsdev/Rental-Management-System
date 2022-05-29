@@ -60,7 +60,7 @@ public class EditCustomerForm extends Helper implements Initializable {
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");
         } else {
-            if (selectedCustomer != null) {
+            if (!CustomerForm.addingCustomer) {
                 JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
                         customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
                 // Return to customer screen
@@ -73,6 +73,7 @@ public class EditCustomerForm extends Helper implements Initializable {
                 // Add customer to DB
                 JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
                         customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+                CustomerForm.addingCustomer = false;
                 // Return to customer screen
                 Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                 Scene scene = new Scene(parent);

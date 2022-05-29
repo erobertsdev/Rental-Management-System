@@ -47,6 +47,9 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, Timestamp> apptEndCol;
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
+    // Differentiates between adding/updating for the customer and appointment editing forms
+    public static boolean addingCustomer = false;
+    public static boolean addingAppointment = false;
 
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
@@ -82,6 +85,8 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     public void handleAddCustomer(ActionEvent event) throws IOException {
+        // Inform EditCustomerForm that customer is being added not updated
+        addingCustomer = true;
         // Open edit customer dialog
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/editCustomerForm.fxml")));
         Scene scene = new Scene(parent);
@@ -138,6 +143,7 @@ public class CustomerForm extends Helper implements Initializable {
 
     /** Method to open appointmentForm to add appointment */
     public void handleAddAppointment(ActionEvent event) throws IOException {
+        addingAppointment = true;
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/AppointmentForm.fxml")));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

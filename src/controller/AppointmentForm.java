@@ -62,7 +62,13 @@ public class AppointmentForm implements Initializable {
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");
         } else {
-
+            // Check if adding or updating appointment
+            if (!CustomerForm.addingAppointment) {
+                // Run update appointment
+            } else {
+                // Run add appointment
+                CustomerForm.addingAppointment = false;
+            }
         }
     }
 
