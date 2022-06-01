@@ -118,6 +118,11 @@ public class AppointmentForm implements Initializable {
             // Populate startDatePicker and endDatePicker with selected appointment's start and end dates
             startDatePicker.setValue(selectedAppointment.getStart().toLocalDateTime().toLocalDate());
             endDatePicker.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalDate());
+            // Populate startHourChoice and endHourChoice with selected appointment's start and end times
+            startHourChoice.setValue(selectedAppointment.getStart().toLocalDateTime().toLocalTime().toString().substring(0,2)); // get hour
+            startMinuteChoice.setValue(selectedAppointment.getStart().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
+            endHourChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(0,2)); // get hour
+            endMinuteChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
             
             // set combo boxes
             try {
