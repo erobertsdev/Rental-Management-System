@@ -115,6 +115,9 @@ public class AppointmentForm implements Initializable {
             appointmentDescriptionTextField.setText(selectedAppointment.getDescription());
             appointmentLocationTextField.setText(selectedAppointment.getLocation());
             appointmentTypeTextField.setText(selectedAppointment.getType());
+            // Populate startDatePicker and endDatePicker with selected appointment's start and end dates
+            startDatePicker.setValue(selectedAppointment.getStart().toLocalDateTime().toLocalDate());
+            endDatePicker.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalDate());
             
             // set combo boxes
             try {
