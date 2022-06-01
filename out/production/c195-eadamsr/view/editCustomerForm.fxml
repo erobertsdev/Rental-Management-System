@@ -19,12 +19,12 @@
       <TextField fx:id="customerStreetTextField" layoutX="42.0" layoutY="285.0" />
       <Label layoutX="42.0" layoutY="317.0" text="Postal Code" />
       <TextField fx:id="customerPostalTextField" layoutX="42.0" layoutY="334.0" />
-      <ComboBox fx:id="countryCombo" layoutX="41.0" layoutY="392.0" onAction="#handleSelectCountry" prefWidth="150.0" />
+      <ComboBox fx:id="countryCombo" layoutX="41.0" layoutY="392.0" prefWidth="150.0" />
       <Label layoutX="41.0" layoutY="375.0" text="Country" />
       <ComboBox fx:id="stateCombo" layoutX="41.0" layoutY="446.0" prefWidth="150.0" />
       <Label layoutX="41.0" layoutY="429.0" text="State/Division" />
-      <Button fx:id="saveButton" layoutX="39.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
-      <Button fx:id="cancelButton" layoutX="140.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
+      <Button fx:id="saveButton" layoutX="39.0" layoutY="486.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="cancelButton" layoutX="140.0" layoutY="486.0" mnemonicParsing="false" text="Cancel" />
       <Label layoutX="16.0" layoutY="20.0" text="Add/Edit Customer">
          <font>
             <Font name="System Bold" size="22.0" />

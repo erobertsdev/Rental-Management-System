@@ -72,6 +72,15 @@ public class AppointmentForm implements Initializable {
         }
     }
 
+    /** Method to cancel appointment */
+    public void handleCancelButton(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Populate Hour and minute choicebox values
@@ -100,7 +109,14 @@ public class AppointmentForm implements Initializable {
 
         // Retrieve selected appointment information and populate form when editing appointment
         if (!CustomerForm.addingAppointment) {
-            // set comboboxes
+            // set inputs with selected appointment's values
+            appointmentIdTextField.setText(Integer.toString(selectedAppointment.getId()));
+            appointmentTitleTextField.setText(selectedAppointment.getTitle());
+            appointmentDescriptionTextField.setText(selectedAppointment.getDescription());
+            appointmentLocationTextField.setText(selectedAppointment.getLocation());
+            appointmentTypeTextField.setText(selectedAppointment.getType());
+            
+            // set combo boxes
             try {
                 contactCombo.setValue(JDBC.getContactName(selectedAppointment.getContact_id()));
                 customerCombo.setValue(JDBC.getCustomerName(selectedAppointment.getCustomer_id()));

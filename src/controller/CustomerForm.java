@@ -38,13 +38,13 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private Button addCustomerButton;
     @FXML private Button deleteCustomerButton;
     @FXML private TableView<Appointment> appointmentsTableview;
-    @FXML private TableColumn<Appointment, Integer> apptIdCol;
-    @FXML private TableColumn<Appointment, String> apptTitleCol;
-    @FXML private TableColumn<Appointment, String> apptDescriptionCol;
-    @FXML private TableColumn<Appointment, String> apptLocationCol;
-    @FXML private TableColumn<Appointment, String> apptTypeCol;
-    @FXML private TableColumn<Appointment, Timestamp> apptStartCol;
-    @FXML private TableColumn<Appointment, Timestamp> apptEndCol;
+    @FXML private TableColumn<Appointment, Integer> appointmentIdCol;
+    @FXML private TableColumn<Appointment, String> appointmentTitleCol;
+    @FXML private TableColumn<Appointment, String> appointmentDescriptionCol;
+    @FXML private TableColumn<Appointment, String> appointmentLocationCol;
+    @FXML private TableColumn<Appointment, String> appointmentTypeCol;
+    @FXML private TableColumn<Appointment, Timestamp> appointmentStartCol;
+    @FXML private TableColumn<Appointment, Timestamp> appointmentEndCol;
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
     // Differentiates between adding/updating for the customer and appointment editing forms
@@ -201,13 +201,13 @@ public class CustomerForm extends Helper implements Initializable {
                         int col = element.getId();
                         try {
                             appointmentsTableview.getItems().setAll(getAppointmentsById(String.valueOf(col)));
-                            apptIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-                            apptTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-                            apptDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-                            apptLocationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
-                            apptTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-                            apptStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
-                            apptEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+                            appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+                            appointmentTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+                            appointmentDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+                            appointmentLocationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+                            appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+                            appointmentStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+                            appointmentEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
