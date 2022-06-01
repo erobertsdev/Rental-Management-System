@@ -73,7 +73,7 @@ public class AppointmentForm implements Initializable {
             endHourChoice.getValue() + ":" + endMinuteChoice.getValue() + ":00");
 
             // Check if adding or updating appointment
-            if (!CustomerForm.addingAppointment) { // Need method to convert customer, contact and Id to Ints
+            if (!CustomerForm.addingAppointment) {
                 JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                         appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
                 Helper.errorDialog("Appointment Updated Successfully.");
