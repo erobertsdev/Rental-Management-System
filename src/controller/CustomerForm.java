@@ -114,8 +114,8 @@ public class CustomerForm extends Helper implements Initializable {
                     Helper.errorDialog("Problem deleting customer. Please try again.");
                 }
                 // Refresh tableview
+                Helper.errorDialog("Customer ID: " + selectedCustomer.getId() + " with the name " + selectedCustomer.getName() + " successfully deleted.");
                 customersTableview.getItems().remove(selectedCustomer);
-                Helper.errorDialog("Customer successfully deleted.");
             }
         }
     }
@@ -166,8 +166,9 @@ public class CustomerForm extends Helper implements Initializable {
                 Helper.errorDialog("Problem deleting appointment. Please try again.");
             }
             // Refresh tableview
+            // Throw error with deleted appointment ID and Type of appointment
+            Helper.errorDialog("Appointment ID: " + selectedAppointment.getId() + " Type: " + selectedAppointment.getType() + " successfully deleted.");
             appointmentsTableview.getItems().remove(selectedAppointment);
-            Helper.errorDialog("Appointment successfully deleted.");
         }
     }
 

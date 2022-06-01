@@ -64,9 +64,10 @@ public class AppointmentForm implements Initializable {
         } else {
             // Check if adding or updating appointment
             if (!CustomerForm.addingAppointment) {
-                // Run update appointment
+                // Update appointment
+                
             } else {
-                // Run add appointment
+                // Add appointment
                 CustomerForm.addingAppointment = false;
             }
         }

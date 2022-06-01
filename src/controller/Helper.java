@@ -10,9 +10,11 @@ import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 /** Class with helper functions */
 abstract public class Helper {
+    private static ZoneId timezone;
 
     /** Set Locale
      * @return The locale of the system */
@@ -85,6 +87,27 @@ abstract public class Helper {
             }
         }
         return null;
+    }
+
+    public static void generateLocalData() {
+        timezone = ZoneId.systemDefault();
+    }
+    
+    /**
+     * Method to get the current user's timezone
+     * @return timezone
+     */
+    public static ZoneId getLocalTimezone() {
+        return timezone;
+    }
+
+    /** Method to convert UTC to local time */
+    public static Timestamp toLocal(Timestamp timestamp) {
+        Timestamp local = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
+                        Helper.getLocalTimezone().getId())).toLocalDateTime());
+
+        return local;
     }
 
 }
