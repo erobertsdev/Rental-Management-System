@@ -22,6 +22,7 @@ import model.Appointment;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -62,13 +63,35 @@ public class AppointmentForm implements Initializable {
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");
         } else {
+
+            // Convert start time to timestamp
+            Timestamp startTime = Timestamp.valueOf(startDatePicker.getValue().toString() + " " +
+            startHourChoice.getValue() + ":" + startMinuteChoice.getValue() + ":00");
+
+            // Convert end time to timestamp
+            Timestamp endTime = Timestamp.valueOf(endDatePicker.getValue().toString() + " " +
+            endHourChoice.getValue() + ":" + endMinuteChoice.getValue() + ":00");
+
             // Check if adding or updating appointment
-            if (!CustomerForm.addingAppointment) {
-                // Update appointment
-                
+            if (!CustomerForm.addingAppointment) { // Need method to convert customer, contact and Id to Ints
+                JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
+                        appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                Helper.errorDialog("Appointment Updated Successfully.");
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
             } else {
-                // Add appointment
-                CustomerForm.addingAppointment = false;
+                // Run addAppointment method
+                JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
+                        appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                Helper.errorDialog("Appointment Added Successfully.");
+                Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
             }
         }
     }

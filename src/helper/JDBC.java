@@ -1,5 +1,6 @@
 package helper;
 
+import controller.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
@@ -124,41 +125,6 @@ public abstract class JDBC {
             case 3 -> countryName = "Canada";
         }
         return countryName;
-    }
-
-    /**
-     * Method to add customer to database */
-    public static void addCustomer(String customerName, String address, String postal,
-                                      String phone, int divisionID) throws SQLException {
-        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
-                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
-                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, customerName);
-        ps.setString(2, address);
-        ps.setString(3, postal);
-        ps.setString(4, phone);
-        ps.setString(5, getCurrentUserName(currentUser));
-        ps.setInt(6, getCurrentUser());
-        ps.setInt(7, divisionID);
-        ps.executeUpdate();
-    }
-
-    /**
-     * Method to modify existing customer */
-    public static void updateCustomer(int customerId, String customerName, String address, String postal,
-                                   String phone, int divisionID) throws SQLException {
-        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
-                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ? WHERE Customer_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, customerName);
-        ps.setString(2, address);
-        ps.setString(3, postal);
-        ps.setString(4, phone);
-        ps.setInt(5, getCurrentUser());
-        ps.setInt(6, divisionID);
-        ps.setInt(7, customerId);
-        ps.executeUpdate();
     }
 
     /***
@@ -341,40 +307,82 @@ public abstract class JDBC {
         return userNames;
     }
 
-    /** Method to add appointment to database */
-    public static void addAppointment(Appointment appointment) throws SQLException {
-        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    /**
+     * Method to modify existing customer */
+    public static void updateCustomer(int customerId, String customerName, String address, String postal,
+                                      String phone, int divisionID) throws SQLException {
+        String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
+                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, appointment.getTitle());
-        ps.setString(2, appointment.getDescription());
-        ps.setString(3, appointment.getLocation());
-        ps.setString(4, appointment.getType());
-        ps.setTimestamp(5, appointment.getStart());
-        ps.setTimestamp(6, appointment.getEnd());
-        ps.setInt(7, appointment.getCustomer_id());
-        ps.setInt(8, appointment.getUser_id());
-        ps.setInt(9, appointment.getContact_id());
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
+        ps.setInt(5, getCurrentUser());
+        ps.setInt(6, divisionID);
+        ps.setInt(7, customerId);
+        ps.executeUpdate();
+    }
+
+    /**
+     * Method to add customer to database */
+    public static void addCustomer(String customerName, String address, String postal,
+                                   String phone, int divisionID) throws SQLException {
+        String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
+                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
+                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postal);
+        ps.setString(4, phone);
+        ps.setString(5, getCurrentUserName(currentUser));
+        ps.setInt(6, getCurrentUser());
+        ps.setInt(7, divisionID);
+        ps.executeUpdate();
+    }
+
+    /** Method to add appointment to database */
+    public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
+        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
+        // convert start and end time to EST
+        start = Helper.toUTC(start);
+        end = Helper.toUTC(end);
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
+        ps.setString(7, getCurrentUserName(currentUser));
+        ps.setString(8, getCurrentUserName(currentUser));
+        ps.setInt(9, customerId);
+        ps.setInt(10, userId);
+        ps.setInt(11, contactId);
         ps.executeUpdate();
     }
 
     /** Method to update appointment in database */
-    public static void updateAppointment(Appointment appointment) throws SQLException {
-        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+    public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        // convert start and end time to EST
+        start = Helper.toUTC(start);
+        end = Helper.toUTC(end);
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, appointment.getTitle());
-        ps.setString(2, appointment.getDescription());
-        ps.setString(3, appointment.getLocation());
-        ps.setString(4, appointment.getType());
-        ps.setTimestamp(5, appointment.getStart());
-        ps.setTimestamp(6, appointment.getEnd());
-        ps.setInt(7, appointment.getCustomer_id());
-        ps.setInt(8, appointment.getUser_id());
-        ps.setInt(9, appointment.getContact_id());
-        ps.setInt(10, appointment.getId());
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setTimestamp(5, start);
+        ps.setTimestamp(6, end);
+        ps.setString(7, getCurrentUserName(currentUser));
+        ps.setInt(8, customerId);
+        ps.setInt(9, userId);
+        ps.setInt(10, contactId);
+        ps.setInt(11, appointmentId);
         ps.executeUpdate();
     }
-
-    // ********Methods to be used for Appointment form*********
 
     /**
      * Method to retrieve contact name using contact id */
@@ -400,5 +408,57 @@ public abstract class JDBC {
             customerName = rs.getString("Customer_Name");
         }
         return customerName;
+    }
+
+    /**
+     * Method to retrieve user name using user id */
+    public static String getUserName(int userId) throws SQLException {
+        String sql = "SELECT User_Name FROM USERS WHERE User_ID = " + userId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        String userName = "";
+        while(rs.next()) {
+            userName = rs.getString("User_Name");
+        }
+        return userName;
+    }
+
+    /**
+     * Method to retrieve user id using user name */
+    public static int getUserId(String userName) throws SQLException {
+        String sql = "SELECT User_ID FROM USERS WHERE User_Name = '" + userName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        int userId = 0;
+        while(rs.next()) {
+            userId = rs.getInt("User_ID");
+        }
+        return userId;
+    }
+
+    /**
+     * Method to retrieve contact id using contact name */
+    public static int getContactId(String contactName) throws SQLException {
+        String sql = "SELECT Contact_ID FROM CONTACTS WHERE Contact_Name = '" + contactName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        int contactId = 0;
+        while(rs.next()) {
+            contactId = rs.getInt("Contact_ID");
+        }
+        return contactId;
+    }
+
+    /**
+     * Method to retrieve customer id using customer name */
+    public static int getCustomerId(String customerName) throws SQLException {
+        String sql = "SELECT Customer_ID FROM CUSTOMERS WHERE Customer_Name = '" + customerName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        int customerId = 0;
+        while(rs.next()) {
+            customerId = rs.getInt("Customer_ID");
+        }
+        return customerId;
     }
 }

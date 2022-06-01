@@ -44,7 +44,7 @@
       <ComboBox fx:id="customerCombo" layoutX="410.0" layoutY="142.0" prefWidth="150.0" />
       <Label layoutX="343.0" layoutY="191.0" text="User" />
       <ComboBox fx:id="userCombo" layoutX="410.0" layoutY="187.0" prefWidth="150.0" />
-      <Button fx:id="saveButton" layoutX="230.0" layoutY="361.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="saveButton" layoutX="230.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
       <Button fx:id="cancelButton" layoutX="329.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
    </children>
 </AnchorPane>

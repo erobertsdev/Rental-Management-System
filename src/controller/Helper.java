@@ -144,7 +144,7 @@ abstract public class Helper {
     }
 
     /** Method to convert EST to local time */
-    public static Timestamp toLocal(Timestamp timestamp, String timezone) {
+    public static Timestamp estToLocal(Timestamp timestamp, String timezone) {
         Timestamp local = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of(
                         Helper.getLocalTimezone().getId())).toLocalDateTime());
