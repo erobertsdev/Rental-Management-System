@@ -110,6 +110,48 @@ abstract public class Helper {
         return local;
     }
 
+    /** Method to convert local time to UTC */
+    public static Timestamp toUTC(Timestamp timestamp) {
+        Timestamp utc = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of(Helper.getLocalTimezone().getId())).withZoneSameInstant(
+                ZoneId.of("UTC")).toLocalDateTime());
+
+        return utc;
+    }
+
+    /** Method to convert UTC to EST */
+    public static Timestamp toEST(Timestamp timestamp) {
+        Timestamp est = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("America/New_York")).toLocalDateTime());
+
+        return est;
+    }
+
+    /** Method to convert EST to UTC */
+    public static Timestamp toUTC(Timestamp timestamp, String timezone) {
+        Timestamp utc = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
+
+        return utc;
+    }
+
+    /** Method to convert local time to EST */
+    public static Timestamp toEST(Timestamp timestamp, String timezone) {
+        Timestamp est = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("America/New_York")).toLocalDateTime());
+
+        return est;
+    }
+
+    /** Method to convert EST to local time */
+    public static Timestamp toLocal(Timestamp timestamp, String timezone) {
+        Timestamp local = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of(
+                        Helper.getLocalTimezone().getId())).toLocalDateTime());
+
+        return local;
+    }
+
 }
 
 

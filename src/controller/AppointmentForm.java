@@ -84,7 +84,7 @@ public class AppointmentForm implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Populate Hour and minute choicebox values
+        // Populate Hour and minute choicebox values, filled out when updating AND adding
         hours.addAll("0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
                 "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
         minutes.addAll("0", "15", "30", "45");
@@ -109,7 +109,7 @@ public class AppointmentForm implements Initializable {
         userCombo.setItems(userNames);
 
         // Retrieve selected appointment information and populate form when editing appointment
-        if (!CustomerForm.addingAppointment) {
+        if (!CustomerForm.addingAppointment) { // Editing existing appointment
             // set inputs with selected appointment's values
             appointmentIdTextField.setText(Integer.toString(selectedAppointment.getId()));
             appointmentTitleTextField.setText(selectedAppointment.getTitle());
@@ -133,6 +133,9 @@ public class AppointmentForm implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else { // Adding an appointment
+            // set combo boxes
+            appointmentIdTextField.setText("Auto-Generated");
         }
     }
 }
