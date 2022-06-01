@@ -85,29 +85,17 @@ public class AppointmentForm implements Initializable {
 
         // Retrieve all contacts and populate contact combobox
         ObservableList<String> contactNames = null;
-        try {
-            contactNames = JDBC.getContactNames();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        contactCombo.setItems(contactNames);
-
-        // Retrieve all customers and populate customer combobox
         ObservableList<String> customerNames = null;
-        try {
-            customerNames = JDBC.getCustomerNames();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        customerCombo.setItems(customerNames);
-
-        // Retrieve all users and populate user combobox
         ObservableList<String> userNames = null;
         try {
+            contactNames = JDBC.getContactNames();
+            customerNames = JDBC.getCustomerNames();
             userNames = JDBC.getUserNames();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        contactCombo.setItems(contactNames);
+        customerCombo.setItems(customerNames);
         userCombo.setItems(userNames);
 
         // Retrieve selected appointment information and populate form when editing appointment
