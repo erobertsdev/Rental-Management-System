@@ -47,7 +47,7 @@ abstract public class Helper {
     }
 
     /** Get Country name from Country ID
-     * @return Helper.errorDialog();ountry name */
+     * @return country name */
     public static String getCountryFromId(int id) {
         return switch (id) {
             case 1 -> "U.S";
@@ -69,7 +69,8 @@ abstract public class Helper {
         return setLocale();
     }
 
-    /** Method to produce error dialog   */
+    /** Method to produce error dialog
+     * @param error message to display */
     public static void errorDialog(String error) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Error (Erreur)");
@@ -93,8 +94,9 @@ abstract public class Helper {
         return null;
     }
 
-    public static void generateLocalData() {
+    public static void getTimeZone() {
         timezone = ZoneId.systemDefault();
+        System.out.println(timezone);
     }
     
     /**
@@ -102,7 +104,7 @@ abstract public class Helper {
      * @return timezone
      */
     public static ZoneId getLocalTimezone() {
-        return ZoneId.systemDefault();
+        return timezone;
     }
 
     /** Method to convert UTC to local time */

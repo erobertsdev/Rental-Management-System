@@ -60,7 +60,7 @@ public class LoginForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(Helper.getLocale());
+        Helper.getTimeZone();
         if (Helper.getLanguage().equals("fr")) {
             usernameLabel.setText("Nom d'utilisateur");
             passwordLabel.setText("Mot de passe");
