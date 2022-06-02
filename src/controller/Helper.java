@@ -107,36 +107,28 @@ abstract public class Helper {
 
     /** Method to convert UTC to local time */
     public static Timestamp toLocal(Timestamp timestamp) {
-        Timestamp local = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
                         Helper.getLocalTimezone().getId())).toLocalDateTime());
-
-        return local;
     }
 
     /** Method to convert local time to UTC */
     public static Timestamp toUTC(Timestamp timestamp) {
-        Timestamp utc = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(Helper.getLocalTimezone().getId())).withZoneSameInstant(
                 ZoneId.of("UTC")).toLocalDateTime());
-
-        return utc;
     }
 
     /** Method to convert UTC to EST */
     public static Timestamp toEST(Timestamp timestamp) {
-        Timestamp est = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("America/New_York")).toLocalDateTime());
-
-        return est;
     }
 
     /** Method to convert EST to UTC */
     public static Timestamp toUTC(Timestamp timestamp, String timezone) {
-        Timestamp utc = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
-
-        return utc;
     }
 
     /** Method to convert local time to EST */
@@ -148,26 +140,52 @@ abstract public class Helper {
 
     /** Method to convert EST to local time */
     public static Timestamp estToLocal(Timestamp timestamp, String timezone) {
-        Timestamp local = Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of(
                         Helper.getLocalTimezone().getId())).toLocalDateTime());
-
-        return local;
     }
 
     /************** Methods for Appointment notices/validations ********************/
 
-    public static boolean appointmentCheck(Timestamp start, Timestamp end, int customer_id) throws SQLException {
+    // TODO: BROKEN
+    public static boolean updateCheck(int id, Timestamp start, Timestamp end, int customer_id) throws SQLException {
+        LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
+        LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
+
+        LocalTime openTime = LocalTime.of(8,00);
+        LocalTime closeTime = LocalTime.of(22,00);
+
+        // Passes the appointment info to the appointmentValidator to perform the checks there
+        if(!addAppointmentCheck(start, end, customer_id)) {
+            return false;
+        }
+
+        FilteredList<Appointment> customerAppointments = JDBC.getAppointments().filtered(
+                appointment -> appointment.getCustomer_id() == customer_id);
+
+        for (Appointment appointment : customerAppointments) {
+            LocalDateTime aStart = Helper.localToEST(appointment.getStart()).toLocalDateTime();
+            LocalDateTime aEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
+            if (appointment.getId() != id){
+                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, appointment.getId())){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean addAppointmentCheck(Timestamp start, Timestamp end, int customer_id) throws SQLException {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
 
         if(hoursCheck(start, end)){
             FilteredList<Appointment> customerAppointments = JDBC.getAppointments().filtered(
                     appointment -> appointment.getCustomer_id() == customer_id);
-            for (Appointment a : customerAppointments) {
-                LocalDateTime aStart = Helper.localToEST(a.getStart()).toLocalDateTime();
-                LocalDateTime aEnd = Helper.localToEST(a.getEnd()).toLocalDateTime();
-                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, a.getId())) {
+            for (Appointment appointment : customerAppointments) {
+                LocalDateTime aStart = Helper.localToEST(appointment.getStart()).toLocalDateTime();
+                LocalDateTime aEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
+                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, appointment.getId())) {
                     return false;
                 }
             }
@@ -207,7 +225,6 @@ abstract public class Helper {
             Helper.errorDialog("Appointments cannot be scheduled on weekends.");
             return false;
         }
-
         return true;
     }
 
