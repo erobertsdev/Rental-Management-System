@@ -167,7 +167,7 @@ abstract public class Helper {
             LocalDateTime aStart = Helper.localToEST(appointment.getStart()).toLocalDateTime();
             LocalDateTime aEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
             if (appointment.getId() != id){
-                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, appointment.getId())){
+                if(overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, appointment.getId())){
                     return false;
                 }
             }
@@ -185,7 +185,7 @@ abstract public class Helper {
             for (Appointment appointment : customerAppointments) {
                 LocalDateTime aStart = Helper.localToEST(appointment.getStart()).toLocalDateTime();
                 LocalDateTime aEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
-                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, appointment.getId())) {
+                if(overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, appointment.getId())) {
                     return false;
                 }
             }
@@ -233,29 +233,29 @@ abstract public class Helper {
         // Same start times
         if (appointmentStart.equals(start)) {
             Helper.errorDialog("This appointment starts at the same time as appointment " + id);
-            return false;
+            return true;
         }
         // Same end times
         if (appointmentEnd.equals(end)) {
             Helper.errorDialog("This appointment ends at the same time as appointment " + id);
-            return false;
+            return true;
         }
         // Start time overlaps
         if (appointmentStart.isAfter(start) && appointmentStart.isBefore(end)) {
             Helper.errorDialog("The start of this appointment overlaps appointment " + id);
-            return false;
+            return true;
         }
         // End time overlaps
         if (appointmentEnd.isAfter(start) && appointmentEnd.isBefore(end)) {
             Helper.errorDialog("The end of this appointment overlaps appointment " + id);
-            return false;
+            return true;
         }
         // Full overlap
         if (appointmentStart.isBefore(start) && appointmentEnd.isAfter(end)) {
             Helper.errorDialog("This appointment completely overlaps appointment " + id);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
 

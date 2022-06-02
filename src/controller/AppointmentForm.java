@@ -48,7 +48,6 @@ public class AppointmentForm implements Initializable {
     private final ObservableList<String> hours = FXCollections.observableArrayList();
     private final ObservableList<String> minutes = FXCollections.observableArrayList();
     private final Appointment selectedAppointment = CustomerForm.getSelectedAppointment();
-    private boolean passedChecks;
 
     /** Method to check that no fields are null
      * @return boolean false if there are empty inputs */
@@ -74,7 +73,8 @@ public class AppointmentForm implements Initializable {
             endHourChoice.getValue() + ":" + endMinuteChoice.getValue() + ":00");
 
                 // Check if adding or updating appointment
-                if (!CustomerForm.addingAppointment) {
+            boolean passedChecks;
+            if (!CustomerForm.addingAppointment) {
                     // Check for scheduling issues
                     passedChecks = Helper.updateCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
 
