@@ -96,7 +96,6 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // TODO: FIGURE OUT HOW TO GET USER'S COUNTRY (Country_ID)
         if (selectedCustomer != null) {
             String customerState = null;
             String customerCountry = null;
