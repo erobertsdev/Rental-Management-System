@@ -66,46 +66,44 @@ public class AppointmentForm implements Initializable {
 
             // Convert start time to timestamp
             Timestamp startTime = Timestamp.valueOf(startDatePicker.getValue().toString() + " " +
-            startHourChoice.getValue() + ":" + startMinuteChoice.getValue() + ":00");
+                    startHourChoice.getValue() + ":" + startMinuteChoice.getValue() + ":00");
 
             // Convert end time to timestamp
             Timestamp endTime = Timestamp.valueOf(endDatePicker.getValue().toString() + " " +
-            endHourChoice.getValue() + ":" + endMinuteChoice.getValue() + ":00");
+                    endHourChoice.getValue() + ":" + endMinuteChoice.getValue() + ":00");
 
             // Boolean for scheduling conflicts
-            boolean passedChecks; // TODO: GET THESE CHECKS TO WORK
+            boolean passedChecks; // TODO: FIX CHECKS, ALMOST ALWAYS RETURNING TRUE
             // Check if adding or updating appointment
             if (!CustomerForm.addingAppointment) {
-                    // Check for scheduling issues
-                    passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
-                    Helper.errorDialog("Passed checks: " + passedChecks);
-                    if (passedChecks) {
-                        // Update appointment
-                        JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-                                appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                        Helper.errorDialog("Appointment Updated Successfully.");
-                        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
-                        Scene scene = new Scene(parent);
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(scene);
-                        stage.show();
-                    }
-                } else {
-                    // Check for scheduling issues
-                    passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
-                    Helper.errorDialog("Passed checks: " + passedChecks);
-                    if (passedChecks) {
-                        // Add appointment to database
-                        JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-                                appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                        Helper.errorDialog("Appointment Added Successfully.");
-                        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
-                        Scene scene = new Scene(parent);
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(scene);
-                        stage.show();
-                    }
+                // Check for scheduling issues
+                passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
+                if (passedChecks) {
+                    // Update appointment
+                    JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
+                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                    Helper.errorDialog("Appointment Updated Successfully.");
+                    Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+                    Scene scene = new Scene(parent);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
                 }
+            } else {
+                // Check for scheduling issues
+                passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
+                if (passedChecks) {
+                    // Add appointment to database
+                    JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
+                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                    Helper.errorDialog("Appointment Added Successfully.");
+                    Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
+                    Scene scene = new Scene(parent);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(scene);
+                    stage.show();
+                }
+            }
         }
     }
 
@@ -160,7 +158,7 @@ public class AppointmentForm implements Initializable {
             startMinuteChoice.setValue(selectedAppointment.getStart().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
             endHourChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(0,2)); // get hour
             endMinuteChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
-            
+
             // set combo boxes
             try {
                 contactCombo.setValue(JDBC.getContactName(selectedAppointment.getContact_id()));

@@ -96,9 +96,8 @@ abstract public class Helper {
 
     public static void getTimeZone() {
         timezone = ZoneId.systemDefault();
-        System.out.println(timezone);
     }
-    
+
     /**
      * Method to get the current user's timezone
      * @return timezone
@@ -136,8 +135,7 @@ abstract public class Helper {
     /** Method to convert local time to EST */
     public static Timestamp localToEST(Timestamp timestamp) {
         return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
-                ZoneId.of(Helper.getLocalTimezone().getId())).withZoneSameInstant(
-                ZoneId.of("-05:00")).toLocalDateTime());
+                ZoneId.of(getLocalTimezone().getId())).withZoneSameInstant(ZoneId.of("America/New_York")).toLocalDateTime());
     }
 
     /** Method to convert EST to local time */
@@ -154,77 +152,76 @@ abstract public class Helper {
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
         LocalTime openTime = LocalTime.of(8,00);
         LocalTime closeTime = LocalTime.of(22,00);
-        boolean passed = true;
 
         // Checks that start time is before end time
         if (appointmentStart.isAfter(appointmentEnd)) {
             Helper.errorDialog("Start time must be before end time.");
-            passed = false;
+            return false;
         }
 
         // Checks that appointment start falls within office hours
-        if (appointmentStart.toLocalTime().isBefore(openTime) ||
+        else if (appointmentStart.toLocalTime().isBefore(openTime) ||
                 appointmentStart.toLocalTime().isAfter(closeTime)) {
             Helper.errorDialog("Appointment cannot start before office hours.");
-            passed = false;
+            return false;
         }
 
         // Check that appointment end falls between business hours
-        if (appointmentEnd.toLocalTime().isBefore(openTime) ||
+        else if (appointmentEnd.toLocalTime().isBefore(openTime) ||
                 appointmentEnd.toLocalTime().isAfter(closeTime)) {
             Helper.errorDialog("Appointment cannot end after office hours.");
-            passed = false;
+            return false;
         }
 
         // Checks that appointment isn't scheduled on a weekend
-        if (appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
+        else if (appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
                 appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
             Helper.errorDialog("Appointments cannot be scheduled on weekends.");
-            passed = false;
+            return false;
+        } else {
+            return true;
         }
-        return passed;
     }
 
+    /** Method to check for overlaps when adding appointment
+     * @return boolean false if overlap is found */
     public static boolean addAppointmentCheck(Timestamp start, Timestamp end, int customer_id) throws SQLException {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
-        boolean passed = true;
 
-        if(mainCheck(start, end)){
+        if (mainCheck(start, end)) {
             FilteredList<Appointment> customerAppointments = JDBC.getAppointments().filtered(
                     appointment -> appointment.getCustomer_id() == customer_id);
 
-            for (Appointment a : customerAppointments) {
-                LocalDateTime aStart = Helper.localToEST(a.getStart()).toLocalDateTime();
-                LocalDateTime aEnd = Helper.localToEST(a.getEnd()).toLocalDateTime();
+            for (Appointment appointment : customerAppointments) {
+                LocalDateTime apptStart = Helper.localToEST(appointment.getStart()).toLocalDateTime();
+                LocalDateTime apptEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
 
-                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, a.getId())) {
-                    passed = false;
+                if (!overlapCheck(appointmentStart, appointmentEnd, apptStart, apptEnd, appointment.getId())) {
+                    return false;
                 }
             }
         }
-        return passed;
+        return true;
     }
 
     public static boolean updateAppointmentCheck(int id, Timestamp start, Timestamp end, int customer_id) throws SQLException {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
-        boolean passed = true;
-
-        if(!mainCheck(start, end)) {
-            passed = false;
-        }
-
+        boolean passed = mainCheck(start, end); // returns false is main check finds a conflict
         FilteredList<Appointment> customerAppointments = JDBC.getAppointments().filtered(
                 appointment -> appointment.getCustomer_id() == customer_id);
 
         for (Appointment a : customerAppointments) {
-            LocalDateTime aStart = Helper.localToEST(a.getStart()).toLocalDateTime();
-            LocalDateTime aEnd = Helper.localToEST(a.getEnd()).toLocalDateTime();
+            LocalDateTime apptStart = Helper.localToEST(a.getStart()).toLocalDateTime();
+            LocalDateTime apptEnd = Helper.localToEST(a.getEnd()).toLocalDateTime();
             if (a.getId() != id){
-                if(!overlapCheck(appointmentStart, appointmentEnd, aStart, aEnd, a.getId())){
+                if(!overlapCheck(appointmentStart, appointmentEnd, apptStart, apptEnd, a.getId())){
                     passed = false;
                 }
+            }
+            else {
+                passed = true;
             }
         }
         return passed;
@@ -232,38 +229,38 @@ abstract public class Helper {
 
     public static boolean overlapCheck(LocalDateTime appointmentStart, LocalDateTime appointmentEnd,
                                        LocalDateTime apptStart, LocalDateTime apptEnd, int apptId) {
-        boolean passed = true;
 
         // Full overlap check
         if (appointmentStart.isBefore(apptStart) && appointmentEnd.isAfter(apptEnd)) {
             Helper.errorDialog("Appointment overlaps with appointment " + apptId + ".");
-            passed = false;
+            return false;
         }
 
         // Partial overlap check
-        if (appointmentStart.isAfter(apptStart) && appointmentStart.isBefore(apptEnd)) {
+        else if (appointmentStart.isAfter(apptStart) && appointmentStart.isBefore(apptEnd)) {
             Helper.errorDialog("Start of appointment overlaps with appointment " + apptId + ".");
-            passed = false;
+            return false;
         }
 
         // Partial overlap check
-        if (appointmentEnd.isAfter(apptStart) && appointmentEnd.isBefore(apptEnd)) {
+        else if (appointmentEnd.isAfter(apptStart) && appointmentEnd.isBefore(apptEnd)) {
             Helper.errorDialog("End of appointment overlaps with appointment " + apptId + ".");
-            passed = false;
+            return false;
         }
 
         // Check for same start times
-        if (appointmentStart.equals(apptStart)) {
+        else if (appointmentStart.equals(apptStart)) {
             Helper.errorDialog("Appointment starts at the same time as appointment " + apptId + ".");
-            passed = false;
+            return false;
         }
 
         // Check for same end times
-        if (appointmentEnd.equals(apptEnd)) {
+        else if (appointmentEnd.equals(apptEnd)) {
             Helper.errorDialog("Appointment ends at the same time as appointment " + apptId + ".");
-            passed = false;
+            return false;
+        } else {
+            return true;
         }
-        return passed;
     }
 }
 

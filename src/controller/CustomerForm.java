@@ -45,6 +45,9 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, String> appointmentTypeCol;
     @FXML private TableColumn<Appointment, Timestamp> appointmentStartCol;
     @FXML private TableColumn<Appointment, Timestamp> appointmentEndCol;
+    @FXML private TableColumn<Appointment, Integer> appointmentContactCol;
+    @FXML private TableColumn<Appointment, Integer> appointmentCustomerCol;
+    @FXML private TableColumn<Appointment, Integer> appointmentUserCol;
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
     // Differentiates between adding/updating for the customer and appointment editing forms
@@ -211,6 +214,9 @@ public class CustomerForm extends Helper implements Initializable {
                             appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
                             appointmentStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
                             appointmentEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+                            appointmentContactCol.setCellValueFactory(new PropertyValueFactory<>("contact_id"));
+                            appointmentCustomerCol.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
+                            appointmentUserCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
