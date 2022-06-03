@@ -78,8 +78,8 @@ public class AppointmentForm implements Initializable {
             if (!CustomerForm.addingAppointment) {
                     // Check for scheduling issues
                     passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
+                    Helper.errorDialog("Passed checks: " + passedChecks);
                     if (passedChecks) {
-                        System.out.println("Update Checks Passed, Apparently");
                         // Update appointment
                         JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                                 appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
@@ -93,8 +93,8 @@ public class AppointmentForm implements Initializable {
                 } else {
                     // Check for scheduling issues
                     passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
+                    Helper.errorDialog("Passed checks: " + passedChecks);
                     if (passedChecks) {
-                        System.out.println("Add Checks Passed, Apparently");
                         // Add appointment to database
                         JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                                 appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
