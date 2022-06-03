@@ -73,17 +73,16 @@ public class AppointmentForm implements Initializable {
             endHourChoice.getValue() + ":" + endMinuteChoice.getValue() + ":00");
 
             // Boolean for scheduling conflicts
-            boolean passedChecks;
+            boolean passedChecks; // TODO: GET THESE CHECKS TO WORK
             // Check if adding or updating appointment
             if (!CustomerForm.addingAppointment) {
                     // Check for scheduling issues
-                    passedChecks = Helper.updateCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
-
+                    passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
                     if (passedChecks) {
                         System.out.println("Update Checks Passed, Apparently");
                         // Update appointment
-//                        JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-//                                appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                        JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
+                                appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
                         Helper.errorDialog("Appointment Updated Successfully.");
                         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                         Scene scene = new Scene(parent);
@@ -94,13 +93,11 @@ public class AppointmentForm implements Initializable {
                 } else {
                     // Check for scheduling issues
                     passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
-
                     if (passedChecks) {
                         System.out.println("Add Checks Passed, Apparently");
-
                         // Add appointment to database
-//                        JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-//                                appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                        JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
+                                appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
                         Helper.errorDialog("Appointment Added Successfully.");
                         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                         Scene scene = new Scene(parent);

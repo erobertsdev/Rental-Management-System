@@ -48,8 +48,8 @@ public class CustomerForm extends Helper implements Initializable {
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
     // Differentiates between adding/updating for the customer and appointment editing forms
-    public static boolean addingCustomer = false;
-    public static boolean addingAppointment = false;
+    public static boolean addingCustomer;
+    public static boolean addingAppointment;
 
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
@@ -177,6 +177,8 @@ public class CustomerForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        addingAppointment = false;
+        addingCustomer = false;
         // Fill Customers Table
         try {
             customersTableview.getItems().setAll(JDBC.getCustomers());
