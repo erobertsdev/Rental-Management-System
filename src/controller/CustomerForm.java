@@ -2,6 +2,7 @@ package controller;
 
 import com.mysql.cj.xdevapi.Table;
 import helper.JDBC;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -154,6 +155,7 @@ public class CustomerForm extends Helper implements Initializable {
         stage.show();
     }
 
+    /** Method to delete currently selected appointment */
     public void handleDeleteAppointment() {
         // Get selected appointment info
         selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
@@ -173,6 +175,27 @@ public class CustomerForm extends Helper implements Initializable {
             Helper.errorDialog("Appointment ID: " + selectedAppointment.getId() + " Type: " + selectedAppointment.getType() + " successfully deleted.");
             appointmentsTableview.getItems().remove(selectedAppointment);
         }
+    }
+
+    /** Method to populate appointments tableview with current user's appointments */
+    public void handleMyAppointments() throws SQLException {
+        customersTableview.getSelectionModel().clearSelection();
+        ObservableList<Appointment> myAppointments = JDBC.getUserAppointments();
+        populateAppointments(myAppointments);
+    }
+
+    public void populateAppointments(ObservableList<Appointment> appointmentList) {
+        appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        appointmentTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appointmentLocationCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appointmentStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
+        appointmentEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
+        appointmentContactCol.setCellValueFactory(new PropertyValueFactory<>("contact_id"));
+        appointmentCustomerCol.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
+        appointmentUserCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
+        appointmentsTableview.setItems(appointmentList);
     }
 
 
