@@ -77,7 +77,7 @@ public class AppointmentForm implements Initializable {
             // Check if adding or updating appointment
             if (!CustomerForm.addingAppointment) {
                     // Check for scheduling issues
-                    passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
+                    passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
                     Helper.errorDialog("Passed checks: " + passedChecks);
                     if (passedChecks) {
                         // Update appointment
@@ -92,7 +92,7 @@ public class AppointmentForm implements Initializable {
                     }
                 } else {
                     // Check for scheduling issues
-                    passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
+                    passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
                     Helper.errorDialog("Passed checks: " + passedChecks);
                     if (passedChecks) {
                         // Add appointment to database
