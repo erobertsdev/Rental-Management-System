@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -49,6 +50,8 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, Integer> appointmentContactCol;
     @FXML private TableColumn<Appointment, Integer> appointmentCustomerCol;
     @FXML private TableColumn<Appointment, Integer> appointmentUserCol;
+    @FXML private RadioButton monthRadio;
+    @FXML private RadioButton weekRadio;
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
     // Differentiates between adding/updating for the customer and appointment editing forms
@@ -179,9 +182,44 @@ public class CustomerForm extends Helper implements Initializable {
 
     /** Method to populate appointments tableview with current user's appointments */
     public void handleMyAppointments() throws SQLException {
+        weekRadio.setSelected(false);
+        monthRadio.setSelected(false);
         customersTableview.getSelectionModel().clearSelection();
         ObservableList<Appointment> myAppointments = JDBC.getUserAppointments();
         populateAppointments(myAppointments);
+    }
+
+    // TODO: Change these to filtered lists
+    /** Method to populate appointments tableview with all appointments occurring this month */
+    public void handleMonthRadio() throws SQLException {
+        weekRadio.setSelected(false);
+        ObservableList<Appointment> appointmentsThisMonth = JDBC.getMonthAppointments();
+        populateAppointments(appointmentsThisMonth);
+    }
+
+    /** Method to populate appointments tableview with all appointments occurring this week */
+    public void handleWeekRadio() throws SQLException {
+        monthRadio.setSelected(false);
+        ObservableList<Appointment> appointmentsThisWeek = JDBC.getWeekAppointments();
+        populateAppointments(appointmentsThisWeek);
+    }
+
+    /** Method to show error dialog if current user has an appointment within 15 minutes of current time */
+    public void handleCheckForAppointment() throws SQLException {
+        // Get current time
+        LocalDateTime currentTime = LocalDateTime.now();
+        // Get current user's appointments
+        ObservableList<Appointment> userAppointments = JDBC.getUserAppointments();
+        // Check if any of the user's appointments occur within 15 minutes of current time
+        for (Appointment appointment : userAppointments) {
+            LocalDateTime appointmentTime = appointment.getStartLocalDateTime();
+            if (appointmentTime.isAfter(currentTime.minusMinutes(15)) && appointmentTime.isBefore(currentTime.plusMinutes(15))) {
+                Helper.errorDialog("You have an appointment within 15 minutes of current time. Please check your appointments.");
+            } else {
+                Helper.errorDialog("You have no upcoming appointments.");
+            }
+            break;
+        }
     }
 
     public void populateAppointments(ObservableList<Appointment> appointmentList) {
@@ -200,9 +238,15 @@ public class CustomerForm extends Helper implements Initializable {
 
 
 
-
+    // TODO: Add alert for appointment within 15 minutes or no appointment
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Check for appointments when user logs in
+        try {
+            handleCheckForAppointment();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         addingAppointment = false;
         addingCustomer = false;
         // Fill Customers Table
@@ -224,6 +268,9 @@ public class CustomerForm extends Helper implements Initializable {
             customersTableview.setRowFactory(tv -> {
                 TableRow<Customer> row = new TableRow<>();
                 row.setOnMouseClicked(event -> {
+                    // Deselect radio buttons if selected
+                    weekRadio.setSelected(false);
+                    monthRadio.setSelected(false);
                     // check for non-empty rows
                     if (!row.isEmpty()) {
                         Customer element = row.getItem();

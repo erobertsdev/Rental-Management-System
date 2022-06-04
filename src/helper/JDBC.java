@@ -250,6 +250,64 @@ public abstract class JDBC {
         return appointments;
     }
 
+    /** Method to retrieve all appointments occurring this month */
+    public static ObservableList<Appointment> getMonthAppointments() throws SQLException {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE MONTH(Start) = MONTH(CURRENT_DATE())";
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        appointments.clear();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            String appointmentTitle = rs.getString("Title");
+            String appointmentDescription = rs.getString("Description");
+            String appointmentLocation = rs.getString("Location");
+            String appointmentType = rs.getString("Type");
+            Timestamp appointmentStart = rs.getTimestamp("Start");
+            Timestamp appointmentEnd = rs.getTimestamp("End");
+            int appointmentCustomer = rs.getInt("Customer_ID");
+            int appointmentUser = rs.getInt("User_ID");
+            int appointmentContact = rs.getInt("Contact_ID");
+            Timestamp start = Helper.toLocal(appointmentStart);
+            Timestamp end = Helper.toLocal(appointmentEnd);
+            Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
+                    appointmentLocation, appointmentType, start,
+                    end, appointmentCustomer, appointmentUser, appointmentContact);
+
+            appointments.add(appointment);
+        }
+        return appointments;
+    }
+
+    /** Method to retrieve all appointments occurring this week */
+    public static ObservableList<Appointment> getWeekAppointments() throws SQLException {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE WEEK(Start) = WEEK(CURRENT_DATE())";
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        appointments.clear();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int appointmentId = rs.getInt("Appointment_ID");
+            String appointmentTitle = rs.getString("Title");
+            String appointmentDescription = rs.getString("Description");
+            String appointmentLocation = rs.getString("Location");
+            String appointmentType = rs.getString("Type");
+            Timestamp appointmentStart = rs.getTimestamp("Start");
+            Timestamp appointmentEnd = rs.getTimestamp("End");
+            int appointmentCustomer = rs.getInt("Customer_ID");
+            int appointmentUser = rs.getInt("User_ID");
+            int appointmentContact = rs.getInt("Contact_ID");
+            Timestamp start = Helper.toLocal(appointmentStart);
+            Timestamp end = Helper.toLocal(appointmentEnd);
+            Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
+                    appointmentLocation, appointmentType, start,
+                    end, appointmentCustomer, appointmentUser, appointmentContact);
+
+            appointments.add(appointment);
+        }
+        return appointments;
+    }
+
     /**
      * Retrieve Appointments associated with Customer_ID */
     // TODO: Might need to also add one using USER_ID instead/also

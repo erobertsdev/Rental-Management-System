@@ -33,7 +33,7 @@
       <Button fx:id="editCustomerButton" layoutX="757.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleEditCustomer" text="Edit" />
       <Button fx:id="addCustomerButton" layoutX="823.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleAddCustomer" text="Add" />
       <Button fx:id="deleteCustomerButton" layoutX="889.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleDeleteCustomer" text="Delete" />
-      <TableView fx:id="appointmentsTableview" layoutX="46.0" layoutY="348.0" prefHeight="200.0" prefWidth="894.0">
+      <TableView fx:id="appointmentsTableview" layoutX="46.0" layoutY="348.0" prefHeight="246.0" prefWidth="894.0">
          <columns>
             <TableColumn fx:id="appointmentIdCol" prefWidth="37.0" text="ID" />
             <TableColumn fx:id="appointmentTitleCol" prefWidth="75.0" text="Title" />
@@ -47,13 +47,13 @@
             <TableColumn fx:id="appointmentUserCol" prefWidth="60.0" text="User ID" />
          </columns>
       </TableView>
-      <Button fx:id="editAppointmentButton" layoutX="757.0" layoutY="558.0" mnemonicParsing="false" onAction="#handleEditAppointment" text="Edit" />
-      <Button fx:id="addAppointmentButton" layoutX="823.0" layoutY="558.0" mnemonicParsing="false" onAction="#handleAddAppointment" text="Add" />
-      <Button fx:id="deleteAppointmentButton" layoutX="889.0" layoutY="558.0" mnemonicParsing="false" onAction="#handleDeleteAppointment" text="Delete" />
-      <Label fx:id="customerInstructionsLabel" layoutX="46.0" layoutY="277.0" text="Select a customer to show their appointments or:" />
-      <Label layoutX="242.0" layoutY="325.0" text="Filter Appointments:" />
-      <RadioButton fx:id="monthRadio" layoutX="364.0" layoutY="325.0" mnemonicParsing="false" text="This Month" />
-      <RadioButton fx:id="weekRadio" layoutX="463.0" layoutY="325.0" mnemonicParsing="false" text="This Week" />
-      <Button fx:id="myAppointmentsButton" layoutX="320.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleMyAppointments" text="Show My Appointments" />
+      <Button fx:id="editAppointmentButton" layoutX="751.0" layoutY="601.0" mnemonicParsing="false" onAction="#handleEditAppointment" text="Edit" />
+      <Button fx:id="addAppointmentButton" layoutX="817.0" layoutY="601.0" mnemonicParsing="false" onAction="#handleAddAppointment" text="Add" />
+      <Button fx:id="deleteAppointmentButton" layoutX="883.0" layoutY="601.0" mnemonicParsing="false" onAction="#handleDeleteAppointment" text="Delete" />
+      <Label fx:id="customerInstructionsLabel" layoutX="46.0" layoutY="261.0" text="Select a customer to show their appointments or:" />
+      <Label layoutX="284.0" layoutY="325.0" text="Show Appointments Occurring:" />
+      <RadioButton fx:id="monthRadio" layoutX="470.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleMonthRadio" text="This Month" />
+      <RadioButton fx:id="weekRadio" layoutX="569.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleWeekRadio" text="This Week" />
+      <Button fx:id="myAppointmentsButton" layoutX="318.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleMyAppointments" text="Show My Appointments" />
    </children>
 </AnchorPane>

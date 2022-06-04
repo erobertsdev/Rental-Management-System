@@ -71,8 +71,9 @@ public class Appointment {
         return start;
     }
 
-    public void setStart(Timestamp start) {
-        this.start = start;
+    /** Convert start Timestamp to LocalDateTime */
+    public java.time.LocalDateTime getStartLocalDateTime() {
+        return start.toLocalDateTime();
     }
 
     public Timestamp getEnd() {
