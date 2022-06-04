@@ -4,6 +4,10 @@ import helper.JDBC;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import model.Appointment;
 import model.Division;
 
@@ -86,6 +90,43 @@ abstract public class Helper {
         alert.setTitle("Notification");
         alert.setHeaderText(null);
         alert.setContentText(notice);
+        alert.showAndWait();
+    }
+
+    /** Method to show reports in dialog box */
+    public static void reportDialog(String reportType, String reportBlurb, String reportBody) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Report");
+        alert.setHeaderText(reportType);
+        alert.setContentText("Click 'Show Details' to view: " + reportBlurb);
+
+        // Possibly use to label columns?
+//        Exception ex = new FileNotFoundException("Could not find file blabla.txt");
+
+// Create expandable Exception.
+//        StringWriter sw = new StringWriter();
+//        PrintWriter pw = new PrintWriter(sw);
+//        ex.printStackTrace(pw);
+
+        Label label = new Label("Report Output:");
+
+        TextArea textArea = new TextArea(reportBody);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
+
         alert.showAndWait();
     }
 

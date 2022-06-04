@@ -205,7 +205,7 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /** Method to show noticeDialog if current user has an appointment within 15 minutes of current time */
-    // TODO: this doesn't work
+    // TODO: FIX THIS IT NO WORK
     public void handleCheckForAppointment() throws SQLException {
         // Get current time
         LocalDateTime currentTime = LocalDateTime.now();
@@ -223,6 +223,10 @@ public class CustomerForm extends Helper implements Initializable {
                 break;
             }
         }
+    }
+
+    public void handleReportButton() {
+        Helper.reportDialog("Test", "This is a test.", "This is the eventual printout of the report!");
     }
 
     public void populateAppointments(ObservableList<Appointment> appointmentList) {
