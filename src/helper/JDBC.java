@@ -310,7 +310,6 @@ public abstract class JDBC {
 
     /**
      * Retrieve Appointments associated with Customer_ID */
-    // TODO: Might need to also add one using USER_ID instead/also
     public static ObservableList<Appointment> getAppointmentsById(String id) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID=" + id;
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -322,11 +321,13 @@ public abstract class JDBC {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            Timestamp start = rs.getTimestamp("Start");
-            Timestamp end = rs.getTimestamp("End");
+            Timestamp appointmentStart = rs.getTimestamp("Start");
+            Timestamp appointmentEnd = rs.getTimestamp("End");
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
+            Timestamp start = Helper.toLocal(appointmentStart);
+            Timestamp end = Helper.toLocal(appointmentEnd);
 
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
             appointments.add(appointment);
