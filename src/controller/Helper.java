@@ -79,6 +79,16 @@ abstract public class Helper {
         alert.showAndWait();
     }
 
+    /** Method to produce notice dialog
+     * @param notice message to display */
+    public static void noticeDialog(String notice) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Notification");
+        alert.setHeaderText(null);
+        alert.setContentText(notice);
+        alert.showAndWait();
+    }
+
     /**
      * Returns a Division object specified by ID
      * @param divisionID The ID of the division object to be returned

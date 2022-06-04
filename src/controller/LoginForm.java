@@ -27,6 +27,7 @@ public class LoginForm extends Helper implements Initializable {
     @FXML private TextField passwordTextField;
     @FXML private Button loginButton;
     private final String language = Helper.getLanguage();
+    public static boolean initialLogon = true;
 
     @FXML private void handleLogin(ActionEvent event) throws SQLException, IOException {
     final String userName = usernameTextField.getText();

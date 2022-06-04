@@ -204,7 +204,7 @@ public class CustomerForm extends Helper implements Initializable {
         populateAppointments(appointmentsThisWeek);
     }
 
-    /** Method to show error dialog if current user has an appointment within 15 minutes of current time */
+    /** Method to show notification dialog if current user has an appointment within 15 minutes of current time */
     public void handleCheckForAppointment() throws SQLException {
         // Get current time
         LocalDateTime currentTime = LocalDateTime.now();
@@ -214,9 +214,9 @@ public class CustomerForm extends Helper implements Initializable {
         for (Appointment appointment : userAppointments) {
             LocalDateTime appointmentTime = appointment.getStartLocalDateTime();
             if (appointmentTime.isAfter(currentTime.minusMinutes(15)) && appointmentTime.isBefore(currentTime.plusMinutes(15))) {
-                Helper.errorDialog("You have an appointment within 15 minutes of current time. Please check your appointments.");
+                Helper.noticeDialog("You have an appointment within 15 minutes of current time. Please check your appointments.");
             } else {
-                Helper.errorDialog("You have no upcoming appointments.");
+                Helper.noticeDialog("You have no upcoming appointments.");
             }
             break;
         }
@@ -239,10 +239,13 @@ public class CustomerForm extends Helper implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Check for appointments when user logs in
-        try {
-            handleCheckForAppointment();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (LoginForm.initialLogon) {
+            try {
+                handleCheckForAppointment();
+                LoginForm.initialLogon = false;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         addingAppointment = false;
         addingCustomer = false;
