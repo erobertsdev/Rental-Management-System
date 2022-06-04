@@ -236,9 +236,6 @@ public class CustomerForm extends Helper implements Initializable {
         appointmentsTableview.setItems(appointmentList);
     }
 
-
-
-    // TODO: Add alert for appointment within 15 minutes or no appointment
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Check for appointments when user logs in
