@@ -1,7 +1,7 @@
 package controller;
 
-import com.mysql.cj.xdevapi.Table;
 import helper.JDBC;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,14 +12,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -225,8 +225,38 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
-    public void handleReportButton() {
-        Helper.reportDialog("Test", "This is a test.", "This is the eventual printout of the report!");
+    public void handleReportButton() throws SQLException {
+        Helper.reportDialog("Test", "This is a test.", reportTotalsByTypeAndMonth());
+    }
+
+    /** Total number of customer appointments by type and month report
+     * @return*/
+    public static String reportTotalsByTypeAndMonth() throws SQLException {
+        ObservableList<String> reportStrings = FXCollections.observableArrayList();
+        reportStrings.add("Total Number of Appointments by type and month:\n");
+        String type = "SELECT Type, COUNT(Type) as \"Total\" FROM appointments GROUP BY Type";
+        PreparedStatement typeSqlCommand = JDBC.connection.prepareStatement(type);
+        String month = "SELECT MONTHNAME(Start) as \"Month\", COUNT(MONTH(Start)) as \"Total\" from appointments GROUP BY Month";
+        PreparedStatement monthSqlCommand = JDBC.connection.prepareStatement(month);
+
+        ResultSet typeResults = typeSqlCommand.executeQuery();
+        ResultSet monthResults = monthSqlCommand.executeQuery();
+
+        while (typeResults.next()) {
+            String typeStr = "Type: " + typeResults.getString("Type") + " Count: " +
+                    typeResults.getString("Total") + "\n";
+            reportStrings.add(typeStr);
+        }
+
+        while (monthResults.next()) {
+            String monthStr = "Month: " + monthResults.getString("Month") + " Count: " +
+                    monthResults.getString("Total") + "\n";
+            reportStrings.add(monthStr);
+
+        }
+        monthSqlCommand.close();
+        typeSqlCommand.close();
+        return reportStrings;
     }
 
     public void populateAppointments(ObservableList<Appointment> appointmentList) {
