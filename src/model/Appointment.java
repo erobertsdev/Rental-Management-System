@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Appointment {
     private int id;
@@ -62,6 +64,17 @@ public class Appointment {
     public String getType() {
         return type;
     }
+
+    // Return start date of appointment
+    public LocalDate getStartDate() {
+        return start.toLocalDateTime().toLocalDate();
+    }
+
+    // Return start time of appointment
+    public LocalTime getStartTime() {
+        return start.toLocalDateTime().toLocalTime();
+    }
+
 
     public void setType(String type) {
         this.type = type;

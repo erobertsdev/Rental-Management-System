@@ -204,21 +204,24 @@ public class CustomerForm extends Helper implements Initializable {
         populateAppointments(appointmentsThisWeek);
     }
 
-    /** Method to show notification dialog if current user has an appointment within 15 minutes of current time */
+    /** Method to show noticeDialog if current user has an appointment within 15 minutes of current time */
+    // TODO: this doesn't work
     public void handleCheckForAppointment() throws SQLException {
         // Get current time
         LocalDateTime currentTime = LocalDateTime.now();
         // Get current user's appointments
         ObservableList<Appointment> userAppointments = JDBC.getUserAppointments();
-        // Check if any of the user's appointments occur within 15 minutes of current time
+        // Loop through appointments and check if any are within 15 minutes of current time
         for (Appointment appointment : userAppointments) {
-            LocalDateTime appointmentTime = appointment.getStartLocalDateTime();
+            LocalDateTime appointmentTime = LocalDateTime.of(appointment.getStartDate(), appointment.getStartTime());
             if (appointmentTime.isAfter(currentTime.minusMinutes(15)) && appointmentTime.isBefore(currentTime.plusMinutes(15))) {
-                Helper.noticeDialog("You have an appointment within 15 minutes of current time. Please check your appointments.");
+                // Show noticeDialog
+                Helper.noticeDialog("You have an appointment within 15 minutes of current time.");
+                break;
             } else {
                 Helper.noticeDialog("You have no upcoming appointments.");
+                break;
             }
-            break;
         }
     }
 

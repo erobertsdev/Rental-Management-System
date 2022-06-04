@@ -13,9 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -29,7 +34,7 @@ public class LoginForm extends Helper implements Initializable {
     private final String language = Helper.getLanguage();
     public static boolean initialLogon = true;
 
-    @FXML private void handleLogin(ActionEvent event) throws SQLException, IOException {
+    @FXML private void handleLogin(ActionEvent event) throws Exception {
     final String userName = usernameTextField.getText();
     final String password = passwordTextField.getText();
 
@@ -37,11 +42,13 @@ public class LoginForm extends Helper implements Initializable {
         // Check DB for user/pw match
         boolean match = JDBC.checkLogin(userName, password);
         if (match) {
+            loginTracker(true);
             Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\customerForm.fxml"))));
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(scene);
             window.show();
         } else {
+            loginTracker(false);
             // Shows dialog if no user/pw match found
             if (language.equals("fr")) {
                 Helper.errorDialog("Nom d'utilisateur / Mot de passe incorrect. Veuillez vérifier l'orthographe et réessayer.");
@@ -57,6 +64,13 @@ public class LoginForm extends Helper implements Initializable {
         }
 
         }
+    }
+
+    /** Method to track login attempts and store them in login_activity.txt */
+    private void loginTracker(boolean success) throws Exception {
+        PrintWriter pw = new PrintWriter(new FileOutputStream(new File("login_activity.txt"), true));
+        pw.append("Login attempt: ").append(String.valueOf(ZonedDateTime.of(LocalDateTime.now(), Helper.getLocalTimezone()))).append("\t\tUsername: ").append(usernameTextField.getText()).append("\t\tSuccessful: ").append(String.valueOf(success)).append("\n");
+        pw.close();
     }
 
     @Override
