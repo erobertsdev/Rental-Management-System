@@ -127,7 +127,7 @@ abstract public class Helper {
     }
 
     /** Method to convert EST to UTC */
-    public static Timestamp toUTC(Timestamp timestamp, String timezone) {
+    public static Timestamp estToUTC(Timestamp timestamp, String timezone) {
         return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
     }
