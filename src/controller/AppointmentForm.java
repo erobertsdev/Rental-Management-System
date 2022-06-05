@@ -10,11 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Appointment;
@@ -23,6 +19,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -170,6 +168,27 @@ public class AppointmentForm implements Initializable {
         } else { // Adding an appointment
             // set combo boxes
             appointmentIdTextField.setText("Auto-Generated");
+
+            /** LAMBDA EXPRESSIONS to prevent user from choosing past dates or weekends when adding an appointment */
+            startDatePicker.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate startDatePicker, boolean empty) {
+                    super.updateItem(startDatePicker, empty);
+                    setDisable(
+                            empty || startDatePicker.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                                    startDatePicker.getDayOfWeek() == DayOfWeek.SUNDAY || startDatePicker.isBefore(LocalDate.now()));
+                }
+            });
+
+            endDatePicker.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate endDatePicker, boolean empty) {
+                    super.updateItem(endDatePicker, empty);
+                    setDisable(
+                            empty || endDatePicker.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                                    endDatePicker.getDayOfWeek() == DayOfWeek.SUNDAY || endDatePicker.isBefore(LocalDate.now()));
+                }
+            });
         }
     }
 }

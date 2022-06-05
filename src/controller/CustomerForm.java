@@ -75,6 +75,7 @@ public class CustomerForm extends Helper implements Initializable {
         return JDBC.getAppointmentsById(String.valueOf(customerId)).size() != 0;
     }
 
+    /** Method to open edit customer form */
     public void handleEditCustomer(ActionEvent event) throws IOException {
         try {
             // Throw error if no customer selected
@@ -95,6 +96,7 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
+    /** Method to open add customer form */
     public void handleAddCustomer(ActionEvent event) throws IOException {
         // Inform EditCustomerForm that customer is being added not updated
         addingCustomer = true;
@@ -106,6 +108,7 @@ public class CustomerForm extends Helper implements Initializable {
         stage.show();
     }
 
+    /** Method to delete customer, checks if customer has appointments before deletion */
     public void handleDeleteCustomer() throws SQLException {
         selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
         // Throw error if no customer selected
@@ -206,6 +209,8 @@ public class CustomerForm extends Helper implements Initializable {
             }
         }
     }
+
+
 
     // TODO: Change these to filtered lists
     /** Method to populate appointments tableview with all appointments occurring this month */
@@ -355,9 +360,8 @@ public class CustomerForm extends Helper implements Initializable {
             customersTableview.setItems(JDBC.getCustomers());
             
 
-            /** Event listener to detect when row in Customers tableview is selected and
-             * populate the Appointments tableview with that customer's appointments */
-            // ****** Lambda function *******
+            // ****** LAMBDA EXPRESSION used for populating appointments tableview with the currently selected customer's appointments as well as
+            // adding event listeners to each row *******/
             customersTableview.setRowFactory(tv -> {
                 TableRow<Customer> row = new TableRow<>();
                 row.setOnMouseClicked(event -> {
