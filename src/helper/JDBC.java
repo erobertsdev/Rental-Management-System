@@ -3,10 +3,7 @@ package helper;
 import controller.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Appointment;
-import model.Contact;
-import model.Customer;
-import model.Division;
+import model.*;
 
 import java.sql.*;
 import java.util.Objects;
@@ -422,6 +419,21 @@ public abstract class JDBC {
             userNames.add(userName);
         }
         return userNames;
+    }
+
+    /** Method to return observable list of all users */
+    public static ObservableList<User> getAllUsers() throws SQLException {
+        String sql = "SELECT User_ID, User_Name from users";
+        ObservableList<User> users = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int userId = rs.getInt("User_ID");
+            String userName = rs.getString("User_Name");
+            User user = new User(userId, null, userName);
+            users.add(user);
+        }
+        return users;
     }
 
     /**

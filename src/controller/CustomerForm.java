@@ -227,12 +227,17 @@ public class CustomerForm extends Helper implements Initializable {
         String reportType = reportChoice.getValue();
         switch (reportType) {
             case "# of Customer Appointments by Type/Month":
-                Helper.reportDialog("Customer Appointments", "Number of Customer Appointments by Type and Month", reportTotalsByTypeAndMonth());
+                Helper.reportDialog("Customer Appointments", "Number of Customer Appointments by Type and Month.", reportTotalsByTypeAndMonth());
                 break;
             case "Contact Schedules":
-                Helper.reportDialog("Contact Schedules", "Schedule for each contact in the organization", createContactSchedule());
+                Helper.reportDialog("Contact Schedules", "Schedule for each contact in the organization.", createContactSchedule());
+                break;
+            case "User Schedules":
+                Helper.reportDialog("User Schedules", "Schedule for all users in the organization.", createUserSchedule());
+                break;
+            default:
+                Helper.errorDialog("Please choose the type of report to view.");
         }
-        Helper.reportDialog("Test", "This is a test.", reportTotalsByTypeAndMonth());
     }
 
     // TODO: Make this run when selected from dropdown
@@ -279,15 +284,36 @@ public class CustomerForm extends Helper implements Initializable {
             report += "Contact Name: " + contact + " (ID: " + contactID + ")\n\n";
             report += "---------------\n";
 
-            ObservableList<String> appts = JDBC.contactAppointmentsById(contactID);
-            if(appts.isEmpty()) {
+            ObservableList<String> appointments = JDBC.contactAppointmentsById(contactID);
+            if(appointments.isEmpty()) {
                 report += "  No appointments for contact \n\n";
             }
-            for (String appt : appts) {
-                report += appt;
+            for (String appointment : appointments) {
+                report += appointment;
             }
         }
         return report;
+    }
+
+    /** Method to show schedule for each USER in the organization */
+    public String createUserSchedule() throws SQLException {
+        String report = "Schedule of all users in organization: \n";
+        for (User user: JDBC.getAllUsers()) {
+            report += "\n\nUser: " + user.getUserName() + "\n";
+            for (Appointment appointment: JDBC.getAppointments()) {
+                if (appointment.getUser_id() == user.getId()) {
+                    report += "Appointment ID: " + appointment.getId() +
+                            "\nTitle: " + appointment.getTitle() +
+                            "\nType: " + appointment.getType() +
+                            "\nDescription: " + appointment.getDescription() +
+                            "\nStart: " + appointment.getStart() +
+                            "\nEnd: " + appointment.getEnd() +
+                            "\nCustomer ID: " + appointment.getCustomer_id() + "\n";
+                }
+                report += "\n";
+            }
+        }
+    return report;
     }
 
     public void populateAppointments(ObservableList<Appointment> appointmentList) {
@@ -314,7 +340,7 @@ public class CustomerForm extends Helper implements Initializable {
         }
         addingAppointment = false;
         addingCustomer = false;
-        ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Contact Schedules", "Custom");
+        ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Contact Schedules", "User Schedules");
         reportChoice.setItems(reports);
         // Fill Customers Table
         try {
