@@ -80,7 +80,11 @@ public class AppointmentForm implements Initializable {
                     // Update appointment
                     JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                             appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                    Helper.errorDialog("Appointment Updated Successfully.");
+                    if (LoginForm.language.equals("fr")) {
+                        Helper.errorDialog("Rendez-vous mis à jour avec succès.");
+                    } else {
+                        Helper.errorDialog("Appointment updated successfully.");
+                    }
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -94,7 +98,11 @@ public class AppointmentForm implements Initializable {
                     // Add appointment to database
                     JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                             appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                    Helper.errorDialog("Appointment Added Successfully.");
+                    if (LoginForm.language.equals("fr")) {
+                        Helper.errorDialog("Rendez-vous ajouté avec succès.");
+                    } else {
+                        Helper.errorDialog("Appointment added successfully.");
+                    }
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -156,6 +164,27 @@ public class AppointmentForm implements Initializable {
             startMinuteChoice.setValue(selectedAppointment.getStart().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
             endHourChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(0,2)); // get hour
             endMinuteChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
+
+            /** LAMBDA EXPRESSIONS to prevent user from choosing past dates or weekends when updating an appointment */
+            startDatePicker.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate startDatePicker, boolean empty) {
+                    super.updateItem(startDatePicker, empty);
+                    setDisable(
+                            empty || startDatePicker.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                                    startDatePicker.getDayOfWeek() == DayOfWeek.SUNDAY || startDatePicker.isBefore(LocalDate.now()));
+                }
+            });
+
+            endDatePicker.setDayCellFactory(picker -> new DateCell() {
+                @Override
+                public void updateItem(LocalDate endDatePicker, boolean empty) {
+                    super.updateItem(endDatePicker, empty);
+                    setDisable(
+                            empty || endDatePicker.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                                    endDatePicker.getDayOfWeek() == DayOfWeek.SUNDAY || endDatePicker.isBefore(LocalDate.now()));
+                }
+            });
 
             // set combo boxes
             try {

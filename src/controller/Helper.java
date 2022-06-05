@@ -198,28 +198,44 @@ abstract public class Helper {
 
         // Checks that start time is before end time
         if (appointmentStart.isAfter(appointmentEnd)) {
-            Helper.errorDialog("Start time must be before end time.");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("L'heure de début doit être antérieure à l'heure de fin.");
+            } else {
+                Helper.errorDialog("Start time must be before end time.");
+            }
             return false;
         }
 
         // Checks that appointment start falls within office hours
         if (appointmentStart.toLocalTime().isBefore(openTime) ||
                 appointmentStart.toLocalTime().isAfter(closeTime)) {
-            Helper.errorDialog("Appointment cannot start before office hours.");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Le rendez-vous ne peut pas commencer avant les heures de bureau.");
+            } else {
+                Helper.errorDialog("Appointment cannot start before office hours.");
+            }
             return false;
         }
 
         // Check that appointment end falls between business hours
         if (appointmentEnd.toLocalTime().isBefore(openTime) ||
                 appointmentEnd.toLocalTime().isAfter(closeTime)) {
-            Helper.errorDialog("Appointment cannot end after office hours.");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Le rendez-vous ne peut pas se terminer après les heures de bureau.");
+            } else {
+                Helper.errorDialog("Appointment cannot end after office hours.");
+            }
             return false;
         }
 
         // Checks that appointment isn't scheduled on a weekend
         if (appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
                 appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
-            Helper.errorDialog("Appointments cannot be scheduled on weekends to preserve everyone's sanity.");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Les rendez-vous ne peuvent pas être programmés le week-end.");
+            } else {
+                Helper.errorDialog("Appointments cannot be scheduled on weekends.");
+            }
             return false;
         } else {
             System.out.println("ELSE STATEMENT IN MAINCHECK"); // never runs
@@ -246,12 +262,10 @@ abstract public class Helper {
                 LocalDateTime apptEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
 
                 if (!overlapCheck(appointmentStart, appointmentEnd, apptStart, apptEnd, appointment.getId())) {
-                    System.out.println("OVERLAP CHECK FAILED");
                     return false;
                 }
             }
         }
-        // TODO: This is returning true even if mainCheck fails
         return true;
     }
 
@@ -282,31 +296,51 @@ abstract public class Helper {
 
         // Full overlap check
         if (appointmentStart.isBefore(apptStart) && appointmentEnd.isAfter(apptEnd)) {
-            Helper.errorDialog("Appointment overlaps with appointment " + apptId + ".");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Le rendez-vous chevauche le rendez-vous " + apptId + ".");
+            } else {
+                Helper.errorDialog("Appointment overlaps with appointment " + apptId + ".");
+            }
             return false;
         }
 
         // Partial overlap check
         else if (appointmentStart.isAfter(apptStart) && appointmentStart.isBefore(apptEnd)) {
-            Helper.errorDialog("Start of appointment overlaps with appointment " + apptId + ".");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Le début du rendez-vous chevauche le rendez-vous " + apptId + ".");
+            } else {
+                Helper.errorDialog("Start of appointment overlaps with appointment " + apptId + ".");
+            }
             return false;
         }
 
         // Partial overlap check
         else if (appointmentEnd.isAfter(apptStart) && appointmentEnd.isBefore(apptEnd)) {
-            Helper.errorDialog("End of appointment overlaps with appointment " + apptId + ".");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("La fin du rendez-vous chevauche le rendez-vous " + apptId + ".");
+            } else {
+                Helper.errorDialog("End of appointment overlaps with appointment " + apptId + ".");
+            }
             return false;
         }
 
         // Check for same start times
         else if (appointmentStart.equals(apptStart)) {
-            Helper.errorDialog("Appointment starts at the same time as appointment " + apptId + ".");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Le rendez-vous commence en même temps que le rendez-vous " + apptId + ".");
+            } else {
+                Helper.errorDialog("Appointment starts at the same time as appointment " + apptId + ".");
+            }
             return false;
         }
 
         // Check for same end times
         else if (appointmentEnd.equals(apptEnd)) {
-            Helper.errorDialog("Appointment ends at the same time as appointment " + apptId + ".");
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Le rendez-vous se termine en même temps que le rendez-vous " + apptId + ".");
+            } else {
+                Helper.errorDialog("Appointment ends at the same time as appointment " + apptId + ".");
+            }
             return false;
         } else {
             return true;
