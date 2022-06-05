@@ -566,27 +566,32 @@ public abstract class JDBC {
         return contactId;
     }
 
-    public static ObservableList<String> contactAppointmentsById(String contactID) throws SQLException {
+    /** Method to generate appointments report for all contacts
+     * @param id Contact ID
+     * @return ObservableList with contact's appointment details */
+    public static ObservableList<String> contactAppointmentsById(String id) throws SQLException {
         ObservableList<String> appointments = FXCollections.observableArrayList();
         String sql = "SELECT * FROM APPOINTMENTS WHERE Contact_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, contactID);
+        ps.setString(1, id);
         ResultSet results = ps.executeQuery();
 
         while (results.next()) {
             String appointmentId = results.getString("Appointment_ID");
             String title = results.getString("Title");
             String type = results.getString("Type");
+            String description = results.getString("Description");
             String start = results.getString("Start");
             String end = results.getString("End");
-            String customerID = results.getString("Customer_ID");
+            String customerId = results.getString("Customer_ID");
 
-            String line = "  AppointmentID: " + appointmentId + "\n";
-            line += "        Title: " + title + "\n";
-            line += "        Type: " + type + "\n";
-            line += "        Start date/time: " + start + " UTC\n";
-            line += "        End date/time: " + end + " UTC\n";
-            line += "        CustomerID: " + customerID + "\n";
+            String line = "Appointment ID: " + appointmentId + "\n";
+            line += "Title: " + title + "\n";
+            line += "Type: " + type + "\n";
+            line += "Description: " + description + "\n";
+            line += "Start date/time: " + start + " UTC\n";
+            line += "End date/time: " + end + " UTC\n";
+            line += "Customer ID: " + customerId + "\n\n";
             appointments.add(line);
         }
         return appointments;

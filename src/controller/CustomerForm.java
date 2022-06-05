@@ -227,7 +227,6 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /** Show type of report based on user's choice */
-    //         ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Customer Schedules", "Custom");
     public void handleReportButton() throws SQLException {
         String reportType = reportChoice.getValue();
         switch (reportType) {
@@ -281,11 +280,12 @@ public class CustomerForm extends Helper implements Initializable {
 
         for (String contact : contacts) {
             String contactID = String.valueOf(JDBC.getContactId(contact));
-            report += "Contact Name: " + contact + " ID: " + contactID + "\n";
+            report += "Contact Name: " + contact + " (ID: " + contactID + ")\n\n";
+            report += "---------------\n";
 
             ObservableList<String> appts = JDBC.contactAppointmentsById(contactID);
             if(appts.isEmpty()) {
-                report += "  No appointments for contact \n";
+                report += "  No appointments for contact \n\n";
             }
             for (String appt : appts) {
                 report += appt;
