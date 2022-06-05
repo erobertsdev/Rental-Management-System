@@ -9,7 +9,6 @@ import model.Customer;
 import model.Division;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.Objects;
 
 public abstract class JDBC {
@@ -565,6 +564,32 @@ public abstract class JDBC {
             contactId = rs.getInt("Contact_ID");
         }
         return contactId;
+    }
+
+    public static ObservableList<String> contactAppointmentsById(String contactID) throws SQLException {
+        ObservableList<String> appointments = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM APPOINTMENTS WHERE Contact_ID = ?";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, contactID);
+        ResultSet results = ps.executeQuery();
+
+        while (results.next()) {
+            String appointmentId = results.getString("Appointment_ID");
+            String title = results.getString("Title");
+            String type = results.getString("Type");
+            String start = results.getString("Start");
+            String end = results.getString("End");
+            String customerID = results.getString("Customer_ID");
+
+            String line = "  AppointmentID: " + appointmentId + "\n";
+            line += "        Title: " + title + "\n";
+            line += "        Type: " + type + "\n";
+            line += "        Start date/time: " + start + " UTC\n";
+            line += "        End date/time: " + end + " UTC\n";
+            line += "        CustomerID: " + customerID + "\n";
+            appointments.add(line);
+        }
+        return appointments;
     }
 
     /**

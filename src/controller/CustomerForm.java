@@ -57,6 +57,7 @@ public class CustomerForm extends Helper implements Initializable {
     // Differentiates between adding/updating for the customer and appointment editing forms
     public static boolean addingCustomer;
     public static boolean addingAppointment;
+    @FXML private ChoiceBox<String> reportChoice;
 
     public static Customer getSelectedCustomer() {
         return selectedCustomer;
@@ -225,7 +226,17 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
+    /** Show type of report based on user's choice */
+    //         ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Customer Schedules", "Custom");
     public void handleReportButton() throws SQLException {
+        String reportType = reportChoice.getValue();
+        switch (reportType) {
+            case "# of Customer Appointments by Type/Month":
+                Helper.reportDialog("Customer Appointments", "Number of Customer Appointments by Type and Month", reportTotalsByTypeAndMonth());
+                break;
+            case "Contact Schedules":
+                Helper.reportDialog("Contact Schedules", "Schedule for each contact in the organization", createContactSchedule());
+        }
         Helper.reportDialog("Test", "This is a test.", reportTotalsByTypeAndMonth());
     }
 
@@ -262,6 +273,27 @@ public class CustomerForm extends Helper implements Initializable {
         return report;
     }
 
+    /** Method to generate schedule for each contact in the organization
+     * @return String schedule for each contact in the organization */
+    public String createContactSchedule() throws SQLException {
+        String report = "";
+        ObservableList<String> contacts = JDBC.getContactNames();
+
+        for (String contact : contacts) {
+            String contactID = String.valueOf(JDBC.getContactId(contact));
+            report += "Contact Name: " + contact + " ID: " + contactID + "\n";
+
+            ObservableList<String> appts = JDBC.contactAppointmentsById(contactID);
+            if(appts.isEmpty()) {
+                report += "  No appointments for contact \n";
+            }
+            for (String appt : appts) {
+                report += appt;
+            }
+        }
+        return report;
+    }
+
     public void populateAppointments(ObservableList<Appointment> appointmentList) {
         appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         appointmentTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -289,6 +321,8 @@ public class CustomerForm extends Helper implements Initializable {
         }
         addingAppointment = false;
         addingCustomer = false;
+        ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Contact Schedules", "Custom");
+        reportChoice.setItems(reports);
         // Fill Customers Table
         try {
             customersTableview.getItems().setAll(JDBC.getCustomers());
