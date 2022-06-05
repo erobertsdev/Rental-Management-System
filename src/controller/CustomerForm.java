@@ -229,34 +229,37 @@ public class CustomerForm extends Helper implements Initializable {
         Helper.reportDialog("Test", "This is a test.", reportTotalsByTypeAndMonth());
     }
 
-    /** Total number of customer appointments by type and month report
-     * @return*/
+    // TODO: Make this run when selected from dropdown
+    /** Method to generate report with total number of customer appointments by type and month report
+     * @return String report with the number of customer appointments by type and month */
     public static String reportTotalsByTypeAndMonth() throws SQLException {
-        ObservableList<String> reportStrings = FXCollections.observableArrayList();
-        reportStrings.add("Total Number of Appointments by type and month:\n");
+        String report = "";
+        String typeStrings = "";
+        String monthStrings = "";
+        report += "Total number of customer appointments by type and month:\n";
         String type = "SELECT Type, COUNT(Type) as \"Total\" FROM appointments GROUP BY Type";
-        PreparedStatement typeSqlCommand = JDBC.connection.prepareStatement(type);
+        PreparedStatement getTypes = JDBC.connection.prepareStatement(type);
         String month = "SELECT MONTHNAME(Start) as \"Month\", COUNT(MONTH(Start)) as \"Total\" from appointments GROUP BY Month";
-        PreparedStatement monthSqlCommand = JDBC.connection.prepareStatement(month);
+        PreparedStatement getMonths = JDBC.connection.prepareStatement(month);
 
-        ResultSet typeResults = typeSqlCommand.executeQuery();
-        ResultSet monthResults = monthSqlCommand.executeQuery();
+        ResultSet typeResults = getTypes.executeQuery();
+        ResultSet monthResults = getMonths.executeQuery();
 
         while (typeResults.next()) {
-            String typeStr = "Type: " + typeResults.getString("Type") + " Count: " +
+            typeStrings = "Type: " + typeResults.getString("Type") + " Count: " +
                     typeResults.getString("Total") + "\n";
-            reportStrings.add(typeStr);
+            report += typeStrings;
         }
 
         while (monthResults.next()) {
-            String monthStr = "Month: " + monthResults.getString("Month") + " Count: " +
+            monthStrings = "Month: " + monthResults.getString("Month") + " Count: " +
                     monthResults.getString("Total") + "\n";
-            reportStrings.add(monthStr);
+            report += monthStrings;
 
         }
-        monthSqlCommand.close();
-        typeSqlCommand.close();
-        return reportStrings;
+        getMonths.close();
+        getTypes.close();
+        return report;
     }
 
     public void populateAppointments(ObservableList<Appointment> appointmentList) {

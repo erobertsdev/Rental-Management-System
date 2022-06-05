@@ -111,8 +111,8 @@ abstract public class Helper {
         Label label = new Label("Report Output:");
 
         TextArea textArea = new TextArea(reportBody);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
+        textArea.setEditable(false); // prevent people from faking reports!
+        textArea.setWrapText(false); // prevent reports from getting jumbled from wrapping
 
         textArea.setMaxWidth(Double.MAX_VALUE);
         textArea.setMaxHeight(Double.MAX_VALUE);
