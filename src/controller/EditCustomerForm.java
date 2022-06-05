@@ -86,6 +86,7 @@ public class EditCustomerForm extends Helper implements Initializable {
         }
     }
 
+    /** Method to handle cancel button being clicked */
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
         Scene scene = new Scene(parent);
