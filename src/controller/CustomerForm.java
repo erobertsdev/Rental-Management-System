@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
+import model.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,11 +23,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-import static helper.JDBC.getAppointmentsById;
+import static helper.JDBC.*;
 
 public class CustomerForm extends Helper implements Initializable {
     @FXML private TableView<Customer> customersTableview;
@@ -176,7 +179,7 @@ public class CustomerForm extends Helper implements Initializable {
             }
             // Refresh tableview
             // Throw error with deleted appointment ID and Type of appointment
-            Helper.errorDialog("Appointment ID: " + selectedAppointment.getId() + " Type: " + selectedAppointment.getType() + " successfully deleted.");
+            Helper.noticeDialog("Appointment ID: " + selectedAppointment.getId() + " \nType: " + selectedAppointment.getType() + " \nsuccessfully deleted.");
             appointmentsTableview.getItems().remove(selectedAppointment);
         }
     }
@@ -188,6 +191,20 @@ public class CustomerForm extends Helper implements Initializable {
         customersTableview.getSelectionModel().clearSelection();
         ObservableList<Appointment> myAppointments = JDBC.getUserAppointments();
         populateAppointments(myAppointments);
+    }
+
+    /** Method to check for appointments occurring within the next 15 minutes */
+    private void checkForUpcomingAppointments() throws SQLException {
+        for (Appointment appointment : JDBC.getUserAppointments()) {
+            System.out.println(Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes());
+            if (Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() <= 15 &&
+                    Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() >= 0) {
+                Helper.noticeDialog("You have an upcoming appointment:\n" + "Appointment: " + appointment.getId() + "\nStarts at: " + appointment.getStart());
+            }
+            else {
+                Helper.noticeDialog("You have no upcoming appointments.");
+            }
+        }
     }
 
     // TODO: Change these to filtered lists
@@ -203,27 +220,6 @@ public class CustomerForm extends Helper implements Initializable {
         monthRadio.setSelected(false);
         ObservableList<Appointment> appointmentsThisWeek = JDBC.getWeekAppointments();
         populateAppointments(appointmentsThisWeek);
-    }
-
-    /** Method to show noticeDialog if current user has an appointment within 15 minutes of current time */
-    // TODO: FIX THIS IT NO WORK
-    public void handleCheckForAppointment() throws SQLException {
-        // Get current time
-        LocalDateTime currentTime = LocalDateTime.now();
-        // Get current user's appointments
-        ObservableList<Appointment> userAppointments = JDBC.getUserAppointments();
-        // Loop through appointments and check if any are within 15 minutes of current time
-        for (Appointment appointment : userAppointments) {
-            LocalDateTime appointmentTime = LocalDateTime.of(appointment.getStartDate(), appointment.getStartTime());
-            if (appointmentTime.isAfter(currentTime.minusMinutes(15)) && appointmentTime.isBefore(currentTime.plusMinutes(15))) {
-                // Show noticeDialog
-                Helper.noticeDialog("You have an appointment within 15 minutes of current time.");
-                break;
-            } else {
-                Helper.noticeDialog("You have no upcoming appointments.");
-                break;
-            }
-        }
     }
 
     /** Show type of report based on user's choice */
@@ -311,13 +307,10 @@ public class CustomerForm extends Helper implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Check for appointments when user logs in
-        if (LoginForm.initialLogon) {
-            try {
-                handleCheckForAppointment();
-                LoginForm.initialLogon = false;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            checkForUpcomingAppointments();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         addingAppointment = false;
         addingCustomer = false;

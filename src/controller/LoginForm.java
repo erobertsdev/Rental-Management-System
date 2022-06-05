@@ -69,7 +69,7 @@ public class LoginForm extends Helper implements Initializable {
     /** Method to track login attempts and store them in login_activity.txt */
     private void loginTracker(boolean loggedIn) throws Exception {
         PrintWriter pw = new PrintWriter(new FileOutputStream(new File("login_activity.txt"), true));
-        pw.append("Login attempt: ").append(String.valueOf(ZonedDateTime.of(LocalDateTime.now(), Helper.getLocalTimezone()))).append("\t\tUsername: ").append(usernameTextField.getText()).append("\t\tSuccessful: ").append(String.valueOf(loggedIn)).append("\n");
+        pw.append("\nLogin attempt: ").append(String.valueOf(ZonedDateTime.of(LocalDateTime.now(), Helper.getLocalTimezone()))).append("\nUsername: ").append(usernameTextField.getText()).append("\nSuccessful: ").append(String.valueOf(loggedIn)).append("\n");
         pw.close();
     }
 

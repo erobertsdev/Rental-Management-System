@@ -100,14 +100,6 @@ abstract public class Helper {
         alert.setHeaderText(reportType);
         alert.setContentText("Click 'Show Details' to view: " + reportBlurb);
 
-        // Possibly use to label columns?
-//        Exception ex = new FileNotFoundException("Could not find file blabla.txt");
-
-// Create expandable Exception.
-//        StringWriter sw = new StringWriter();
-//        PrintWriter pw = new PrintWriter(sw);
-//        ex.printStackTrace(pw);
-
         Label label = new Label("Report Output:");
 
         TextArea textArea = new TextArea(reportBody);
@@ -211,25 +203,26 @@ abstract public class Helper {
         }
 
         // Checks that appointment start falls within office hours
-        else if (appointmentStart.toLocalTime().isBefore(openTime) ||
+        if (appointmentStart.toLocalTime().isBefore(openTime) ||
                 appointmentStart.toLocalTime().isAfter(closeTime)) {
             Helper.errorDialog("Appointment cannot start before office hours.");
             return false;
         }
 
         // Check that appointment end falls between business hours
-        else if (appointmentEnd.toLocalTime().isBefore(openTime) ||
+        if (appointmentEnd.toLocalTime().isBefore(openTime) ||
                 appointmentEnd.toLocalTime().isAfter(closeTime)) {
             Helper.errorDialog("Appointment cannot end after office hours.");
             return false;
         }
 
         // Checks that appointment isn't scheduled on a weekend
-        else if (appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
+        if (appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SATURDAY ||
                 appointmentStart.toLocalDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
-            Helper.errorDialog("Appointments cannot be scheduled on weekends.");
+            Helper.errorDialog("Appointments cannot be scheduled on weekends to preserve everyone's sanity.");
             return false;
         } else {
+            System.out.println("ELSE STATEMENT IN MAINCHECK"); // never runs
             return true;
         }
     }
@@ -240,7 +233,11 @@ abstract public class Helper {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
 
-        if (mainCheck(start, end)) {
+        if (!mainCheck(start, end)) {
+            return false;
+        }
+
+        else if (mainCheck(start, end)) {
             FilteredList<Appointment> customerAppointments = JDBC.getAppointments().filtered(
                     appointment -> appointment.getCustomer_id() == customer_id);
 
@@ -249,10 +246,12 @@ abstract public class Helper {
                 LocalDateTime apptEnd = Helper.localToEST(appointment.getEnd()).toLocalDateTime();
 
                 if (!overlapCheck(appointmentStart, appointmentEnd, apptStart, apptEnd, appointment.getId())) {
+                    System.out.println("OVERLAP CHECK FAILED");
                     return false;
                 }
             }
         }
+        // TODO: This is returning true even if mainCheck fails
         return true;
     }
 

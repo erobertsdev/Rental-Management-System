@@ -2,10 +2,12 @@ package model;
 
 public class User {
     private int Id;
+    private static String userId;
     private String userName;
 
-    public User(int id, String userName) {
+    public User(int id, String userId, String userName) {
         Id = id;
+        User.userId = userId;
         this.userName = userName;
     }
 
@@ -15,6 +17,10 @@ public class User {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public static String getCurrentId() {
+        return userId;
     }
 
     public String getUserName() {

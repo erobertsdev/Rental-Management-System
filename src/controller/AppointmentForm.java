@@ -77,7 +77,7 @@ public class AppointmentForm implements Initializable {
             // Check if adding or updating appointment
             if (!CustomerForm.addingAppointment) {
                 // Check for scheduling issues
-                passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
+                passedChecks = Helper.updateAppointmentCheck(Integer.parseInt(appointmentIdTextField.getText()), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
                 if (passedChecks) {
                     // Update appointment
                     JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
@@ -91,7 +91,7 @@ public class AppointmentForm implements Initializable {
                 }
             } else {
                 // Check for scheduling issues
-                passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue())); // TODO: THIS IS ALWAYS RETURNING TRUE
+                passedChecks = Helper.addAppointmentCheck(startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()));
                 if (passedChecks) {
                     // Add appointment to database
                     JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
