@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-// TODO: Remove FXML loader version to get rid of stupid WARNING
 public class Main extends Application {
 
     @Override

@@ -23,9 +23,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.temporal.WeekFields;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -53,6 +54,7 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, Integer> appointmentContactCol;
     @FXML private TableColumn<Appointment, Integer> appointmentCustomerCol;
     @FXML private TableColumn<Appointment, Integer> appointmentUserCol;
+    @FXML private DatePicker dateFilter;
     @FXML private RadioButton monthRadio;
     @FXML private RadioButton weekRadio;
     public static Customer selectedCustomer = null;
@@ -293,23 +295,33 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /**
-     * Retrieve appointments occurring this month and populate appointments tableview
+     * Retrieve appointments occurring in selected month
      * @throws SQLException
      */
     public void handleMonthRadio() throws SQLException {
+        Month selectedMonth = dateFilter.getValue().getMonth();
         weekRadio.setSelected(false);
-        ObservableList<Appointment> appointmentsThisMonth = JDBC.getMonthAppointments();
-        populateAppointments(appointmentsThisMonth);
+        if (selectedMonth != null) {
+            ObservableList<Appointment> appointmentsThisMonth = JDBC.getAppointments().filtered(a -> a.getStart().toLocalDateTime()
+                    .getMonth() == selectedMonth);
+            populateAppointments(appointmentsThisMonth);
+        }
     }
 
     /**
-     * Method to populate appointment tableview with appointments occurring this week
+     * Method to populate appointment tableview with appointments occurring on selected week
      * @throws SQLException
      */
     public void handleWeekRadio() throws SQLException {
+        WeekFields weekFields = WeekFields.of(Locale.US);
+        int selectedWeek = dateFilter.getValue().get(weekFields.weekOfWeekBasedYear());
         monthRadio.setSelected(false);
-        ObservableList<Appointment> appointmentsThisWeek = JDBC.getWeekAppointments();
-        populateAppointments(appointmentsThisWeek);
+        if (selectedWeek != 0) {
+            ObservableList<Appointment> appointmentsThisWeek = JDBC.getWeekAppointments().filtered(
+                    appointment -> appointment.getStart().toLocalDateTime()
+                            .get(weekFields.weekOfWeekBasedYear()) == selectedWeek);
+            populateAppointments(appointmentsThisWeek);
+        }
     }
 
     /**
@@ -433,11 +445,16 @@ public class CustomerForm extends Helper implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Check for appointments when user logs in
-        try {
-            checkForUpcomingAppointments();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (LoginForm.initialLogon) {
+            try {
+                checkForUpcomingAppointments();
+                LoginForm.initialLogon = false;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        // Set date filter to today's date
+        dateFilter.setValue(LocalDate.now());
         addingAppointment = false;
         addingCustomer = false;
         ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Contact Schedules", "User Schedules");
