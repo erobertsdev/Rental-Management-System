@@ -24,6 +24,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Contains all methods to be used when editing or adding appointments
+ */
 public class AppointmentForm implements Initializable {
 
     @FXML private TextField appointmentDescriptionTextField;

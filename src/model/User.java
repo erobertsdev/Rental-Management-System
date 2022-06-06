@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Contains all methods having to do with user model
+ */
 public class User {
     private int Id;
     private static String userId;

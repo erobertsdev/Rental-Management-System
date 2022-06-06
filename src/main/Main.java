@@ -11,6 +11,12 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * @author Elias Adams-Roberts
+ * Student ID: 000343429
+ * For WGU C195
+ * Main class for the application
+ */
 public class Main extends Application {
 
     @Override

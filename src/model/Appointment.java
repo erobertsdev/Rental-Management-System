@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * @author Elias Adams-Roberts
+ * Contains all methods having to do with appointment model
+ */
 public class Appointment {
     private int id;
     private String title;

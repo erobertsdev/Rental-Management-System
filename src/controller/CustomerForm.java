@@ -32,6 +32,9 @@ import java.util.ResourceBundle;
 
 import static helper.JDBC.*;
 
+/**
+ * Contains all methods for dealing with adding and editing customers
+ */
 public class CustomerForm extends Helper implements Initializable {
     @FXML private TableView<Customer> customersTableview;
     @FXML private TableColumn<Customer, Integer> customerIdCol;
@@ -275,7 +278,6 @@ public class CustomerForm extends Helper implements Initializable {
      */
     private void checkForUpcomingAppointments() throws SQLException {
         for (Appointment appointment : JDBC.getUserAppointments()) {
-            System.out.println(Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes());
             if (Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() <= 15 &&
                     Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() >= 0) {
                 if (LoginForm.language.equals("fr")) {

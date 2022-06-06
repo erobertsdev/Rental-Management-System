@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Contains all methods having to do with customer model
+ */
 public class Customer {
     private int id;
     private String name;

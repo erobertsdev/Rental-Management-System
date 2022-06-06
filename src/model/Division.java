@@ -2,6 +2,9 @@ package model;
 
 import java.sql.Timestamp;
 
+/**
+ * Contains all methods having to do with division model
+ */
 public class Division {
     private int divisionId;
     private String divisionName;

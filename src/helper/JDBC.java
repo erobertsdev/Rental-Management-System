@@ -8,6 +8,10 @@ import model.*;
 import java.sql.*;
 import java.util.Objects;
 
+/**
+ * @author Elias Adams-Roberts
+ * Contains all methods which interact with the database
+ */
 public abstract class JDBC {
 
     private static final String protocol = "jdbc";

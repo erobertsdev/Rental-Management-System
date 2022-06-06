@@ -20,7 +20,9 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Objects;
 
-/** Class with helper functions */
+/**
+ * Contains helpful methods such as time conversions and displaying dialogs
+ */
 abstract public class Helper {
     private static ZoneId timezone;
 

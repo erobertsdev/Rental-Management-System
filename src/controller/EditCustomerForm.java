@@ -21,6 +21,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Contains all methods to be used when editing customers
+ */
 public class EditCustomerForm extends Helper implements Initializable {
     @FXML private TextField customerIdTextField;
     @FXML private TextField customerNameTextField;

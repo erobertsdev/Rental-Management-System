@@ -24,6 +24,9 @@ import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Contains methods to be used in the login form
+ */
 public class LoginForm extends Helper implements Initializable {
     @FXML private Label zoneLabel;
     @FXML private Label usernameLabel;

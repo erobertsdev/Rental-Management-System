@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * @author Elias Adams-Roberts
+ * contains all methods having to do with contact model
+ */
 public class Contact {
     private int contactId;
     private String contactName;
