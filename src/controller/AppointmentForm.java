@@ -56,7 +56,12 @@ public class AppointmentForm implements Initializable {
                 endMinuteChoice.getValue() != null;
     }
 
-    /** Method to save appointment */
+    /**
+     * Method to handle save button being clicked, determines whether to update or add
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");
@@ -113,7 +118,11 @@ public class AppointmentForm implements Initializable {
         }
     }
 
-    /** Method to cancel appointment */
+    /**
+     * Method to handle cancel button being clicked
+     * @param event
+     * @throws IOException
+     */
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
         Scene scene = new Scene(root);

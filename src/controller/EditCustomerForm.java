@@ -41,7 +41,11 @@ public class EditCustomerForm extends Helper implements Initializable {
     }
 
     /**
-     * Sets Countries in Country combobox and retrieves and sets the 1st level data in the state combobox */
+     * Set countries in Country combobox
+     * @param event
+     * @throws IOException
+     * @throws SQLException
+     */
     public void handleSelectCountry(ActionEvent event) throws IOException, SQLException {
         int countryId = 0;
         String countryString = countryCombo.getSelectionModel().getSelectedItem();
@@ -55,7 +59,12 @@ public class EditCustomerForm extends Helper implements Initializable {
         stateCombo.setValue(null); // Clears the state if a new country is selected
     }
 
-    /** Method to add or update customer */
+    /**
+     * Add or update customer when save button is clicked
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");
@@ -86,7 +95,11 @@ public class EditCustomerForm extends Helper implements Initializable {
         }
     }
 
-    /** Method to handle cancel button being clicked */
+    /**
+     * Cancel adding/editing customer and return to customerForm
+     * @param event
+     * @throws IOException
+     */
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
         Scene scene = new Scene(parent);

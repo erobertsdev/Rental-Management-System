@@ -29,74 +29,138 @@ public class Appointment {
         this.contact_id = contact_id;
     }
 
+    /**
+     * Get appointment id
+     * @return appointment id
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Set appt id
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Get appt title
+     * @return appt title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Set appt title
+     * @param title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Get appointment description
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Set appt description
+     * @param description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Get appointment location
+     * @return location
+     */
     public String getLocation() {
         return location;
     }
 
+    /**
+     * Set appt location
+     * @param location
+     */
     public void setLocation(String location) {
         this.location = location;
     }
 
+    /**
+     * Get appointment type
+     * @return type
+     */
     public String getType() {
         return type;
     }
 
-    // Return start date of appointment
+    /**
+     * get appt start date
+     * @return start date
+     */
     public LocalDate getStartDate() {
         return start.toLocalDateTime().toLocalDate();
     }
 
-    // Return start time of appointment
+    /**
+     * Get start time of appointment
+     * @return start time
+     */
     public LocalTime getStartTime() {
         return start.toLocalDateTime().toLocalTime();
     }
 
-
+    /**
+     * Set appointment type
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Get start time of appointment
+     * @return start time
+     */
     public Timestamp getStart() {
         return start;
     }
 
-    /** Convert start Timestamp to LocalDateTime */
+    /**
+     * Convert timestamp to localdatetime
+     * @return localdatetime
+     */
     public java.time.LocalDateTime getStartLocalDateTime() {
         return start.toLocalDateTime();
     }
 
+    /**
+     * Get end time of appt
+     * @return end time
+     */
     public Timestamp getEnd() {
         return end;
     }
 
+    /**
+     * Set end time for appt
+     * @param end
+     */
     public void setEnd(Timestamp end) {
         this.end = end;
     }
 
+    /**
+     * Get customer ID for appt
+     * @return customer Id
+     */
     public int getCustomer_id() {
         return customer_id;
     }
@@ -105,6 +169,10 @@ public class Appointment {
         this.customer_id = customer_id;
     }
 
+    /**
+     * Get user Id for appt
+     * @return user id
+     */
     public int getUser_id() {
         return user_id;
     }
@@ -113,6 +181,10 @@ public class Appointment {
         this.user_id = user_id;
     }
 
+    /**
+     * Get contact Id for appt
+     * @return contact id
+     */
     public int getContact_id() {
         return contact_id;
     }

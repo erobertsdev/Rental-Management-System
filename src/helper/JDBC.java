@@ -35,6 +35,7 @@ public abstract class JDBC {
         }
     }
 
+    /** Close current connection to database */
     public static void closeConnection() {
         try {
             connection.close();
@@ -91,6 +92,7 @@ public abstract class JDBC {
 
     /**
      * Return ID of state (division) when given name
+     * @param name String
      * @return int divisionId */
     public static int stateIdFromName(String name) throws SQLException {
         int divisionId = 0;
@@ -105,6 +107,7 @@ public abstract class JDBC {
 
     /**
      * Return name of Country from Division ID
+     * @param id int
      * @return string countryName */
     public static String countryFromDivisionId(int id) throws SQLException {
       int countryId = 0;
@@ -124,7 +127,8 @@ public abstract class JDBC {
     }
 
     /***
-     * Method to delete customer from database */
+     * Method to delete customer from database
+     * @param customerId */
     public static void deleteCustomer(int customerId) throws SQLException {
         String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -134,6 +138,8 @@ public abstract class JDBC {
 
     /**
      * Method to loop through users table and look for a username/password match
+     * @param userName String
+     * @param password String
      * @return true if user/password match is found, false otherwise */
     public static boolean checkLogin(String userName, String password) throws SQLException {
         boolean match = false;
@@ -173,7 +179,8 @@ public abstract class JDBC {
     }
 
     /**
-     * Retrieve Appointments associated with Customer_ID */
+     * Retrieve Appointments associated with Customer_ID
+     * @return ObservableList divisions */
     // TODO: Might need to also add one using USER_ID instead/also
     public static ObservableList<String> getDivisionsById(String id) throws SQLException {
         String sql = "SELECT Division_ID, Division FROM first_level_divisions WHERE Country_ID=" + id;
@@ -217,7 +224,8 @@ public abstract class JDBC {
         return appointments;
     }
 
-    /** Method to retrieve all of the current user's appointments */
+    /** Method to retrieve all of the current user's appointments
+     * @return ObservableList of appointments */
     public static ObservableList<Appointment> getUserAppointments() throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE User_ID = " + getCurrentUser();
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -246,7 +254,8 @@ public abstract class JDBC {
         return appointments;
     }
 
-    /** Method to retrieve all appointments occurring this month */
+    /** Method to retrieve all appointments occurring this month
+     * @return ObservableList of appointments occurring this month */
     public static ObservableList<Appointment> getMonthAppointments() throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE MONTH(Start) = MONTH(CURRENT_DATE())";
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -275,7 +284,8 @@ public abstract class JDBC {
         return appointments;
     }
 
-    /** Method to retrieve all appointments occurring this week */
+    /** Method to retrieve all appointments occurring this week
+     * @return Observablelist of appointments happening this week */
     public static ObservableList<Appointment> getWeekAppointments() throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE WEEK(Start) = WEEK(CURRENT_DATE())";
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -305,7 +315,8 @@ public abstract class JDBC {
     }
 
     /**
-     * Retrieve Appointments associated with Customer_ID */
+     * Retrieve Appointments associated with Customer_ID
+     * @return Observablelist of appointments */
     public static ObservableList<Appointment> getAppointmentsById(String id) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID=" + id;
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
@@ -357,7 +368,8 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to delete appointment from database */
+     * Method to delete appointment from database
+     * @param appointmentId int */
     public static void deleteAppointment(int appointmentId) throws SQLException {
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -366,7 +378,8 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to retrieve all contacts from database */
+     * Method to retrieve all contacts from database
+     * @return Observablelist contacts */
     public static ObservableList<Contact> getContacts() throws SQLException {
         String sql = "SELECT * FROM CONTACTS";
         ObservableList<Contact> contacts = FXCollections.observableArrayList();
@@ -382,7 +395,8 @@ public abstract class JDBC {
         return contacts;
     }
 
-    /** Method to retrieve and return all contact names */
+    /** Method to retrieve and return all contact names
+     * @return Observablelist of contact names */
     public static ObservableList<String> getContactNames() throws SQLException {
         String sql = "SELECT Contact_Name FROM CONTACTS";
         ObservableList<String> contactNames = FXCollections.observableArrayList();
@@ -395,7 +409,8 @@ public abstract class JDBC {
         return contactNames;
     }
 
-    /** Method to retrieve and return all customer names */
+    /** Method to retrieve and return all customer names
+     * @return Observablelist of all customer names */
     public static ObservableList<String> getCustomerNames() throws SQLException {
         String sql = "SELECT Customer_Name FROM CUSTOMERS";
         ObservableList<String> customerNames = FXCollections.observableArrayList();
@@ -408,7 +423,8 @@ public abstract class JDBC {
         return customerNames;
     }
 
-    /** Method to retrieve and return all user names */
+    /** Method to retrieve and return all user names
+     * @return Observablelist of all user names */
     public static ObservableList<String> getUserNames() throws SQLException {
         String sql = "SELECT User_Name FROM USERS";
         ObservableList<String> userNames = FXCollections.observableArrayList();
@@ -421,7 +437,8 @@ public abstract class JDBC {
         return userNames;
     }
 
-    /** Method to return observable list of all users */
+    /** Method to return observable list of all users
+     * @return Observablelist of all users */
     public static ObservableList<User> getAllUsers() throws SQLException {
         String sql = "SELECT User_ID, User_Name from users";
         ObservableList<User> users = FXCollections.observableArrayList();
@@ -437,7 +454,14 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to modify existing customer */
+     * Method to modify existing customer
+     * @param customerId int
+     * @param customerName String
+     * @param address String
+     * @param postal String
+     * @param phone String
+     * @param divisionID int
+     * */
     public static void updateCustomer(int customerId, String customerName, String address, String postal,
                                       String phone, int divisionID) throws SQLException {
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
@@ -454,7 +478,11 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to add customer to database */
+     * Method to add customer to database
+     * @param customerName String
+     * @param address String
+     * @param postal String
+     * */
     public static void addCustomer(String customerName, String address, String postal,
                                    String phone, int divisionID) throws SQLException {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
@@ -471,7 +499,19 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
-    /** Method to add appointment to database */
+    /**
+     * Method to add appointment to database
+     * @param title String appointment title
+     * @param description String appt description
+     * @param location String appt location
+     * @param type String appt type
+     * @param start Timestamp appt start time
+     * @param end Timestamp appt end time
+     * @param customerId int
+     * @param userId int
+     * @param contactId int
+     * @throws SQLException
+     */
     public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
         // convert start and end time to EST
@@ -492,7 +532,20 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
-    /** Method to update appointment in database */
+    /**
+     * Method to update existing appointment in database
+     * @param appointmentId int
+     * @param title String
+     * @param description String
+     * @param location String
+     * @param type String
+     * @param start Timestamp
+     * @param end Timestamp
+     * @param customerId int
+     * @param userId int
+     * @param contactId int
+     * @throws SQLException
+     */
     public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
         // convert start and end time to EST
@@ -514,7 +567,11 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to retrieve contact name using contact id */
+     *
+     * @param contactId int
+     * @return String of contact name
+     * @throws SQLException
+     */
     public static String getContactName(int contactId) throws SQLException {
         String sql = "SELECT Contact_Name FROM CONTACTS WHERE Contact_ID = " + contactId;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -526,8 +583,12 @@ public abstract class JDBC {
         return contactName;
     }
 
-    /** 
-     * Method to retrieve customer name using customer id */
+    /**
+     *
+     * @param customerId int
+     * @return String customer name
+     * @throws SQLException
+     */
     public static String getCustomerName(int customerId) throws SQLException {
         String sql = "SELECT Customer_Name FROM CUSTOMERS WHERE Customer_ID = " + customerId;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -540,7 +601,11 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to retrieve user name using user id */
+     *
+     * @param userId int
+     * @return String of user name
+     * @throws SQLException
+     */
     public static String getUserName(int userId) throws SQLException {
         String sql = "SELECT User_Name FROM USERS WHERE User_ID = " + userId;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -553,7 +618,11 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to retrieve user id using user name */
+     *
+     * @param userName String
+     * @return String user Id
+     * @throws SQLException
+     */
     public static int getUserId(String userName) throws SQLException {
         String sql = "SELECT User_ID FROM USERS WHERE User_Name = '" + userName + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -566,7 +635,11 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to retrieve contact id using contact name */
+     *
+     * @param contactName String
+     * @return int contact Id
+     * @throws SQLException
+     */
     public static int getContactId(String contactName) throws SQLException {
         String sql = "SELECT Contact_ID FROM CONTACTS WHERE Contact_Name = '" + contactName + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -610,7 +683,11 @@ public abstract class JDBC {
     }
 
     /**
-     * Method to retrieve customer id using customer name */
+     *
+     * @param customerName String
+     * @return int customer Id
+     * @throws SQLException
+     */
     public static int getCustomerId(String customerName) throws SQLException {
         String sql = "SELECT Customer_ID FROM CUSTOMERS WHERE Customer_Name = '" + customerName + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

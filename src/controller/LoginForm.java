@@ -34,6 +34,11 @@ public class LoginForm extends Helper implements Initializable {
     public static final String language = Helper.getLanguage();
     public static boolean initialLogon = true;
 
+    /**
+     * Check username and password to login, displays error if login unsuccessful, logs all login attempts
+     * @param event
+     * @throws Exception
+     */
     @FXML private void handleLogin(ActionEvent event) throws Exception {
     final String userName = usernameTextField.getText();
     final String password = passwordTextField.getText();
@@ -66,7 +71,11 @@ public class LoginForm extends Helper implements Initializable {
         }
     }
 
-    /** Method to track login attempts and store them in login_activity.txt */
+    /**
+     * Track login attempts and store in login_activity.txt
+     * @param loggedIn
+     * @throws Exception
+     */
     private void loginTracker(boolean loggedIn) throws Exception {
         PrintWriter pw = new PrintWriter(new FileOutputStream(new File("login_activity.txt"), true));
         pw.append("\nLogin attempt: ").append(String.valueOf(ZonedDateTime.of(LocalDateTime.now(), Helper.getLocalTimezone()))).append("\nUsername: ").append(usernameTextField.getText()).append("\nSuccessful: ").append(String.valueOf(loggedIn)).append("\n");

@@ -11,6 +11,10 @@ public class User {
         this.userName = userName;
     }
 
+    /**
+     * Get user ID
+     * @return
+     */
     public int getId() {
         return Id;
     }
@@ -23,6 +27,10 @@ public class User {
         return userId;
     }
 
+    /**
+     * Get current user name
+     * @return username
+     */
     public String getUserName() {
         return userName;
     }

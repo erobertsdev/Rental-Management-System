@@ -93,7 +93,12 @@ abstract public class Helper {
         alert.showAndWait();
     }
 
-    /** Method to show reports in dialog box */
+    /**
+     * Open reports dialog
+     * @param reportType
+     * @param reportBlurb
+     * @param reportBody
+     */
     public static void reportDialog(String reportType, String reportBlurb, String reportBody) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Report");
@@ -123,20 +128,8 @@ abstract public class Helper {
     }
 
     /**
-     * Returns a Division object specified by ID
-     * @param divisionID The ID of the division object to be returned
-     * @return division
+     * Return timezone of system
      */
-    public static Division getDivision(int divisionID) throws SQLException {
-        ObservableList<Division> divisions = JDBC.getAllDivisions();
-        for (Division d : divisions) {
-            if (d.getDivisionId() == divisionID) {
-                return d;
-            }
-        }
-        return null;
-    }
-
     public static void getTimeZone() {
         timezone = ZoneId.systemDefault();
     }
@@ -149,47 +142,46 @@ abstract public class Helper {
         return timezone;
     }
 
-    /** Method to convert UTC to local time */
+    /**
+     * Convert UTC to local time
+     * @param timestamp
+     * @return timestamp local time
+     */
     public static Timestamp toLocal(Timestamp timestamp) {
         return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
                         Helper.getLocalTimezone().getId())).toLocalDateTime());
     }
 
-    /** Method to convert local time to UTC */
+    /**
+     * Convert local time to UTC
+     * @param timestamp
+     * @return timestamp UTC time
+     */
     public static Timestamp toUTC(Timestamp timestamp) {
         return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(Helper.getLocalTimezone().getId())).withZoneSameInstant(
                 ZoneId.of("UTC")).toLocalDateTime());
     }
 
-    /** Method to convert UTC to EST */
-    public static Timestamp toEST(Timestamp timestamp) {
-        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
-                ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("America/New_York")).toLocalDateTime());
-    }
-
-    /** Method to convert EST to UTC */
-    public static Timestamp estToUTC(Timestamp timestamp, String timezone) {
-        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
-                ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime());
-    }
-
-    /** Method to convert local time to EST */
+    /**
+     * Convert local time to EST
+     * @param timestamp
+     * @return
+     */
     public static Timestamp localToEST(Timestamp timestamp) {
         return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                 ZoneId.of(getLocalTimezone().getId())).withZoneSameInstant(ZoneId.of("America/New_York")).toLocalDateTime());
     }
 
-    /** Method to convert EST to local time */
-    public static Timestamp estToLocal(Timestamp timestamp, String timezone) {
-        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
-                ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of(
-                        Helper.getLocalTimezone().getId())).toLocalDateTime());
-    }
-
     /************** Methods to check for appointment conflicts when adding or updating an appointment ********************/
 
+    /**
+     * Check for appointment overlaps
+     * @param start
+     * @param end
+     * @return boolean false if overlap detected
+     */
     public static boolean mainCheck(Timestamp start, Timestamp end) {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
@@ -243,8 +235,14 @@ abstract public class Helper {
         }
     }
 
-    /** Method to check for overlaps when adding appointment
-     * @return boolean false if overlap is found */
+    /**
+     * Check for appointment overlaps when adding an appointment
+     * @param start
+     * @param end
+     * @param customer_id
+     * @return boolean false if overlap detected
+     * @throws SQLException
+     */
     public static boolean addAppointmentCheck(Timestamp start, Timestamp end, int customer_id) throws SQLException {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
@@ -269,6 +267,15 @@ abstract public class Helper {
         return true;
     }
 
+    /**
+     * Check for appointment overlaps when updating an appointment
+     * @param id
+     * @param start
+     * @param end
+     * @param customer_id
+     * @return boolean false if overlap detected
+     * @throws SQLException
+     */
     public static boolean updateAppointmentCheck(int id, Timestamp start, Timestamp end, int customer_id) throws SQLException {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
@@ -291,6 +298,15 @@ abstract public class Helper {
         return passed;
     }
 
+    /**
+     * Check for overlaps in appointments
+     * @param appointmentStart
+     * @param appointmentEnd
+     * @param apptStart
+     * @param apptEnd
+     * @param apptId
+     * @return boolean false if overlap detected
+     */
     public static boolean overlapCheck(LocalDateTime appointmentStart, LocalDateTime appointmentEnd,
                                        LocalDateTime apptStart, LocalDateTime apptEnd, int apptId) {
 
