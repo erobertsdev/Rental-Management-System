@@ -232,7 +232,6 @@ abstract public class Helper {
             }
             return false;
         } else {
-            System.out.println("ELSE STATEMENT IN MAINCHECK"); // never runs
             return true;
         }
     }

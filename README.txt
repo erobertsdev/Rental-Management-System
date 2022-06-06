@@ -21,7 +21,7 @@ Project for C195 WGU Performance Evaluation - A Scheduling Application
 
 ##Directions to Run:
 - Unzip contents of code repository to a folder of your choice
-- Download and install mysql-connector-java-8.0.29 here https://dev.mysql.com/downloads/file/?id=511553
+- Download mysql-connector-java-8.0.29 jar here https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.29 and add to project
 - Open the root folder in IDE of your choice
 - Click the run button in your IDE, (Green arrow in upper right when using IntelliJ)
 
