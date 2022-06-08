@@ -7,6 +7,7 @@ import model.*;
 
 import java.sql.*;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * @author Elias Adams-Roberts
@@ -680,8 +681,8 @@ public abstract class JDBC {
             line += "Title: " + title + "\n";
             line += "Type: " + type + "\n";
             line += "Description: " + description + "\n";
-            line += "Start date/time: " + localStart + " \n";
-            line += "End date/time: " + localEnd + " \n";
+            line += "Start date/time: " + localStart + " " + TimeZone.getDefault().getDisplayName() + "\n";
+            line += "End date/time: " + localEnd + " " + TimeZone.getDefault().getDisplayName() + "\n";
             line += "Customer ID: " + customerId + "\n\n";
             appointments.add(line);
         }
