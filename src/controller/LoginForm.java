@@ -20,9 +20,11 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 /**
  * Contains methods to be used in the login form
@@ -93,6 +95,7 @@ public class LoginForm extends Helper implements Initializable {
             passwordLabel.setText("Mot de passe");
             loginButton.setText("Connexion");
         }
-        zoneLabel.setText(Helper.getLocale().toString());
+        // Outputs TimeZone information to label
+        zoneLabel.setText("Zone ID: " + Helper.getLocalTimezone().toString() + "\nTimeZone: " + TimeZone.getDefault().getDisplayName());
     }
 }

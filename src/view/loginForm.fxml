@@ -6,13 +6,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="394.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="controller.LoginForm">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.0" prefWidth="394.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginForm">
    <children>
       <TextField fx:id="usernameTextField" layoutX="123.0" layoutY="123.0" promptText="Username" />
       <PasswordField fx:id="passwordTextField" layoutX="123.0" layoutY="193.0" promptText="Password" />
       <Label fx:id="usernameLabel" layoutX="123.0" layoutY="97.0" text="Username" />
       <Label fx:id="passwordLabel" layoutX="125.0" layoutY="168.0" text="Password" />
-      <Label fx:id="zoneLabel" layoutX="340.0" layoutY="14.0" text="Zone" />
+      <Label fx:id="zoneLabel" layoutX="14.0" layoutY="14.0" text="Zone" />
       <Button fx:id="loginButton" layoutX="307.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
    </children>
 </AnchorPane>
