@@ -84,7 +84,7 @@ public class CustomerForm extends Helper implements Initializable {
     /**
      * Checks if customer has appointments, used to determine if customer can be deleted
      * @param customerId
-     * @return
+     * @return boolean false if customer has appointments
      * @throws SQLException
      */
     public boolean checkForAppointments(int customerId) throws SQLException {
@@ -277,21 +277,26 @@ public class CustomerForm extends Helper implements Initializable {
      * @throws SQLException
      */
     private void checkForUpcomingAppointments() throws SQLException {
+        boolean hasAppointments = false;
         for (Appointment appointment : JDBC.getUserAppointments()) {
             if (Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() <= 15 &&
                     Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() >= 0) {
                 if (LoginForm.language.equals("fr")) {
                     Helper.errorDialog("Vous avez un rendez-vous à venir:\n" + "Rendez-vous: " + appointment.getId() + "\nCommence à: " + appointment.getStart());
+                    hasAppointments = true;
+                    break;
                 } else {
                     Helper.errorDialog("You have an upcoming appointment:\n" + "Appointment: " + appointment.getId() + "\nStarts at: " + appointment.getStart());
+                    hasAppointments = true;
+                    break;
                 }
             }
-            else {
-                if (LoginForm.language.equals("fr")) {
-                    Helper.errorDialog("Vous n'avez aucun rendez-vous à venir.");
-                } else {
-                    Helper.errorDialog("You have no upcoming appointments.");
-                }
+        }
+        if (!hasAppointments) {
+            if (LoginForm.language.equals("fr")) {
+                Helper.errorDialog("Vous n'avez aucun rendez-vous à venir.");
+            } else {
+                Helper.errorDialog("You have no upcoming appointments.");
             }
         }
     }
