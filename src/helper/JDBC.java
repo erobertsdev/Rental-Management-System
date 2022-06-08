@@ -670,16 +670,18 @@ public abstract class JDBC {
             String title = results.getString("Title");
             String type = results.getString("Type");
             String description = results.getString("Description");
-            String start = results.getString("Start");
-            String end = results.getString("End");
+            Timestamp start = results.getTimestamp("Start");
+            Timestamp end = results.getTimestamp("End");
             String customerId = results.getString("Customer_ID");
+            Timestamp localStart = Helper.toLocal(start);
+            Timestamp localEnd = Helper.toLocal(end);
 
             String line = "Appointment ID: " + appointmentId + "\n";
             line += "Title: " + title + "\n";
             line += "Type: " + type + "\n";
             line += "Description: " + description + "\n";
-            line += "Start date/time: " + start + " UTC\n";
-            line += "End date/time: " + end + " UTC\n";
+            line += "Start date/time: " + localStart + " \n";
+            line += "End date/time: " + localEnd + " \n";
             line += "Customer ID: " + customerId + "\n\n";
             appointments.add(line);
         }
