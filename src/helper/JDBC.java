@@ -519,7 +519,7 @@ public abstract class JDBC {
      */
     public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
-        // convert start and end time to EST
+        // convert start and end time to UTC
         start = Helper.toUTC(start);
         end = Helper.toUTC(end);
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -553,7 +553,7 @@ public abstract class JDBC {
      */
     public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
         String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
-        // convert start and end time to EST
+        // convert start and end time to UTC
         start = Helper.toUTC(start);
         end = Helper.toUTC(end);
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
