@@ -25,10 +25,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.temporal.WeekFields;
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static helper.JDBC.*;
 
@@ -302,6 +299,8 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /**
+     * LAMBDA EXPRESSION is used here to convert appointment start timestamp to a localDateTime which can then be used
+     * to check if the appointment occurs in the selected month; eliminating the need for creating a separate variable or conversion after the fact.
      * Retrieve appointments occurring in selected month
      * @throws SQLException
      */
@@ -316,6 +315,8 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /**
+     * LAMBDA EXPRESSION is used here to convert appointment start timestamp to a localDateTime which can then be used
+     * to check if the appointment occurs within the selected week; eliminating the need for creating a separate variable or conversion after the fact.
      * Method to populate appointment tableview with appointments occurring on selected week
      * @throws SQLException
      */
@@ -421,8 +422,8 @@ public class CustomerForm extends Helper implements Initializable {
                             "\nTitle: " + appointment.getTitle() +
                             "\nType: " + appointment.getType() +
                             "\nDescription: " + appointment.getDescription() +
-                            "\nStart: " + appointment.getStart() +
-                            "\nEnd: " + appointment.getEnd() +
+                            "\nStart: " + appointment.getStart() + " " + TimeZone.getDefault().getDisplayName() +
+                            "\nEnd: " + appointment.getEnd() + " " + TimeZone.getDefault().getDisplayName() +
                             "\nCustomer ID: " + appointment.getCustomer_id() + "\n";
                 }
                 report += "\n";

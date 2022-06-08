@@ -134,6 +134,10 @@ public class AppointmentForm implements Initializable {
         stage.show();
     }
 
+    /**
+     * LAMBDA EXPRESSIONS are used here to disable past dates and weekends in the datepicker when a user
+     * is adding or updating an appointment thus removing the need for separate checks to be performed
+     * to ensure the user has not added/updated the appointment to weekends or outside of business hours. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Populate Hour and minute choicebox values, filled out when updating AND adding
@@ -177,7 +181,7 @@ public class AppointmentForm implements Initializable {
             endHourChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(0,2)); // get hour
             endMinuteChoice.setValue(selectedAppointment.getEnd().toLocalDateTime().toLocalTime().toString().substring(3,5)); // get minute
 
-            /** LAMBDA EXPRESSIONS to prevent user from choosing past dates or weekends when updating an appointment */
+            /** LAMBDA EXPRESSION to prevent user from choosing past dates or weekends when updating an appointment */
             startDatePicker.setDayCellFactory(picker -> new DateCell() {
                 @Override
                 public void updateItem(LocalDate startDatePicker, boolean empty) {
@@ -210,7 +214,7 @@ public class AppointmentForm implements Initializable {
             // set combo boxes
             appointmentIdTextField.setText("Auto-Generated");
 
-            /** LAMBDA EXPRESSIONS to prevent user from choosing past dates or weekends when adding an appointment */
+            /** LAMBDA EXPRESSION to prevent user from choosing past dates or weekends when adding an appointment */
             startDatePicker.setDayCellFactory(picker -> new DateCell() {
                 @Override
                 public void updateItem(LocalDate startDatePicker, boolean empty) {
