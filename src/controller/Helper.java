@@ -150,17 +150,10 @@ abstract public class Helper {
      * @return timestamp local time
      */
     public static Timestamp toLocal(Timestamp timestamp) {
-        // Fixes bug of 2 hour difference between central and mountain, likely has to do with daylight savings
-        if (Helper.getLocalTimezone().getId().equals("America/Chicago")) {
-            return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
-                    ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
-                    Helper.getLocalTimezone().getId())).toLocalDateTime().minusHours(1));
-        } else {
             return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
                     ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
                     Helper.getLocalTimezone().getId())).toLocalDateTime());
         }
-    }
 
     /**
      * Convert local time to UTC
