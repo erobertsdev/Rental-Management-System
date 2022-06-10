@@ -218,8 +218,10 @@ public abstract class JDBC {
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
             int appointmentContact = rs.getInt("Contact_ID");
-            Timestamp start = Helper.toLocal(appointmentStart);
-            Timestamp end = Helper.toLocal(appointmentEnd);
+//            Timestamp start = Helper.toLocal(appointmentStart);
+//            Timestamp end = Helper.toLocal(appointmentEnd);
+            Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
                     end, appointmentCustomer, appointmentUser, appointmentContact);
@@ -248,8 +250,10 @@ public abstract class JDBC {
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
             int appointmentContact = rs.getInt("Contact_ID");
-            Timestamp start = Helper.toLocal(appointmentStart);
-            Timestamp end = Helper.toLocal(appointmentEnd);
+//            Timestamp start = Helper.toLocal(appointmentStart);
+//            Timestamp end = Helper.toLocal(appointmentEnd);
+            Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
                     end, appointmentCustomer, appointmentUser, appointmentContact);
@@ -308,8 +312,8 @@ public abstract class JDBC {
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
             int appointmentContact = rs.getInt("Contact_ID");
-            Timestamp start = Helper.toLocal(appointmentStart);
-            Timestamp end = Helper.toLocal(appointmentEnd);
+            Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
                     end, appointmentCustomer, appointmentUser, appointmentContact);
@@ -338,8 +342,10 @@ public abstract class JDBC {
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
-            Timestamp start = Helper.toLocal(appointmentStart);
-            Timestamp end = Helper.toLocal(appointmentEnd);
+//            Timestamp start = Helper.toLocal(appointmentStart);
+//            Timestamp end = Helper.toLocal(appointmentEnd);
+            Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
+            Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
 
             Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
             appointments.add(appointment);
@@ -674,8 +680,10 @@ public abstract class JDBC {
             Timestamp start = results.getTimestamp("Start");
             Timestamp end = results.getTimestamp("End");
             String customerId = results.getString("Customer_ID");
-            Timestamp localStart = Helper.toLocal(start);
-            Timestamp localEnd = Helper.toLocal(end);
+//            Timestamp localStart = Helper.toLocal(start);
+//            Timestamp localEnd = Helper.toLocal(end);
+            Timestamp localStart = Timestamp.valueOf(start.toLocalDateTime());
+            Timestamp localEnd = Timestamp.valueOf(end.toLocalDateTime());
 
             String line = "Appointment ID: " + appointmentId + "\n";
             line += "Title: " + title + "\n";

@@ -422,8 +422,8 @@ public class CustomerForm extends Helper implements Initializable {
                             "\nTitle: " + appointment.getTitle() +
                             "\nType: " + appointment.getType() +
                             "\nDescription: " + appointment.getDescription() +
-                            "\nStart: " + appointment.getStart() + " " + TimeZone.getDefault().getDisplayName() +
-                            "\nEnd: " + appointment.getEnd() + " " + TimeZone.getDefault().getDisplayName() +
+                            "\nStart: " + Timestamp.valueOf(appointment.getStart().toLocalDateTime()) + " " + TimeZone.getDefault().getDisplayName() +
+                            "\nEnd: " + Timestamp.valueOf(appointment.getEnd().toLocalDateTime()) + " " + TimeZone.getDefault().getDisplayName() +
                             "\nCustomer ID: " + appointment.getCustomer_id() + "\n";
                 }
                 report += "\n";
