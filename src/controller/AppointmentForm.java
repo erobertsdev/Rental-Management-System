@@ -88,11 +88,7 @@ public class AppointmentForm implements Initializable {
                     // Update appointment
                     JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                             appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                    if (LoginForm.language.equals("fr")) {
-                        Helper.errorDialog("Rendez-vous mis à jour avec succès.");
-                    } else {
-                        Helper.errorDialog("Appointment updated successfully.");
-                    }
+                    Helper.errorDialog("Appointment updated successfully.");
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -106,11 +102,7 @@ public class AppointmentForm implements Initializable {
                     // Add appointment to database
                     JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
                             appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                    if (LoginForm.language.equals("fr")) {
-                        Helper.errorDialog("Rendez-vous ajouté avec succès.");
-                    } else {
-                        Helper.errorDialog("Appointment added successfully.");
-                    }
+                    Helper.errorDialog("Appointment added successfully.");
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

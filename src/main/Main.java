@@ -6,15 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.Locale;
 import java.util.Objects;
-import java.util.ResourceBundle;
+
 
 /**
  * @author Elias Adams-Roberts
  * Student ID: 000343429
- * For WGU C195
+ * For WGU Capstone
  * Main class for the application
  */
 public class Main extends Application {
@@ -29,9 +27,6 @@ public class Main extends Application {
     public static void main(String[] args){
         JDBC.openConnection(); // Opens DB connection
 //        JDBC.closeConnection(); // Closes DB Connection
-
-        // Tests FRENCH
-//        Locale.setDefault(new Locale("fr", "CA"));
 
         launch(args);
     }
