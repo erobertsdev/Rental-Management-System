@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -23,8 +25,15 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException {
         JDBC.openConnection(); // Opens DB connection
+
+        // Add Test Products to database if none present
+        if (JDBC.getProducts().isEmpty()) {
+            JDBC.addProduct("Flywheel", 250.00);
+            JDBC.addProduct("Transmission", 500.00);
+            JDBC.addProduct("Engine", 1000.00);
+        }
 //        JDBC.closeConnection(); // Closes DB Connection
         launch(args);
     }

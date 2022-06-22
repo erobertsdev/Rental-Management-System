@@ -38,6 +38,7 @@ public class LoginForm extends Helper implements Initializable {
     @FXML private Button loginButton;
     public static final String language = Helper.getLanguage();
     public static boolean initialLogon = true;
+    public static String currentUser = "";
 
     /**
      * Check username and password to login, displays error if login unsuccessful, logs all login attempts
@@ -52,6 +53,7 @@ public class LoginForm extends Helper implements Initializable {
         // Check DB for user/pw match
         boolean match = JDBC.checkLogin(userName, password);
         if (match) {
+            currentUser = userName;
             loginTracker(true);
             Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\customerForm.fxml"))));
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -96,6 +98,6 @@ public class LoginForm extends Helper implements Initializable {
             loginButton.setText("Connexion");
         }
         // Outputs TimeZone information to label
-        zoneLabel.setText("Zone ID: " + Helper.getLocalTimezone().toString() + "\nTimeZone: " + TimeZone.getDefault().getDisplayName());
+//        zoneLabel.setText("Zone ID: " + Helper.getLocalTimezone().toString() + "\nTimeZone: " + TimeZone.getDefault().getDisplayName());
     }
 }

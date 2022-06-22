@@ -57,6 +57,7 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private DatePicker dateFilter;
     @FXML private RadioButton monthRadio;
     @FXML private RadioButton weekRadio;
+    @FXML private TextField searchTextField;
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
     // Differentiates between adding/updating for the customer and appointment editing forms
@@ -86,6 +87,37 @@ public class CustomerForm extends Helper implements Initializable {
      */
     public boolean checkForAppointments(int customerId) throws SQLException {
         return JDBC.getAppointmentsById(String.valueOf(customerId)).size() != 0;
+    }
+
+    /**
+     * Method to filter customers tableview by search term
+     */
+    public void handleSearchButton(ActionEvent event) throws IOException, SQLException {
+        // get searchTextField value
+        String searchTerm = searchTextField.getText();
+        if (searchTerm.isEmpty()) {
+            // if search term is empty, show all customers
+            // throw error if search term is empty
+            Helper.errorDialog("Please enter a search term");
+            customersTableview.setItems(JDBC.getCustomers());
+        } else {
+            // if search term is not empty, show customers that match search term
+            customersTableview.setItems(JDBC.getCustomersBySearch(searchTerm));
+        }
+    }
+
+
+    /**
+     * Method to open Sales Form when sell button is clicked
+     */
+    public void handleSellButton(ActionEvent event) throws IOException {
+        // Get selected customer info
+        selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
+        Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/salesForm.fxml")));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**

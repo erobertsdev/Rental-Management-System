@@ -177,11 +177,147 @@ public abstract class JDBC {
             int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
-            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone);
+            boolean isVIP = rs.getBoolean("Is_VIP");
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
             customers.add(customer);
         }
         return customers;
     }
+
+    /**
+     * Method to retrieve list customers whose name matches search term */
+    public static ObservableList<Customer> getCustomersBySearch(String searchTerm) throws SQLException {
+        String sql = "SELECT * FROM CUSTOMERS WHERE Customer_Name LIKE '%" + searchTerm + "%'";
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int customerId = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            int customerDivision = rs.getInt("Division_ID");
+            String customerPostal = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+            boolean isVIP = rs.getBoolean("Is_VIP");
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
+            customers.add(customer);
+        }
+        return customers;
+    }
+
+    /** Method to retrieve list of customers where Is_VIP = 1 */
+    public static ObservableList<Customer> getVIPCustomers() throws SQLException {
+        String sql = "SELECT * FROM CUSTOMERS WHERE Is_VIP = 1";
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int customerId = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            int customerDivision = rs.getInt("Division_ID");
+            String customerPostal = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+            boolean isVIP = rs.getBoolean("Is_VIP");
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
+            customers.add(customer);
+        }
+        return customers;
+    }
+
+    /** Method to retrieve list of all products */
+    public static ObservableList<Product> getProducts() throws SQLException {
+        String sql = "SELECT * FROM PRODUCTS";
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int productId = rs.getInt("Product_ID");
+            String productName = rs.getString("Name");
+            double productPrice = rs.getDouble("Price");
+            Product product = new Product(productId, productName, productPrice);
+            products.add(product);
+        }
+        return products;
+    }
+
+    /** Method to retrieve list of all product names */
+    public static ObservableList<String> getProductNames() throws SQLException {
+        String sql = "SELECT Name FROM PRODUCTS";
+        ObservableList<String> productNames = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            String productName = rs.getString("Name");
+            productNames.add(productName);
+        }
+        return productNames;
+    }
+
+    /** Method to retrieve product price using product name */
+    public static double getProductPrice(String productName) throws SQLException {
+        String sql = "SELECT Price FROM PRODUCTS WHERE Name = '" + productName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        double productPrice = 0;
+        while(rs.next()) {
+            productPrice = rs.getDouble("Price");
+        }
+        return productPrice;
+    }
+
+    /** Method to retrieve product ID using product name */
+    public static int getProductId(String productName) throws SQLException {
+        String sql = "SELECT Product_ID FROM PRODUCTS WHERE Name = '" + productName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        int productId = 0;
+        while(rs.next()) {
+            productId = rs.getInt("Product_ID");
+        }
+        return productId;
+    }
+
+    /** Method to add a new product to the database */
+    public static void addProduct(String name, double price) throws SQLException {
+        String sql = "INSERT INTO PRODUCTS (Name, Price) VALUES (?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setDouble(2, price);
+        ps.executeUpdate();
+    }
+
+    /** Method to add a sale to the database */
+    public static void addSale(double price, int customerId, int userId, int productId, String productName) throws SQLException {
+        String sql = "INSERT INTO SALES (Price, Customer_ID, User_ID, Product_ID, Product_Name) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setDouble(1, price);
+        ps.setInt(2, customerId);
+        ps.setInt(3, userId);
+        ps.setInt(4, productId);
+        ps.setString(5, productName);
+        ps.executeUpdate();
+    }
+
+    /** Retrieve list of sales by customer name */
+    public static ObservableList<Sale> getSalesByCustomer(String customerName) throws SQLException {
+        String sql = "SELECT * FROM SALES WHERE Customer_Name = '" + customerName + "'";
+        ObservableList<Sale> sales = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int saleId = rs.getInt("Sale_ID");
+            double price = rs.getDouble("Price");
+            int customerId = rs.getInt("Customer_ID");
+            int userId = rs.getInt("User_ID");
+            int productId = rs.getInt("Product_ID");
+            String productName = rs.getString("Product_Name");
+            Sale sale = new Sale(saleId, price, customerId, userId, productId, productName);
+            sales.add(sale);
+        }
+        return sales;
+    }
+
 
     /**
      * Retrieve Appointments associated with Customer_ID
@@ -217,14 +353,13 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
 //            Timestamp start = Helper.toLocal(appointmentStart);
 //            Timestamp end = Helper.toLocal(appointmentEnd);
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -249,14 +384,13 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
 //            Timestamp start = Helper.toLocal(appointmentStart);
 //            Timestamp end = Helper.toLocal(appointmentEnd);
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -281,12 +415,11 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
             Timestamp start = Helper.toLocal(appointmentStart);
             Timestamp end = Helper.toLocal(appointmentEnd);
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -311,12 +444,11 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -341,17 +473,17 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
-            int contactId = rs.getInt("Contact_ID");
 //            Timestamp start = Helper.toLocal(appointmentStart);
 //            Timestamp end = Helper.toLocal(appointmentEnd);
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
 
-            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
+            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId);
             appointments.add(appointment);
         }
         return appointments;
     }
+
 
     /**
      * Retrieve All Divisions

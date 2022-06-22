@@ -18,9 +18,8 @@ public class Appointment {
     private Timestamp end;
     private int customer_id;
     private int user_id;
-    private int contact_id;
 
-    public Appointment(int id, String title, String description, String location, String type, Timestamp start, Timestamp end, int customer_id, int user_id, int contact_id) {
+    public Appointment(int id, String title, String description, String location, String type, Timestamp start, Timestamp end, int customer_id, int user_id) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -30,7 +29,6 @@ public class Appointment {
         this.end = end;
         this.customer_id = customer_id;
         this.user_id = user_id;
-        this.contact_id = contact_id;
     }
 
     /**
@@ -185,15 +183,4 @@ public class Appointment {
         this.user_id = user_id;
     }
 
-    /**
-     * Get contact Id for appt
-     * @return contact id
-     */
-    public int getContact_id() {
-        return contact_id;
-    }
-
-    public void setContact_id(int contact_id) {
-        this.contact_id = contact_id;
-    }
 }
