@@ -9,10 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Customer;
 import model.Sale;
@@ -31,6 +29,9 @@ public class SalesForm extends Helper implements Initializable {
     @FXML private TableColumn<Sale, String> productNameCol;
     @FXML private TableColumn<Sale, Double> productPriceCol;
     @FXML private TableColumn<Sale, String> soldByCol;
+    @FXML private TableColumn<Sale, String> saleDateCol;
+    @FXML private TableColumn<Sale, Integer> saleIdCol;
+    @FXML private Button refundButton;
     @FXML private Label totalCostLabel;
 
     /** Method to add a sale to the database when the sell button is clicked */
@@ -41,16 +42,26 @@ public class SalesForm extends Helper implements Initializable {
         if (customerCombo.getValue() != null && productCombo.getValue() != null) {
             // Get current user's ID
             int userID = JDBC.getUserId(LoginForm.currentUser);
-            JDBC.addSale(JDBC.getProductPrice(productString), JDBC.getCustomerId(customerString), userID, JDBC.getProductId(productString), productString);
+            try {
+                // Add sale to database
+                JDBC.addSale(JDBC.getProductPrice(productString), JDBC.getCustomerId(customerString), userID, JDBC.getProductId(productString), productString);
+                Helper.noticeDialog("Sale added successfully!");
+                // Refresh salesTableView
+                int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
+                ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
+                populateSalesTableView(sales);
+            } catch (SQLException e) {
+                Helper.errorDialog("Error adding sale!");
+            }
         }
     }
 
     /** Get selected customer's sales and display them in the table */
     // TODO: Fix getSalesByCustomer method to return ObservableList<Sale>
     public void handleSelectCustomer(ActionEvent event) throws SQLException {
-        String customerString = (String) customerCombo.getSelectionModel().getSelectedItem();
-        ObservableList<Sale> sales = JDBC.getSalesByCustomer(customerString);
-        System.out.println(sales);
+        int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
+        ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
+        populateSalesTableView(sales);
     }
 
     // Return to customerForm when cancel button is clicked
@@ -70,14 +81,45 @@ public class SalesForm extends Helper implements Initializable {
     }
 
     // Handle refund
-    public void handleRefundButton(ActionEvent event) throws IOException {
-        System.out.println("Refund added");
+    public void handleRefundButton(ActionEvent event) throws IOException, SQLException {
+        // Get selected sale
+        Sale selectedSale = salesTableView.getSelectionModel().getSelectedItem();
+        if (selectedSale != null) {
+            // Get selected sale's ID
+            int saleId = selectedSale.getSaleID();
+            try {
+                JDBC.removeSale(saleId);
+                Helper.noticeDialog("Sale refunded successfully!");
+                // Refresh salesTableView
+                int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
+                ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
+                populateSalesTableView(sales);
+            } catch (SQLException e) {
+                Helper.errorDialog("Error removing sale! Please try again.");
+            }
+        } else {
+            Helper.errorDialog("Please select a sale to refund!");
+        }
     }
 
+    // Method to populate sales tableview with observable list of sales
+    public void populateSalesTableView(ObservableList<Sale> sales) {
+        productIDCol.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        productPriceCol.setCellValueFactory(new PropertyValueFactory<>("salePrice"));
+        soldByCol.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        saleDateCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
+        saleIdCol.setCellValueFactory(new PropertyValueFactory<>("saleID"));
+        salesTableView.setItems(sales);
+    }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Refund button only visible if user is admin
+        if (!LoginForm.currentUser.equals("admin")) {
+            refundButton.setVisible(false);
+        }
         ObservableList<String> customerNames = null;
         ObservableList<String> productNames = null;
         try {

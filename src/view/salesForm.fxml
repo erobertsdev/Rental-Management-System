@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesForm">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesForm">
    <children>
       <Label layoutX="45.0" layoutY="20.0" text="Sales Form">
          <font>
@@ -19,19 +19,21 @@
       <ComboBox fx:id="productCombo" layoutX="32.0" layoutY="189.0" onAction="#handleSelectProduct" prefWidth="150.0" />
       <Label layoutX="32.0" layoutY="100.0" text="Customer" />
       <ComboBox fx:id="customerCombo" layoutX="32.0" layoutY="123.0" onAction="#handleSelectCustomer" prefWidth="150.0" />
-      <Button fx:id="sellButton" layoutX="32.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleSellButton" text="Sell" />
-      <Button fx:id="cancelButton" cancelButton="true" layoutX="130.0" layoutY="274.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
-      <TableView fx:id="salesTableView" layoutX="219.0" layoutY="45.0" prefHeight="261.0" prefWidth="437.0">
+      <Button fx:id="sellButton" layoutX="86.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleSellButton" text="Save" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="745.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Exit" />
+      <TableView fx:id="salesTableView" layoutX="219.0" layoutY="45.0" prefHeight="261.0" prefWidth="561.0">
         <columns>
-          <TableColumn fx:id="productIDCol" prefWidth="51.0" text="Product ID" />
-          <TableColumn fx:id="productNameCol" prefWidth="170.0" text="Product Name" />
-            <TableColumn fx:id="productPriceCol" prefWidth="89.0" text="Price" />
-            <TableColumn fx:id="soldByCol" prefWidth="126.0" text="Sold By" />
+          <TableColumn fx:id="productIDCol" prefWidth="97.0" text="Product ID" />
+          <TableColumn fx:id="productNameCol" prefWidth="124.0" text="Product Name" />
+            <TableColumn fx:id="productPriceCol" prefWidth="128.0" text="Price" />
+            <TableColumn fx:id="soldByCol" prefWidth="67.0" text="Sold By" />
+            <TableColumn fx:id="saleDateCol" prefWidth="83.0" text="Sale Date" />
+            <TableColumn fx:id="saleIdCol" prefWidth="75.0" text="Sale ID" />
         </columns>
       </TableView>
       <Label layoutX="219.0" layoutY="20.0" text="Select a customer to view their previous sales:" />
-      <Button fx:id="refundButton" layoutX="398.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleRefundButton" text="Refund Sale" />
-      <Label layoutX="56.0" layoutY="72.0" text="Perform a Sale:">
+      <Button fx:id="refundButton" layoutX="460.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleRefundButton" text="Refund Sale" />
+      <Label layoutX="60.0" layoutY="70.0" text="Record a Sale:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

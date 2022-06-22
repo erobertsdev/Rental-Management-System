@@ -74,7 +74,6 @@ public class LoginForm extends Helper implements Initializable {
         } else {
             Helper.errorDialog("Username and password are required.");
         }
-
         }
     }
 

@@ -311,11 +311,11 @@ public class CustomerForm extends Helper implements Initializable {
             if (Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() <= 15 &&
                     Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() >= 0) {
                 if (LoginForm.language.equals("fr")) {
-                    Helper.errorDialog("Vous avez un rendez-vous à venir:\n" + "Rendez-vous: " + appointment.getId() + "\nCommence à: " + appointment.getStart());
+                    Helper.noticeDialog("Vous avez un rendez-vous à venir:\n" + "Rendez-vous: " + appointment.getId() + "\nCommence à: " + appointment.getStart());
                     hasAppointments = true;
                     break;
                 } else {
-                    Helper.errorDialog("You have an upcoming appointment:\n" + "Appointment: " + appointment.getId() + "\nStarts at: " + appointment.getStart());
+                    Helper.noticeDialog("You have an upcoming appointment:\n" + "Appointment: " + appointment.getId() + "\nStarts at: " + appointment.getStart());
                     hasAppointments = true;
                     break;
                 }
@@ -476,7 +476,6 @@ public class CustomerForm extends Helper implements Initializable {
         appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
         appointmentStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
         appointmentEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-        appointmentContactCol.setCellValueFactory(new PropertyValueFactory<>("contact_id"));
         appointmentCustomerCol.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
         appointmentUserCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
         appointmentsTableview.setItems(appointmentList);
@@ -533,7 +532,6 @@ public class CustomerForm extends Helper implements Initializable {
                             appointmentTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
                             appointmentStartCol.setCellValueFactory(new PropertyValueFactory<>("start"));
                             appointmentEndCol.setCellValueFactory(new PropertyValueFactory<>("end"));
-                            appointmentContactCol.setCellValueFactory(new PropertyValueFactory<>("contact_id"));
                             appointmentCustomerCol.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
                             appointmentUserCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
                         } catch (SQLException e) {

@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Timestamp;
+
 public class Sale {
     private int saleID;
     private double salePrice;
@@ -7,14 +9,16 @@ public class Sale {
     private int userID;
     private int productID;
     private String productName;
+    private Timestamp saleDate;
 
-    public Sale(int saleID, double salePrice, int customerID, int userID, int productID, String productName) {
+    public Sale(int saleID, double salePrice, int customerID, int userID, int productID, String productName, Timestamp saleDate) {
         this.saleID = saleID;
         this.salePrice = salePrice;
         this.customerID = customerID;
         this.userID = userID;
         this.productID = productID;
         this.productName = productName;
+        this.saleDate = saleDate;
     }
 
     public int getSaleID() {
@@ -63,5 +67,13 @@ public class Sale {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public Timestamp getSaleDate() {
+        return saleDate;
+    }
+
+    public void setSaleDate(Timestamp saleDate) {
+        this.saleDate = saleDate;
     }
 }

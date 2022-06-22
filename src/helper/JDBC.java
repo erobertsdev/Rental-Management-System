@@ -289,7 +289,7 @@ public abstract class JDBC {
 
     /** Method to add a sale to the database */
     public static void addSale(double price, int customerId, int userId, int productId, String productName) throws SQLException {
-        String sql = "INSERT INTO SALES (Price, Customer_ID, User_ID, Product_ID, Product_Name) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO SALES (Price, Customer_ID, User_ID, Product_ID, Product_Name, Sale_Date) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setDouble(1, price);
         ps.setInt(2, customerId);
@@ -299,9 +299,16 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
+    /** Method to remove a sale from the database */
+    public static void removeSale(int saleId) throws SQLException {
+        String sql = "DELETE FROM SALES WHERE Sale_ID = " + saleId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
     /** Retrieve list of sales by customer name */
-    public static ObservableList<Sale> getSalesByCustomer(String customerName) throws SQLException {
-        String sql = "SELECT * FROM SALES WHERE Customer_Name = '" + customerName + "'";
+    public static ObservableList<Sale> getSalesByCustomerId(int id) throws SQLException {
+        String sql = "SELECT * FROM SALES WHERE Customer_ID = " + id;
         ObservableList<Sale> sales = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
@@ -312,7 +319,8 @@ public abstract class JDBC {
             int userId = rs.getInt("User_ID");
             int productId = rs.getInt("Product_ID");
             String productName = rs.getString("Product_Name");
-            Sale sale = new Sale(saleId, price, customerId, userId, productId, productName);
+            Timestamp saleDate = rs.getTimestamp("Sale_Date");
+            Sale sale = new Sale(saleId, price, customerId, userId, productId, productName, saleDate);
             sales.add(sale);
         }
         return sales;
