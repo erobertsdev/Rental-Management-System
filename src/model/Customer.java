@@ -10,9 +10,9 @@ public class Customer {
     private int division;
     private String postalCode;
     private String phoneNumber;
-    private boolean isVIP;
+    private String isVIP;
 
-    public Customer(int id, String name, String address, int division, String postalCode, String phoneNumber, boolean isVIP) {
+    public Customer(int id, String name, String address, int division, String postalCode, String phoneNumber, String isVIP) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -70,5 +70,5 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean getIsVIP() { return isVIP; }
+    public String getIsVIP() { return isVIP; }
 }

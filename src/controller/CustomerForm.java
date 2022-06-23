@@ -1,6 +1,8 @@
 package controller;
 
 import helper.JDBC;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.Appointment;
 import model.Customer;
 import model.User;
@@ -40,6 +43,7 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Customer, Integer> customerDivisionCol;
     @FXML private TableColumn<Customer, String> customerPostalCol;
     @FXML private TableColumn<Customer, String> customerPhoneCol;
+    @FXML private TableColumn<Customer, Boolean> customerVIPCol;
     @FXML private Button editCustomerButton;
     @FXML private Button addCustomerButton;
     @FXML private Button deleteCustomerButton;
@@ -51,7 +55,6 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Appointment, String> appointmentTypeCol;
     @FXML private TableColumn<Appointment, Timestamp> appointmentStartCol;
     @FXML private TableColumn<Appointment, Timestamp> appointmentEndCol;
-    @FXML private TableColumn<Appointment, Integer> appointmentContactCol;
     @FXML private TableColumn<Appointment, Integer> appointmentCustomerCol;
     @FXML private TableColumn<Appointment, Integer> appointmentUserCol;
     @FXML private DatePicker dateFilter;
@@ -301,6 +304,15 @@ public class CustomerForm extends Helper implements Initializable {
         populateAppointments(myAppointments);
     }
 
+    /** Method to populate customer tableview with only VIP customers */
+//    public void handleVIPCustomers() throws SQLException {
+//        weekRadio.setSelected(false);
+//        monthRadio.setSelected(false);
+//        customersTableview.getSelectionModel().clearSelection();
+//        ObservableList<Customer> VIPCustomers = JDBC.getVIPCustomers();
+//        populateCustomers(VIPCustomers);
+//    }
+
     /**
      * Method to check if user has appointments within 15 minutes
      * @throws SQLException
@@ -323,9 +335,9 @@ public class CustomerForm extends Helper implements Initializable {
         }
         if (!hasAppointments) {
             if (LoginForm.language.equals("fr")) {
-                Helper.errorDialog("Vous n'avez aucun rendez-vous à venir.");
+                Helper.noticeDialog("Vous n'avez aucun rendez-vous à venir.");
             } else {
-                Helper.errorDialog("You have no upcoming appointments.");
+                Helper.noticeDialog("You have no upcoming appointments.");
             }
         }
     }
@@ -481,6 +493,22 @@ public class CustomerForm extends Helper implements Initializable {
         appointmentsTableview.setItems(appointmentList);
     }
 
+    /**
+     * Populates customers tableview
+     * @param customerList customers to be listed
+     *
+     */
+    public void populateCustomers(ObservableList<Customer> customerList) {
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        customerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
+        customerPostalCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
+        customerPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customerVIPCol.setCellValueFactory(new PropertyValueFactory<>("isVIP"));
+        customersTableview.setItems(customerList);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Check for appointments when user logs in
@@ -507,6 +535,7 @@ public class CustomerForm extends Helper implements Initializable {
             customerDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
             customerPostalCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
             customerPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+            customerVIPCol.setCellValueFactory(new PropertyValueFactory<>("isVIP"));
             customersTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
             customersTableview.setItems(JDBC.getCustomers());
             

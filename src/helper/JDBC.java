@@ -177,7 +177,7 @@ public abstract class JDBC {
             int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
-            boolean isVIP = rs.getBoolean("Is_VIP");
+            String isVIP = rs.getString("is_VIP");
             Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
             customers.add(customer);
         }
@@ -198,7 +198,7 @@ public abstract class JDBC {
             int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
-            boolean isVIP = rs.getBoolean("Is_VIP");
+            String isVIP = rs.getString("is_VIP");
             Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
             customers.add(customer);
         }
@@ -207,7 +207,7 @@ public abstract class JDBC {
 
     /** Method to retrieve list of customers where Is_VIP = 1 */
     public static ObservableList<Customer> getVIPCustomers() throws SQLException {
-        String sql = "SELECT * FROM CUSTOMERS WHERE Is_VIP = 1";
+        String sql = "SELECT * FROM CUSTOMERS WHERE is_VIP = 'Yes'";
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
@@ -218,11 +218,23 @@ public abstract class JDBC {
             int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
-            boolean isVIP = rs.getBoolean("Is_VIP");
+            String isVIP = rs.getString("is_VIP");
             Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
             customers.add(customer);
         }
         return customers;
+    }
+
+    /** Method to retrieve VIP status of customer using customer ID */
+    public static String getVIPStatus(int customerId) throws SQLException {
+        String sql = "SELECT Is_VIP FROM CUSTOMERS WHERE Customer_ID = " + customerId;
+        String VIP = null;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            VIP = rs.getString("is_VIP");
+        }
+        return VIP;
     }
 
     /** Method to retrieve list of all products */
@@ -614,9 +626,9 @@ public abstract class JDBC {
      * @param divisionID int
      * */
     public static void updateCustomer(int customerId, String customerName, String address, String postal,
-                                      String phone, int divisionID) throws SQLException {
+                                      String phone, int divisionID, String isVIP) throws SQLException {
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
-                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ? WHERE Customer_ID = ?";
+                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ?, is_VIP = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);
@@ -625,6 +637,7 @@ public abstract class JDBC {
         ps.setInt(5, getCurrentUser());
         ps.setInt(6, divisionID);
         ps.setInt(7, customerId);
+        ps.setString(8, isVIP);
         ps.executeUpdate();
     }
 
@@ -635,10 +648,10 @@ public abstract class JDBC {
      * @param postal String
      * */
     public static void addCustomer(String customerName, String address, String postal,
-                                   String phone, int divisionID) throws SQLException {
+                                   String phone, int divisionID, String isVIP) throws SQLException {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
-                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
-                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
+                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP)"+
+                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?,?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);
@@ -647,6 +660,7 @@ public abstract class JDBC {
         ps.setString(5, getCurrentUserName(currentUser));
         ps.setInt(6, getCurrentUser());
         ps.setInt(7, divisionID);
+        ps.setString(8, isVIP);
         ps.executeUpdate();
     }
 

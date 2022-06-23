@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Customer;
@@ -32,6 +33,8 @@ public class EditCustomerForm extends Helper implements Initializable {
     @FXML private TextField customerPostalTextField;
     @FXML private ComboBox<String> countryCombo;
     @FXML private ComboBox<String> stateCombo;
+    @FXML private ComboBox<String> VIPCombo;
+    @FXML private Label VIPLabel;
     public ObservableList<String> countryNames;
     private Customer selectedCustomer = CustomerForm.getSelectedCustomer();
 
@@ -40,7 +43,7 @@ public class EditCustomerForm extends Helper implements Initializable {
      * @return boolean false if there are empty inputs */
     public boolean checkInputs() {
         return !customerNameTextField.getText().isEmpty() && !customerStreetTextField.getText().isEmpty() && !customerPhoneTextField.getText().isEmpty() &&
-                !customerPostalTextField.getText().isEmpty() && countryCombo.getValue() != null && stateCombo.getValue() != null;
+                !customerPostalTextField.getText().isEmpty() && countryCombo.getValue() != null && stateCombo.getValue() != null && VIPCombo.getValue() != null;
     }
 
     /**
@@ -74,7 +77,7 @@ public class EditCustomerForm extends Helper implements Initializable {
         } else {
             if (!CustomerForm.addingCustomer) {
                 JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
-                        customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+                        customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()), VIPCombo.getValue());
                 // Return to customer screen
                 Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                 Scene scene = new Scene(parent);
@@ -83,9 +86,8 @@ public class EditCustomerForm extends Helper implements Initializable {
                 stage.show();
             } else {
                 // Add customer to DB
-                // TODO: Change Created_By from int to currentUser name
                 JDBC.addCustomer(customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
-                        customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()));
+                        customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()), VIPCombo.getValue());
                 CustomerForm.addingCustomer = false;
                 selectedCustomer = null;
                 // Return to customer screen
@@ -116,13 +118,16 @@ public class EditCustomerForm extends Helper implements Initializable {
         if (selectedCustomer != null) {
             String customerState = null;
             String customerCountry = null;
+            String customerVIP = null;
             try {
                 customerState = JDBC.stateNameFromId(selectedCustomer.getDivision());
                 customerCountry = JDBC.countryFromDivisionId(selectedCustomer.getDivision());
+                customerVIP = JDBC.getVIPStatus(selectedCustomer.getId());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
+            ObservableList<String> vipStatus = FXCollections.observableArrayList("No", "Yes");
             countryCombo.setItems(countries);
             customerIdTextField.setText(Integer.toString(selectedCustomer.getId()));
             customerNameTextField.setText(selectedCustomer.getName());
@@ -131,9 +136,18 @@ public class EditCustomerForm extends Helper implements Initializable {
             customerPostalTextField.setText(selectedCustomer.getPostalCode());
             countryCombo.setItems(countries);
             countryCombo.setValue(customerCountry);
+            VIPCombo.setItems(vipStatus);
+            VIPCombo.setValue(customerVIP);
             stateCombo.setValue(customerState);
+            // Disable VIP combo box if user is not admin
+            if (!LoginForm.currentUser.equals("admin")) {
+                VIPCombo.setDisable(true);
+                VIPLabel.setText("VIP (Admin only)");
+            }
         } else {
             customerIdTextField.setText("Auto-Generated");
+            ObservableList<String> vipStatus = FXCollections.observableArrayList("No", "Yes");
+            VIPCombo.setItems(vipStatus);
             ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
             countryCombo.setItems(countries);
         }
