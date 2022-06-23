@@ -129,6 +129,7 @@ public class CustomerForm extends Helper implements Initializable {
      * @throws IOException
      */
     public void handleEditCustomer(ActionEvent event) throws IOException {
+        addingCustomer = false;
         try {
             // Throw error if no customer selected
             if (customersTableview.getSelectionModel().getSelectedItem() == null) {
@@ -305,13 +306,13 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /** Method to populate customer tableview with only VIP customers */
-//    public void handleVIPCustomers() throws SQLException {
-//        weekRadio.setSelected(false);
-//        monthRadio.setSelected(false);
-//        customersTableview.getSelectionModel().clearSelection();
-//        ObservableList<Customer> VIPCustomers = JDBC.getVIPCustomers();
-//        populateCustomers(VIPCustomers);
-//    }
+    public void handleVIPCustomers() throws SQLException {
+        weekRadio.setSelected(false);
+        monthRadio.setSelected(false);
+        customersTableview.getSelectionModel().clearSelection();
+        ObservableList<Customer> VIPCustomers = JDBC.getVIPCustomers();
+        populateCustomers(VIPCustomers);
+    }
 
     /**
      * Method to check if user has appointments within 15 minutes

@@ -9,20 +9,20 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="231.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCustomerForm">
    <children>
-      <Label layoutX="41.0" layoutY="114.0" text="Customer ID" />
-      <TextField fx:id="customerIdTextField" disable="true" layoutX="41.0" layoutY="131.0" />
-      <Label layoutX="41.0" layoutY="162.0" text="Customer Name" />
-      <TextField fx:id="customerNameTextField" layoutX="41.0" layoutY="179.0" />
-      <Label layoutX="41.0" layoutY="216.0" text="Phone Number" />
-      <TextField fx:id="customerPhoneTextField" layoutX="41.0" layoutY="233.0" />
-      <Label layoutX="42.0" layoutY="268.0" text="Street Address" />
-      <TextField fx:id="customerStreetTextField" layoutX="42.0" layoutY="285.0" />
-      <Label layoutX="42.0" layoutY="317.0" text="Postal Code" />
-      <TextField fx:id="customerPostalTextField" layoutX="42.0" layoutY="334.0" />
-      <ComboBox fx:id="countryCombo" layoutX="41.0" layoutY="392.0" onAction="#handleSelectCountry" prefWidth="150.0" />
-      <Label layoutX="41.0" layoutY="375.0" text="Country" />
-      <ComboBox fx:id="stateCombo" layoutX="41.0" layoutY="446.0" prefWidth="150.0" />
-      <Label layoutX="41.0" layoutY="429.0" text="State/Division" />
+      <Label layoutX="41.0" layoutY="62.0" text="Customer ID" />
+      <TextField fx:id="customerIdTextField" disable="true" layoutX="41.0" layoutY="79.0" />
+      <Label layoutX="41.0" layoutY="110.0" text="Customer Name" />
+      <TextField fx:id="customerNameTextField" layoutX="41.0" layoutY="127.0" />
+      <Label layoutX="41.0" layoutY="164.0" text="Phone Number" />
+      <TextField fx:id="customerPhoneTextField" layoutX="41.0" layoutY="181.0" />
+      <Label layoutX="42.0" layoutY="216.0" text="Street Address" />
+      <TextField fx:id="customerStreetTextField" layoutX="42.0" layoutY="233.0" />
+      <Label layoutX="42.0" layoutY="265.0" text="Postal Code" />
+      <TextField fx:id="customerPostalTextField" layoutX="42.0" layoutY="282.0" />
+      <ComboBox fx:id="countryCombo" layoutX="41.0" layoutY="340.0" onAction="#handleSelectCountry" prefWidth="150.0" />
+      <Label layoutX="41.0" layoutY="323.0" text="Country" />
+      <ComboBox fx:id="stateCombo" layoutX="41.0" layoutY="394.0" prefWidth="150.0" />
+      <Label layoutX="41.0" layoutY="377.0" text="State/Division" />
       <Button fx:id="saveButton" layoutX="39.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
       <Button fx:id="cancelButton" layoutX="140.0" layoutY="486.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
       <Label layoutX="16.0" layoutY="20.0" text="Add/Edit Customer">
@@ -30,5 +30,7 @@
             <Font name="System Bold" size="22.0" />
          </font>
       </Label>
+      <Label fx:id="VIPLabel" layoutX="39.0" layoutY="428.0" text="VIP" />
+      <ComboBox fx:id="VIPCombo" layoutX="40.0" layoutY="445.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

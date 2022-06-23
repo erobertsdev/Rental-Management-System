@@ -115,7 +115,7 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (selectedCustomer != null) {
+        if (selectedCustomer != null && !CustomerForm.addingCustomer) {
             String customerState = null;
             String customerCountry = null;
             String customerVIP = null;

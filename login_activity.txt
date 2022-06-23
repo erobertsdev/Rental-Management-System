@@ -430,3 +430,19 @@ Successful: true
 Login attempt: 2022-06-23T12:49:37.180036600-06:00[America/Denver]
 Username: admin
 Successful: true
+
+Login attempt: 2022-06-23T12:54:34.266826900-06:00[America/Denver]
+Username: user
+Successful: true
+
+Login attempt: 2022-06-23T12:55:15.049168500-06:00[America/Denver]
+Username: user
+Successful: true
+
+Login attempt: 2022-06-23T12:57:41.785013900-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-23T12:57:54.345781900-06:00[America/Denver]
+Username: user
+Successful: true
