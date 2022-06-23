@@ -1,36 +1,38 @@
 package controller;
 
 import helper.JDBC;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Appointment;
 import model.Customer;
 import model.User;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.*;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.temporal.WeekFields;
-import java.util.*;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.TimeZone;
 
-import static helper.JDBC.*;
+import static helper.JDBC.getAppointmentsById;
 
 /**
  * Contains all methods for dealing with adding and editing customers
@@ -44,9 +46,8 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private TableColumn<Customer, String> customerPostalCol;
     @FXML private TableColumn<Customer, String> customerPhoneCol;
     @FXML private TableColumn<Customer, Boolean> customerVIPCol;
-    @FXML private Button editCustomerButton;
-    @FXML private Button addCustomerButton;
     @FXML private Button deleteCustomerButton;
+    @FXML private Button deleteAppointmentButton;
     @FXML private TableView<Appointment> appointmentsTableview;
     @FXML private TableColumn<Appointment, Integer> appointmentIdCol;
     @FXML private TableColumn<Appointment, String> appointmentTitleCol;
@@ -328,13 +329,11 @@ public class CustomerForm extends Helper implements Initializable {
                     Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() >= 0) {
                 if (LoginForm.language.equals("fr")) {
                     Helper.noticeDialog("Vous avez un rendez-vous à venir:\n" + "Rendez-vous: " + appointment.getId() + "\nCommence à: " + appointment.getStart());
-                    hasAppointments = true;
-                    break;
                 } else {
                     Helper.noticeDialog("You have an upcoming appointment:\n" + "Appointment: " + appointment.getId() + "\nStarts at: " + appointment.getStart());
-                    hasAppointments = true;
-                    break;
                 }
+                hasAppointments = true;
+                break;
             }
         }
         if (!hasAppointments) {
@@ -523,6 +522,11 @@ public class CustomerForm extends Helper implements Initializable {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+        // Disable delete customer button if user is not admin
+        if (!LoginForm.currentUser.equals("admin")) {
+            deleteCustomerButton.setDisable(true);
+            deleteAppointmentButton.setDisable(true);
         }
         // Set date filter to today's date
         dateFilter.setValue(LocalDate.now());

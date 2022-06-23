@@ -118,7 +118,8 @@ public class SalesForm extends Helper implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Refund button only visible if user is admin
         if (!LoginForm.currentUser.equals("admin")) {
-            refundButton.setVisible(false);
+            // disable refund button
+            refundButton.setDisable(true);
         }
         ObservableList<String> customerNames = null;
         ObservableList<String> productNames = null;
