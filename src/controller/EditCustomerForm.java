@@ -123,6 +123,9 @@ public class EditCustomerForm extends Helper implements Initializable {
                 customerState = JDBC.stateNameFromId(selectedCustomer.getDivision());
                 customerCountry = JDBC.countryFromDivisionId(selectedCustomer.getDivision());
                 customerVIP = JDBC.getVIPStatus(selectedCustomer.getId());
+                if (customerVIP.equals("Yes")) {
+                    Helper.noticeDialog("This customer is a VIP. Ensure any changes are correct before saving.");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
