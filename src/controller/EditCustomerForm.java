@@ -148,6 +148,11 @@ public class EditCustomerForm extends Helper implements Initializable {
             customerIdTextField.setText("Auto-Generated");
             ObservableList<String> vipStatus = FXCollections.observableArrayList("No", "Yes");
             VIPCombo.setItems(vipStatus);
+            VIPCombo.setValue("No");
+            if (!LoginForm.currentUser.equals("admin")) {
+                VIPCombo.setDisable(true);
+                VIPLabel.setText("VIP (Admin only)");
+            }
             ObservableList<String> countries = FXCollections.observableArrayList("U.S", "UK", "Canada");
             countryCombo.setItems(countries);
         }

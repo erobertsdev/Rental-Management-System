@@ -624,7 +624,7 @@ public abstract class JDBC {
      * @param postal String
      * @param phone String
      * @param divisionID int
-     * */
+     * */ // TODO: FIX isVIP error
     public static void updateCustomer(int customerId, String customerName, String address, String postal,
                                       String phone, int divisionID, String isVIP) throws SQLException {
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
@@ -636,8 +636,9 @@ public abstract class JDBC {
         ps.setString(4, phone);
         ps.setInt(5, getCurrentUser());
         ps.setInt(6, divisionID);
-        ps.setInt(7, customerId);
-        ps.setString(8, isVIP);
+        ps.setString(7, isVIP);
+        ps.setInt(8, customerId);
+
         ps.executeUpdate();
     }
 
