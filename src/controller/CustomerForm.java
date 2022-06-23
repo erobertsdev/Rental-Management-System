@@ -60,6 +60,7 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private DatePicker dateFilter;
     @FXML private RadioButton monthRadio;
     @FXML private RadioButton weekRadio;
+    @FXML private CheckBox vipCheckBox;
     @FXML private TextField searchTextField;
     public static Customer selectedCustomer = null;
     public static Appointment selectedAppointment = null;
@@ -306,12 +307,14 @@ public class CustomerForm extends Helper implements Initializable {
     }
 
     /** Method to populate customer tableview with only VIP customers */
-    public void handleVIPCustomers() throws SQLException {
-        weekRadio.setSelected(false);
-        monthRadio.setSelected(false);
-        customersTableview.getSelectionModel().clearSelection();
-        ObservableList<Customer> VIPCustomers = JDBC.getVIPCustomers();
-        populateCustomers(VIPCustomers);
+    public void handleVIPCheckBox() throws SQLException {
+        if (vipCheckBox.isSelected()) {
+            ObservableList<Customer> vipCustomers = JDBC.getVIPCustomers();
+            populateCustomers(vipCustomers);
+        } else {
+            ObservableList<Customer> allCustomers = JDBC.getCustomers();
+            populateCustomers(allCustomers);
+        }
     }
 
     /**
@@ -504,8 +507,8 @@ public class CustomerForm extends Helper implements Initializable {
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         customerAddressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
         customerDivisionCol.setCellValueFactory(new PropertyValueFactory<>("division"));
-        customerPostalCol.setCellValueFactory(new PropertyValueFactory<>("postal"));
-        customerPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customerPostalCol.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerPhoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         customerVIPCol.setCellValueFactory(new PropertyValueFactory<>("isVIP"));
         customersTableview.setItems(customerList);
     }

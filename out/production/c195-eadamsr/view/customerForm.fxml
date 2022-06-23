@@ -54,7 +54,7 @@
       <Button fx:id="editAppointmentButton" layoutX="752.0" layoutY="672.0" mnemonicParsing="false" onAction="#handleEditAppointment" text="Edit" />
       <Button fx:id="addAppointmentButton" layoutX="818.0" layoutY="672.0" mnemonicParsing="false" onAction="#handleAddAppointment" text="Add" />
       <Button fx:id="deleteAppointmentButton" layoutX="884.0" layoutY="672.0" mnemonicParsing="false" onAction="#handleDeleteAppointment" text="Delete" />
-      <Label fx:id="customerInstructionsLabel" layoutX="46.0" layoutY="252.0" text="Select a customer to show their appointments." />
+      <Label fx:id="customerInstructionsLabel" layoutX="178.0" layoutY="23.0" text="Select a customer to show their appointments." />
       <Label layoutX="335.0" layoutY="352.0" text="Select date to filter appointments:" />
       <RadioButton fx:id="monthRadio" layoutX="728.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleMonthRadio" text="Selected Month" />
       <RadioButton fx:id="weekRadio" layoutX="842.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleWeekRadio" text="Selected Week" />
@@ -67,7 +67,7 @@
       <ChoiceBox fx:id="reportChoice" layoutX="47.0" layoutY="705.0" prefWidth="150.0" />
       <Button fx:id="reportButton" layoutX="220.0" layoutY="705.0" mnemonicParsing="false" onAction="#handleReportButton" text="View Report" />
       <DatePicker fx:id="dateFilter" layoutX="531.0" layoutY="348.0" />
-      <CheckBox fx:id="vipCheckBox" layoutX="578.0" layoutY="23.0" mnemonicParsing="false" text="VIP Customers Only" />
+      <CheckBox fx:id="vipCheckBox" layoutX="578.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleVIPCheckBox" text="VIP Customers Only" />
       <TextField fx:id="searchTextField" layoutX="720.0" layoutY="19.0" promptText="Search customers" />
       <Button fx:id="searchButton" layoutX="883.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
       <Button fx:id="sellButton" layoutX="407.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleSellButton" prefHeight="48.0" prefWidth="174.0" text="Open Sales Menu">
