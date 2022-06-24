@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesForm">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesForm">
    <children>
       <Label layoutX="65.0" layoutY="20.0" text="Rentals">
          <font>
@@ -20,15 +20,15 @@
       <Label layoutX="32.0" layoutY="100.0" text="Customer" />
       <ComboBox fx:id="customerCombo" layoutX="32.0" layoutY="123.0" onAction="#handleSelectCustomer" prefWidth="150.0" />
       <Button fx:id="sellButton" layoutX="86.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleSellButton" text="Save" />
-      <Button fx:id="cancelButton" cancelButton="true" layoutX="745.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Exit" />
-      <TableView fx:id="salesTableView" layoutX="219.0" layoutY="45.0" prefHeight="261.0" prefWidth="561.0">
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="824.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Exit" />
+      <TableView fx:id="salesTableView" layoutX="219.0" layoutY="45.0" prefHeight="261.0" prefWidth="640.0">
         <columns>
           <TableColumn fx:id="productIDCol" prefWidth="97.0" text="Product ID" />
           <TableColumn fx:id="productNameCol" prefWidth="124.0" text="Product Name" />
             <TableColumn fx:id="productPriceCol" prefWidth="128.0" text="Price" />
-            <TableColumn fx:id="soldByCol" prefWidth="67.0" text="Sold By" />
-            <TableColumn fx:id="saleDateCol" prefWidth="83.0" text="Sale Date" />
-            <TableColumn fx:id="saleIdCol" prefWidth="75.0" text="Sale ID" />
+            <TableColumn fx:id="soldByCol" prefWidth="87.0" text="Employee ID" />
+            <TableColumn fx:id="saleDateCol" prefWidth="131.0" text="Rental Date" />
+            <TableColumn fx:id="saleIdCol" prefWidth="72.0" text="Rental ID" />
         </columns>
       </TableView>
       <Label layoutX="219.0" layoutY="20.0" text="Select a customer to view their current rentals:" />

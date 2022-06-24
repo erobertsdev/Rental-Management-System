@@ -39,20 +39,37 @@ public class SalesForm extends Helper implements Initializable {
     public void handleSellButton(ActionEvent event) throws SQLException {
         String productString = (String) productCombo.getSelectionModel().getSelectedItem();
         String customerString = (String) customerCombo.getSelectionModel().getSelectedItem();
+        int customerID = JDBC.getCustomerId(customerString);
+        String vipStatus = JDBC.getVIPStatus(customerID);
+        ObservableList<Sale> customerSales = JDBC.getSalesByCustomerId(customerID);
+        int numOfRentals = customerSales.size();
+        int productID = JDBC.getProductId(productString);
+        // Check if productID already exists in customerSales observablelist
+        for (Sale sale : customerSales) {
+            if (sale.getProductID() == productID) {
+                Helper.errorDialog("Customer is already renting this product.");
+                return;
+            }
+        }
+        // Check that customer is not a VIP and has not exceeded the number of rentals allowed
+        if (!vipStatus.equals("Yes") && numOfRentals >= 3) {
+            Helper.errorDialog("This customer has the maximum number of rentals for a non-VIP customer.");
+        } else {
         if (customerCombo.getValue() != null && productCombo.getValue() != null) {
             // Get current user's ID
             int userID = JDBC.getUserId(LoginForm.currentUser);
             try {
                 // Add sale to database
-                JDBC.addSale(JDBC.getProductPrice(productString), JDBC.getCustomerId(customerString), userID, JDBC.getProductId(productString), productString);
-                Helper.noticeDialog("Sale added successfully!");
+                JDBC.addSale(JDBC.getProductPrice(productString), JDBC.getCustomerId(customerString), userID, productID, productString);
+                Helper.noticeDialog("Product rental added successfully!");
                 // Refresh salesTableView
                 int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
                 ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
                 populateSalesTableView(sales);
             } catch (SQLException e) {
-                Helper.errorDialog("Error adding sale!");
+                Helper.errorDialog("Error adding rental! Please try again.");
             }
+        }
         }
     }
 
@@ -61,6 +78,7 @@ public class SalesForm extends Helper implements Initializable {
     public void handleSelectCustomer(ActionEvent event) throws SQLException {
         int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
         ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
+        System.out.println(sales.size());
         populateSalesTableView(sales);
     }
 
@@ -89,16 +107,16 @@ public class SalesForm extends Helper implements Initializable {
             int saleId = selectedSale.getSaleID();
             try {
                 JDBC.removeSale(saleId);
-                Helper.noticeDialog("Sale refunded successfully!");
+                Helper.noticeDialog("Rental returned successfully!");
                 // Refresh salesTableView
                 int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
                 ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
                 populateSalesTableView(sales);
             } catch (SQLException e) {
-                Helper.errorDialog("Error removing sale! Please try again.");
+                Helper.errorDialog("Error returning rental! Please try again.");
             }
         } else {
-            Helper.errorDialog("Please select a sale to refund!");
+            Helper.errorDialog("Please select a product to return!");
         }
     }
 

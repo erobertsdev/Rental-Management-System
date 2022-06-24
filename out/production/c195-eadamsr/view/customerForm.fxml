@@ -70,7 +70,7 @@
       <CheckBox fx:id="vipCheckBox" layoutX="578.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleVIPCheckBox" text="VIP Customers Only" />
       <TextField fx:id="searchTextField" layoutX="720.0" layoutY="19.0" promptText="Search customers" />
       <Button fx:id="searchButton" layoutX="883.0" layoutY="19.0" mnemonicParsing="false" onAction="#handleSearchButton" text="Search" />
-      <Button fx:id="sellButton" layoutX="769.0" layoutY="651.0" mnemonicParsing="false" onAction="#handleSellButton" prefHeight="48.0" prefWidth="174.0" text="Sales">
+      <Button fx:id="sellButton" layoutX="769.0" layoutY="651.0" mnemonicParsing="false" onAction="#handleSellButton" prefHeight="48.0" prefWidth="174.0" text="Rentals">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
