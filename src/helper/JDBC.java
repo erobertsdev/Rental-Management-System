@@ -299,6 +299,22 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
+    /** Method to update a product in the database */
+    public static void updateProduct(int productId, String name, double price) throws SQLException {
+        String sql = "UPDATE PRODUCTS SET Name = ?, Price = ? WHERE Product_ID = " + productId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setDouble(2, price);
+        ps.executeUpdate();
+    }
+
+    /** Method to delete a product from the database */
+    public static void deleteProduct(int productId) throws SQLException {
+        String sql = "DELETE FROM PRODUCTS WHERE Product_ID = " + productId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
     /** Method to add a sale to the database */
     public static void addSale(double price, int customerId, int userId, int productId, String productName) throws SQLException {
         String sql = "INSERT INTO SALES (Price, Customer_ID, User_ID, Product_ID, Product_Name, Sale_Date) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
@@ -309,6 +325,18 @@ public abstract class JDBC {
         ps.setInt(4, productId);
         ps.setString(5, productName);
         ps.executeUpdate();
+    }
+
+    /** Method which returns true if product ID exists in sales table */
+    public static boolean productExists(int productId) throws SQLException {
+        String sql = "SELECT * FROM SALES WHERE Product_ID = " + productId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        boolean exists = false;
+        while(rs.next()) {
+            exists = true;
+        }
+        return exists;
     }
 
     /** Method to remove a sale from the database */

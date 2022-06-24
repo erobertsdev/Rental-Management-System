@@ -23,13 +23,24 @@
       <TextField fx:id="productIDTextField" disable="true" layoutX="48.0" layoutY="121.0" />
       <TextField fx:id="productNameTextField" layoutX="49.0" layoutY="187.0" />
       <TextField fx:id="productPriceTextField" layoutX="48.0" layoutY="251.0" />
-      <Label layoutX="269.0" layoutY="24.0" text="Products">
+      <Label layoutX="253.0" layoutY="36.0" text="Products">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="exitButton" layoutX="547.0" layoutY="378.0" mnemonicParsing="false" text="Exit" />
-      <Button fx:id="deleteButton" layoutX="487.0" layoutY="329.0" mnemonicParsing="false" text="Delete Product" />
-      <Button fx:id="saveButton" layoutX="81.0" layoutY="296.0" mnemonicParsing="false" text="Save/Update" />
+      <Button fx:id="exitButton" layoutX="458.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleExitButton" text="Back to Main Screen" />
+      <Button fx:id="deleteButton" layoutX="487.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Product" />
+      <Button fx:id="saveButton" layoutX="82.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save/Update" />
+      <Button fx:id="clearButton" layoutX="252.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleClearSelectionButton" text="Clear Selection" />
+      <Label layoutX="8.0" layoutY="14.0" prefHeight="17.0" prefWidth="615.0" text="To add product: Use &quot;Clear Selection&quot; button and ensure the ID field is empty before clicking &quot;Save/Update&quot;.">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="283.0" text="(Price must include cents, [xx.xx])">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -81,7 +81,7 @@ public class SalesForm extends Helper implements Initializable {
     }
 
     // Handle refund
-    public void handleRefundButton(ActionEvent event) throws IOException, SQLException {
+    public void handleRefundButton(ActionEvent event) throws SQLException {
         // Get selected sale
         Sale selectedSale = salesTableView.getSelectionModel().getSelectedItem();
         if (selectedSale != null) {
@@ -116,11 +116,6 @@ public class SalesForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Refund button only visible if user is admin
-        if (!LoginForm.currentUser.equals("admin")) {
-            // disable refund button
-            refundButton.setDisable(true);
-        }
         ObservableList<String> customerNames = null;
         ObservableList<String> productNames = null;
         try {
