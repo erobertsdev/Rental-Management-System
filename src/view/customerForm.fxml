@@ -58,14 +58,17 @@
       <Label layoutX="335.0" layoutY="311.0" text="Select date to filter appointments:" />
       <RadioButton fx:id="monthRadio" layoutX="728.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleMonthRadio" text="Selected Month" />
       <RadioButton fx:id="weekRadio" layoutX="842.0" layoutY="311.0" mnemonicParsing="false" onAction="#handleWeekRadio" text="Selected Week" />
-      <Button fx:id="myAppointmentsButton" layoutX="589.0" layoutY="577.0" mnemonicParsing="false" onAction="#handleMyAppointments" text="Show My Appointments" />
-      <Label fx:id="reportsLabel" layoutX="280.0" layoutY="610.0" text="Reports">
+      <Button fx:id="myAppointmentsButton" layoutX="589.0" layoutY="577.0" mnemonicParsing="false" onAction="#handleMyAppointments" text="Show My Appointments">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label fx:id="reportsLabel" layoutX="280.0" layoutY="596.0" text="Reports">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="reportChoice" layoutX="277.0" layoutY="653.0" prefWidth="150.0" />
-      <Button fx:id="reportButton" layoutX="450.0" layoutY="653.0" mnemonicParsing="false" onAction="#handleReportButton" text="View Report" />
+      <ChoiceBox fx:id="reportChoice" layoutX="277.0" layoutY="639.0" prefWidth="150.0" />
+      <Button fx:id="reportButton" layoutX="450.0" layoutY="639.0" mnemonicParsing="false" onAction="#handleReportButton" text="View Report" />
       <DatePicker fx:id="dateFilter" layoutX="531.0" layoutY="307.0" />
       <CheckBox fx:id="vipCheckBox" layoutX="578.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleVIPCheckBox" text="VIP Customers Only" />
       <TextField fx:id="searchTextField" layoutX="720.0" layoutY="19.0" promptText="Search customers" />
@@ -80,6 +83,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="exitButton" layoutX="892.0" layoutY="694.0" mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
+      <Button fx:id="exitButton" layoutX="846.0" layoutY="671.0" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="48.0" prefWidth="81.0" text="Exit" />
    </children>
 </AnchorPane>

@@ -20,7 +20,7 @@
       <Label layoutX="32.0" layoutY="100.0" text="Customer" />
       <ComboBox fx:id="customerCombo" layoutX="32.0" layoutY="123.0" onAction="#handleSelectCustomer" prefWidth="150.0" />
       <Button fx:id="sellButton" layoutX="86.0" layoutY="265.0" mnemonicParsing="false" onAction="#handleSellButton" text="Save" />
-      <Button fx:id="cancelButton" cancelButton="true" layoutX="824.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Exit" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="717.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Back to Previous Screen" />
       <TableView fx:id="salesTableView" layoutX="219.0" layoutY="45.0" prefHeight="261.0" prefWidth="640.0">
         <columns>
           <TableColumn fx:id="productIDCol" prefWidth="97.0" text="Product ID" />
@@ -31,8 +31,11 @@
             <TableColumn fx:id="saleIdCol" prefWidth="72.0" text="Rental ID" />
         </columns>
       </TableView>
-      <Label layoutX="219.0" layoutY="20.0" text="Select a customer to view their current rentals:" />
-      <Button fx:id="refundButton" layoutX="452.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleRefundButton" text="Return Product" />
+      <Label layoutX="219.0" layoutY="20.0" text="Select a customer to view their current rentals:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Button fx:id="refundButton" layoutX="491.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleRefundButton" text="Return Product" />
       <Label layoutX="53.0" layoutY="69.0" text="Record a Rental:">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -40,5 +43,9 @@
       </Label>
       <Label layoutX="36.0" layoutY="225.0" text="Total:" />
       <Label fx:id="totalCostLabel" layoutX="75.0" layoutY="225.0" />
+      <Label layoutX="17.0" layoutY="306.0" prefHeight="48.0" prefWidth="180.0" text="Note: Non-VIP customers are limited to 3 rentals at a time." wrapText="true">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></Label>
    </children>
 </AnchorPane>
