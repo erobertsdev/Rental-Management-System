@@ -50,8 +50,11 @@ public class AppointmentForm implements Initializable {
     private final ObservableList<String> minutes = FXCollections.observableArrayList();
     private final Appointment selectedAppointment = CustomerForm.getSelectedAppointment();
 
-    /** Method to check that no fields are null
-     * @return boolean false if there are empty inputs */
+    /**
+     * Method to check that no fields are null
+     *
+     * @return boolean false if there are empty inputs
+     */
     public boolean checkInputs() {
         return !appointmentDescriptionTextField.getText().isEmpty() && !appointmentLocationTextField.getText().isEmpty() && !appointmentTitleTextField.getText().isEmpty() &&
                 !appointmentTypeTextField.getText().isEmpty() && contactCombo.getValue() != null && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
@@ -61,9 +64,10 @@ public class AppointmentForm implements Initializable {
 
     /**
      * Method to handle save button being clicked, determines whether to update or add
-     * @param event
-     * @throws SQLException
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     * @throws IOException  the io exception
      */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (!checkInputs()) {
@@ -123,8 +127,9 @@ public class AppointmentForm implements Initializable {
 
     /**
      * Method to handle cancel button being clicked
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));

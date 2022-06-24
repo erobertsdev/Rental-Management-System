@@ -35,12 +35,17 @@ public class EditCustomerForm extends Helper implements Initializable {
     @FXML private ComboBox<String> stateCombo;
     @FXML private ComboBox<String> VIPCombo;
     @FXML private Label VIPLabel;
+    /**
+     * The Country names.
+     */
     public ObservableList<String> countryNames;
     private Customer selectedCustomer = CustomerForm.getSelectedCustomer();
 
     /**
      * Check that all fields are filled out before saving/updating customer
-     * @return boolean false if there are empty inputs */
+     *
+     * @return boolean false if there are empty inputs
+     */
     public boolean checkInputs() {
         return !customerNameTextField.getText().isEmpty() && !customerStreetTextField.getText().isEmpty() && !customerPhoneTextField.getText().isEmpty() &&
                 !customerPostalTextField.getText().isEmpty() && countryCombo.getValue() != null && stateCombo.getValue() != null && VIPCombo.getValue() != null;
@@ -48,9 +53,10 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     /**
      * Set countries in Country combobox
-     * @param event
-     * @throws IOException
-     * @throws SQLException
+     *
+     * @param event the event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
      */
     public void handleSelectCountry(ActionEvent event) throws IOException, SQLException {
         int countryId = 0;
@@ -67,9 +73,10 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     /**
      * Add or update customer when save button is clicked
-     * @param event
-     * @throws SQLException
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     * @throws IOException  the io exception
      */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         String customerName = customerNameTextField.getText();
@@ -110,8 +117,9 @@ public class EditCustomerForm extends Helper implements Initializable {
 
     /**
      * Cancel adding/editing customer and return to customerForm
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));

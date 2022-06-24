@@ -23,6 +23,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The type Product form.
+ */
 public class ProductForm extends Helper implements Initializable {
 
     @FXML
@@ -55,7 +58,9 @@ public class ProductForm extends Helper implements Initializable {
     @FXML
     private TableView<Product> productsTableView;
 
-    /** Method to populate the table with all products */
+    /**
+     * Method to populate the table with all products  @throws SQLException the sql exception
+     */
     public void populateProductsTableView() throws SQLException {
         ObservableList<Product> products = JDBC.getProducts();
         productIDCol.setCellValueFactory(new PropertyValueFactory<>("productID"));
@@ -64,7 +69,9 @@ public class ProductForm extends Helper implements Initializable {
         productsTableView.setItems(products);
     }
 
-    /** Populate text fields when product is selected */
+    /**
+     * Populate text fields when product is selected
+     */
     public void populateProductTextFields() {
         Product product = productsTableView.getSelectionModel().getSelectedItem();
         if (product != null) {
@@ -74,6 +81,12 @@ public class ProductForm extends Helper implements Initializable {
         }
     }
 
+    /**
+     * Handle exit button.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     public void handleExitButton(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
         Scene scene = new Scene(parent);
@@ -82,7 +95,13 @@ public class ProductForm extends Helper implements Initializable {
         stage.show();
     }
 
-    // TODO: edit button, delete button, clear selection button
+    /**
+     * Handle save button.
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     */
+// TODO: edit button, delete button, clear selection button
     public void handleSaveButton(ActionEvent event) throws SQLException {
         if (productIDTextField.getText().trim().isEmpty() && productNameTextField.getText().trim().isEmpty() && productPriceTextField.getText().trim().isEmpty()) {
             Helper.errorDialog("Name and price fields are required.");
@@ -107,6 +126,12 @@ public class ProductForm extends Helper implements Initializable {
         }
     }
 
+    /**
+     * Handle delete button.
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     */
     public void handleDeleteButton(ActionEvent event) throws SQLException {
         // Check if product is in sales table in which case it cannot be deleted
         if (JDBC.productExists(Integer.parseInt(productIDTextField.getText()))) {
@@ -124,6 +149,11 @@ public class ProductForm extends Helper implements Initializable {
         }
     }
 
+    /**
+     * Handle clear selection button.
+     *
+     * @param event the event
+     */
     public void handleClearSelectionButton(ActionEvent event) {
         // Clear text fields
         productIDTextField.clear();

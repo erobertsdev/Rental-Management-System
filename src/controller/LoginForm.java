@@ -11,20 +11,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 /**
  * Contains methods to be used in the login form
@@ -36,8 +31,17 @@ public class LoginForm extends Helper implements Initializable {
     @FXML private TextField usernameTextField;
     @FXML private TextField passwordTextField;
     @FXML private Button loginButton;
+    /**
+     * The constant language.
+     */
     public static final String language = Helper.getLanguage();
+    /**
+     * The constant initialLogon.
+     */
     public static boolean initialLogon = true;
+    /**
+     * The constant currentUser.
+     */
     public static String currentUser = "";
 
     /**

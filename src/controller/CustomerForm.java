@@ -63,15 +63,28 @@ public class CustomerForm extends Helper implements Initializable {
     @FXML private RadioButton weekRadio;
     @FXML private CheckBox vipCheckBox;
     @FXML private TextField searchTextField;
+    /**
+     * The constant selectedCustomer.
+     */
     public static Customer selectedCustomer = null;
+    /**
+     * The constant selectedAppointment.
+     */
     public static Appointment selectedAppointment = null;
-    // Differentiates between adding/updating for the customer and appointment editing forms
+    /**
+     * The constant addingCustomer.
+     */
+// Differentiates between adding/updating for the customer and appointment editing forms
     public static boolean addingCustomer;
+    /**
+     * The constant addingAppointment.
+     */
     public static boolean addingAppointment;
     @FXML private ChoiceBox<String> reportChoice;
 
     /**
      * Method to retrieve selected customer
+     *
      * @return selected Customer
      */
     public static Customer getSelectedCustomer() {
@@ -80,15 +93,17 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to retrieve selected appointment
+     *
      * @return selected appointment
      */
     public static Appointment getSelectedAppointment() { return selectedAppointment; }
 
     /**
      * Checks if customer has appointments, used to determine if customer can be deleted
-     * @param customerId
+     *
+     * @param customerId the customer id
      * @return boolean false if customer has appointments
-     * @throws SQLException
+     * @throws SQLException the sql exception
      */
     public boolean checkForAppointments(int customerId) throws SQLException {
         return JDBC.getAppointmentsById(String.valueOf(customerId)).size() != 0;
@@ -96,6 +111,10 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to filter customers tableview by search term
+     *
+     * @param event the event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
      */
     public void handleSearchButton(ActionEvent event) throws IOException, SQLException {
         // get searchTextField value
@@ -113,6 +132,9 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to open Sales Form when sell button is clicked
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleSellButton(ActionEvent event) throws IOException {
         // Get selected customer info
@@ -126,8 +148,9 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to open editCustomer form
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleEditCustomer(ActionEvent event) throws IOException {
         addingCustomer = false;
@@ -160,8 +183,9 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to open add customer form
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleAddCustomer(ActionEvent event) throws IOException {
         // Inform EditCustomerForm that customer is being added not updated
@@ -176,7 +200,8 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to delete customer from DB, checks if customer has appointments first
-     * @throws SQLException
+     *
+     * @throws SQLException the sql exception
      */
     public void handleDeleteCustomer() throws SQLException {
         selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
@@ -217,8 +242,9 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to edit selected appointment
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleEditAppointment(ActionEvent event) throws IOException {
         try {
@@ -250,8 +276,9 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to add appointment, open appointment form
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleAddAppointment(ActionEvent event) throws IOException {
         addingAppointment = true;
@@ -296,7 +323,8 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Method to retrieve current user's appointments and populate appointment tableview
-     * @throws SQLException
+     *
+     * @throws SQLException the sql exception
      */
     public void handleMyAppointments() throws SQLException {
         weekRadio.setSelected(false);
@@ -306,7 +334,9 @@ public class CustomerForm extends Helper implements Initializable {
         populateAppointments(myAppointments);
     }
 
-    /** Method to populate customer tableview with only VIP customers */
+    /**
+     * Method to populate customer tableview with only VIP customers  @throws SQLException the sql exception
+     */
     public void handleVIPCheckBox() throws SQLException {
         if (vipCheckBox.isSelected()) {
             ObservableList<Customer> vipCustomers = JDBC.getVIPCustomers();
@@ -348,7 +378,8 @@ public class CustomerForm extends Helper implements Initializable {
      * LAMBDA EXPRESSION is used here to convert appointment start timestamp to a localDateTime which can then be used
      * to check if the appointment occurs in the selected month; eliminating the need for creating a separate variable or conversion after the fact.
      * Retrieve appointments occurring in selected month
-     * @throws SQLException
+     *
+     * @throws SQLException the sql exception
      */
     public void handleMonthRadio() throws SQLException {
         Month selectedMonth = dateFilter.getValue().getMonth();
@@ -364,7 +395,8 @@ public class CustomerForm extends Helper implements Initializable {
      * LAMBDA EXPRESSION is used here to convert appointment start timestamp to a localDateTime which can then be used
      * to check if the appointment occurs within the selected week; eliminating the need for creating a separate variable or conversion after the fact.
      * Method to populate appointment tableview with appointments occurring on selected week
-     * @throws SQLException
+     *
+     * @throws SQLException the sql exception
      */
     public void handleWeekRadio() throws SQLException {
         WeekFields weekFields = WeekFields.of(Locale.US);
@@ -378,13 +410,17 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
+    /**
+     * Handle exit button.
+     */
     public void handleExitButton() {
         System.exit(0);
     }
 
     /**
      * Generate and show report based on user selection
-     * @throws SQLException
+     *
+     * @throws SQLException the sql exception
      */
     public void handleReportButton() throws SQLException {
         String reportType = reportChoice.getValue();
@@ -407,8 +443,12 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
-    /** Method to generate report with total number of customer appointments by type and month report
-     * @return String report with the number of customer appointments by type and month */
+    /**
+     * Method to generate report with total number of customer appointments by type and month report
+     *
+     * @return String report with the number of customer appointments by type and month
+     * @throws SQLException the sql exception
+     */
     public static String reportTotalsByTypeAndMonth() throws SQLException {
         String report = "";
         String typeStrings = "";
@@ -439,8 +479,12 @@ public class CustomerForm extends Helper implements Initializable {
         return report;
     }
 
-    /** Method to generate report with list of current customer rentals
-     * @return String report with list of current customer rentals */
+    /**
+     * Method to generate report with list of current customer rentals
+     *
+     * @return String report with list of current customer rentals
+     * @throws SQLException the sql exception
+     */
     public static String createCustomerRentals() throws SQLException {
         String report = "";
         String rentalStrings = "";
@@ -458,7 +502,11 @@ public class CustomerForm extends Helper implements Initializable {
         return report;
     }
 
-    /** Method to generate report of all VIP customers @return String report of all VIP customers */
+    /**
+     * Method to generate report of all VIP customers @return String report of all VIP customers  @return the string
+     *
+     * @throws SQLException the sql exception
+     */
     public static String createVIPCustomers() throws SQLException {
         String report = "";
         String customerStrings = "";
@@ -503,8 +551,9 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Show schedule for each user in the organization
+     *
      * @return report String
-     * @throws SQLException
+     * @throws SQLException the sql exception
      */
     public String createUserSchedule() throws SQLException {
         String report = "Schedule of all users in organization: \n";
@@ -526,7 +575,9 @@ public class CustomerForm extends Helper implements Initializable {
     return report;
     }
 
-    /** Open productForm.fxml when product button is clicked */
+    /**
+     * Open productForm.fxml when product button is clicked  @param event the event
+     */
     public void handleProductsButton(ActionEvent event) {
         try {
             Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/productForm.fxml")));
@@ -541,6 +592,7 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Populates appointments tableview
+     *
      * @param appointmentList appointments to be listed
      */
     public void populateAppointments(ObservableList<Appointment> appointmentList) {
@@ -558,8 +610,8 @@ public class CustomerForm extends Helper implements Initializable {
 
     /**
      * Populates customers tableview
-     * @param customerList customers to be listed
      *
+     * @param customerList customers to be listed
      */
     public void populateCustomers(ObservableList<Customer> customerList) {
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));

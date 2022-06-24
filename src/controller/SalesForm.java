@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Customer;
 import model.Sale;
 
 import java.io.IOException;
@@ -21,6 +20,9 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * The type Sales form.
+ */
 public class SalesForm extends Helper implements Initializable {
     @FXML private ComboBox customerCombo;
     @FXML private ComboBox productCombo;
@@ -34,8 +36,12 @@ public class SalesForm extends Helper implements Initializable {
     @FXML private Button refundButton;
     @FXML private Label totalCostLabel;
 
-    /** Method to add a sale to the database when the sell button is clicked */
-    // Check that customer and product are selected before adding sale
+    /**
+     * Method to add a sale to the database when the sell button is clicked  @param event the event
+     *
+     * @throws SQLException the sql exception
+     */
+// Check that customer and product are selected before adding sale
     public void handleSellButton(ActionEvent event) throws SQLException {
         String productString = (String) productCombo.getSelectionModel().getSelectedItem();
         String customerString = (String) customerCombo.getSelectionModel().getSelectedItem();
@@ -75,8 +81,12 @@ public class SalesForm extends Helper implements Initializable {
         }
     }
 
-    /** Get selected customer's sales and display them in the table */
-    // TODO: Fix getSalesByCustomer method to return ObservableList<Sale>
+    /**
+     * Get selected customer's sales and display them in the table  @param event the event
+     *
+     * @throws SQLException the sql exception
+     */
+// TODO: Fix getSalesByCustomer method to return ObservableList<Sale>
     public void handleSelectCustomer(ActionEvent event) throws SQLException {
         int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
         ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
@@ -84,7 +94,13 @@ public class SalesForm extends Helper implements Initializable {
         populateSalesTableView(sales);
     }
 
-    // Return to customerForm when cancel button is clicked
+    /**
+     * Handle cancel button.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
+// Return to customerForm when cancel button is clicked
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../view/customerForm.fxml")));
         Scene scene = new Scene(root);
@@ -93,14 +109,26 @@ public class SalesForm extends Helper implements Initializable {
         stage.show();
     }
 
-    // Retrieve price of selected product and set total cost label
+    /**
+     * Handle select product.
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     */
+// Retrieve price of selected product and set total cost label
     public void handleSelectProduct(ActionEvent event) throws SQLException {
         String productString = (String) productCombo.getSelectionModel().getSelectedItem();
         double productPrice = JDBC.getProductPrice(productString);
         totalCostLabel.setText("$" + productPrice);
     }
 
-    // Handle refund
+    /**
+     * Handle refund button.
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     */
+// Handle refund
     public void handleRefundButton(ActionEvent event) throws SQLException {
         // Get selected sale
         Sale selectedSale = salesTableView.getSelectionModel().getSelectedItem();
@@ -122,7 +150,12 @@ public class SalesForm extends Helper implements Initializable {
         }
     }
 
-    // Method to populate sales tableview with observable list of sales
+    /**
+     * Populate sales table view.
+     *
+     * @param sales the sales
+     */
+// Method to populate sales tableview with observable list of sales
     public void populateSalesTableView(ObservableList<Sale> sales) {
         productIDCol.setCellValueFactory(new PropertyValueFactory<>("productID"));
         productNameCol.setCellValueFactory(new PropertyValueFactory<>("productName"));
