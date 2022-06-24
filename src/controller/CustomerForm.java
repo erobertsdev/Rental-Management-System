@@ -103,7 +103,6 @@ public class CustomerForm extends Helper implements Initializable {
         if (searchTerm.isEmpty()) {
             // if search term is empty, show all customers
             // throw error if search term is empty
-            Helper.errorDialog("Please enter a search term");
             customersTableview.setItems(JDBC.getCustomers());
         } else {
             // if search term is not empty, show customers that match search term
@@ -477,6 +476,19 @@ public class CustomerForm extends Helper implements Initializable {
             }
         }
     return report;
+    }
+
+    /** Open productForm.fxml when product button is clicked */
+    public void handleProductsButton(ActionEvent event) {
+        try {
+            Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/productForm.fxml")));
+            Scene scene = new Scene(parent);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
