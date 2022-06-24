@@ -57,6 +57,8 @@ public class LoginForm extends Helper implements Initializable {
         Helper.errorDialog("Special characters are not allowed in the username");
         return;
     }
+    // Check password for SQL injection
+
 
     if ((userName.length() != 0) && (password.length() != 0)) {
         // Check DB for user/pw match
