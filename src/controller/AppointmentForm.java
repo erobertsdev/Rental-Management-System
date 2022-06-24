@@ -150,17 +150,14 @@ public class AppointmentForm implements Initializable {
         endMinuteChoice.setItems(minutes);
 
         // Retrieve all contacts and populate contact combobox
-        ObservableList<String> contactNames = null;
         ObservableList<String> customerNames = null;
         ObservableList<String> userNames = null;
         try {
-            contactNames = JDBC.getContactNames();
             customerNames = JDBC.getCustomerNames();
             userNames = JDBC.getUserNames();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        contactCombo.setItems(contactNames);
         customerCombo.setItems(customerNames);
         userCombo.setItems(userNames);
 

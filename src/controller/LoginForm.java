@@ -48,6 +48,11 @@ public class LoginForm extends Helper implements Initializable {
     @FXML private void handleLogin(ActionEvent event) throws Exception {
     final String userName = usernameTextField.getText();
     final String password = passwordTextField.getText();
+    // Sanitize username input
+    if (!Helper.checkSpecialCharacters(userName)) {
+        Helper.errorDialog("Special characters are not allowed in the username");
+        return;
+    }
 
     if ((userName.length() != 0) && (password.length() != 0)) {
         // Check DB for user/pw match

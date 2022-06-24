@@ -568,37 +568,34 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
-    /**
-     * Method to retrieve all contacts from database
-     * @return Observablelist contacts */
-    public static ObservableList<Contact> getContacts() throws SQLException {
-        String sql = "SELECT * FROM CONTACTS";
-        ObservableList<Contact> contacts = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
-        while(rs.next()) {
-            int contactId = rs.getInt("Contact_ID");
-            String contactName = rs.getString("Contact_Name");
-            String contactEmail = rs.getString("Email");
-            Contact contact = new Contact(contactId, contactName, contactEmail);
-            contacts.add(contact);
-        }
-        return contacts;
-    }
+// ********* Contacts have been removed from the database ********
+//    public static ObservableList<Contact> getContacts() throws SQLException {
+//        String sql = "SELECT * FROM CONTACTS";
+//        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ResultSet rs = ps.executeQuery(sql);
+//        while(rs.next()) {
+//            int contactId = rs.getInt("Contact_ID");
+//            String contactName = rs.getString("Contact_Name");
+//            String contactEmail = rs.getString("Email");
+//            Contact contact = new Contact(contactId, contactName, contactEmail);
+//            contacts.add(contact);
+//        }
+//        return contacts;
+//    }
 
-    /** Method to retrieve and return all contact names
-     * @return Observablelist of contact names */
-    public static ObservableList<String> getContactNames() throws SQLException {
-        String sql = "SELECT Contact_Name FROM CONTACTS";
-        ObservableList<String> contactNames = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
-        while(rs.next()) {
-            String contactName = rs.getString("Contact_Name");
-            contactNames.add(contactName);
-        }
-        return contactNames;
-    }
+
+//    public static ObservableList<String> getContactNames() throws SQLException {
+//        String sql = "SELECT Contact_Name FROM CONTACTS";
+//        ObservableList<String> contactNames = FXCollections.observableArrayList();
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ResultSet rs = ps.executeQuery(sql);
+//        while(rs.next()) {
+//            String contactName = rs.getString("Contact_Name");
+//            contactNames.add(contactName);
+//        }
+//        return contactNames;
+//    }
 
     /** Method to retrieve and return all customer names
      * @return Observablelist of all customer names */

@@ -72,11 +72,19 @@ public class EditCustomerForm extends Helper implements Initializable {
      * @throws IOException
      */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
+        String customerName = customerNameTextField.getText();
+        String customerPostal = customerPostalTextField.getText();
+        String customerStreet = customerStreetTextField.getText();
+        // Sanitize inputs
+        if (!Helper.checkSpecialCharacters(customerName) || !Helper.checkSpecialCharacters(customerPostal) || !Helper.checkSpecialCharacters(customerStreet)) {
+            Helper.errorDialog("Special characters are not allowed in the customer name, street, or postal code.");
+            return;
+        }
         if (!checkInputs()) {
             Helper.errorDialog("All fields are required.");
         } else {
             if (!CustomerForm.addingCustomer) {
-                JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerNameTextField.getText(), customerStreetTextField.getText(), customerPostalTextField.getText(),
+                JDBC.updateCustomer(Integer.parseInt(customerIdTextField.getText()), customerName, customerStreet, customerPostal,
                         customerPhoneTextField.getText(), JDBC.stateIdFromName(stateCombo.getSelectionModel().getSelectedItem()), VIPCombo.getValue());
                 // Return to customer screen
                 Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));

@@ -1,7 +1,6 @@
 package controller;
 
 import helper.JDBC;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -9,7 +8,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import model.Appointment;
-import model.Division;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -19,6 +17,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Contains helpful methods such as time conversions and displaying dialogs
@@ -364,6 +364,15 @@ abstract public class Helper {
         }
     }
 
+    /** Check that string does not contain special characters
+     * @param str
+     * @return boolean false if special characters found
+     */
+    public static boolean checkSpecialCharacters(String str) {
+        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Matcher matcher = pattern.matcher(str);
+        return !matcher.find();
+    }
 
 }
 

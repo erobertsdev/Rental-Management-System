@@ -86,6 +86,7 @@ public class ProductForm extends Helper implements Initializable {
     public void handleSaveButton(ActionEvent event) throws SQLException {
         if (productIDTextField.getText().trim().isEmpty() && productNameTextField.getText().trim().isEmpty() && productPriceTextField.getText().trim().isEmpty()) {
             Helper.errorDialog("Name and price fields are required.");
+            // Sanitize input
         } else if (productIDTextField.getText().matches("[0-9]+") && productNameTextField.getText().matches("[a-zA-Z]+") && !productPriceTextField.getText().matches("\\d+")) {
             // Update product
             int productID = Integer.parseInt(productIDTextField.getText());
