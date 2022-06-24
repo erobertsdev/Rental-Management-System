@@ -10,12 +10,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SalesForm">
    <children>
-      <Label layoutX="45.0" layoutY="20.0" text="Sales Form">
+      <Label layoutX="65.0" layoutY="20.0" text="Rentals">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label layoutX="32.0" layoutY="166.0" text="Product to Sell" />
+      <Label layoutX="32.0" layoutY="166.0" text="Product to Rent:" />
       <ComboBox fx:id="productCombo" layoutX="32.0" layoutY="189.0" onAction="#handleSelectProduct" prefWidth="150.0" />
       <Label layoutX="32.0" layoutY="100.0" text="Customer" />
       <ComboBox fx:id="customerCombo" layoutX="32.0" layoutY="123.0" onAction="#handleSelectCustomer" prefWidth="150.0" />
@@ -31,9 +31,9 @@
             <TableColumn fx:id="saleIdCol" prefWidth="75.0" text="Sale ID" />
         </columns>
       </TableView>
-      <Label layoutX="219.0" layoutY="20.0" text="Select a customer to view their previous sales:" />
-      <Button fx:id="refundButton" layoutX="460.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleRefundButton" text="Refund Sale" />
-      <Label layoutX="60.0" layoutY="70.0" text="Record a Sale:">
+      <Label layoutX="219.0" layoutY="20.0" text="Select a customer to view their current rentals:" />
+      <Button fx:id="refundButton" layoutX="452.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleRefundButton" text="Return Product" />
+      <Label layoutX="53.0" layoutY="69.0" text="Record a Rental:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
