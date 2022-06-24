@@ -23,7 +23,7 @@
       <TextField fx:id="productIDTextField" disable="true" layoutX="48.0" layoutY="121.0" />
       <TextField fx:id="productNameTextField" layoutX="49.0" layoutY="187.0" />
       <TextField fx:id="productPriceTextField" layoutX="48.0" layoutY="251.0" />
-      <Label layoutX="253.0" layoutY="36.0" text="Products">
+      <Label layoutX="269.0" layoutY="14.0" text="Products">
          <font>
             <Font size="24.0" />
          </font>
@@ -32,7 +32,7 @@
       <Button fx:id="deleteButton" layoutX="487.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Product" />
       <Button fx:id="saveButton" layoutX="82.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save/Update" />
       <Button fx:id="clearButton" layoutX="252.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleClearSelectionButton" text="Clear Selection" />
-      <Label layoutX="8.0" layoutY="14.0" prefHeight="17.0" prefWidth="615.0" text="To add product: Use &quot;Clear Selection&quot; button and ensure the ID field is empty before clicking &quot;Save/Update&quot;.">
+      <Label layoutX="14.0" layoutY="359.0" prefHeight="59.0" prefWidth="409.0" text="To add product: Use &quot;Clear Selection&quot; button and ensure the ID field is empty before clicking &quot;Save/Update&quot;." textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
