@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
+import model.Sale;
 import model.User;
 import java.io.IOException;
 import java.net.URL;
@@ -378,6 +379,10 @@ public class CustomerForm extends Helper implements Initializable {
         }
     }
 
+    public void handleExitButton() {
+        System.exit(0);
+    }
+
     /**
      * Generate and show report based on user selection
      * @throws SQLException
@@ -388,8 +393,12 @@ public class CustomerForm extends Helper implements Initializable {
             case "# of Customer Appointments by Type/Month":
                 Helper.reportDialog("Customer Appointments", "Number of Customer Appointments by Type and Month.", reportTotalsByTypeAndMonth());
                 break;
-            case "Contact Schedules":
-                Helper.reportDialog("Contact Schedules", "Schedule for each contact in the organization.", createContactSchedule());
+                // TODO: Replace contact schedules report
+            case "Customer Rentals":
+                Helper.reportDialog("Customer Rentals", "List of current customer rentals.", createCustomerRentals());
+                break;
+            case "VIP Customers":
+                Helper.reportDialog("VIP Customers", "List of VIP customers.", createVIPCustomers());
                 break;
             case "User Schedules":
                 Helper.reportDialog("User Schedules", "Schedule for all users in the organization.", createUserSchedule());
@@ -431,27 +440,67 @@ public class CustomerForm extends Helper implements Initializable {
         return report;
     }
 
-    /** Method to generate schedule for each contact in the organization
-     * @return String schedule for each contact in the organization */
-    public String createContactSchedule() throws SQLException {
+    /** Method to generate report with list of current customer rentals
+     * @return String report with list of current customer rentals */
+    public static String createCustomerRentals() throws SQLException {
         String report = "";
-        ObservableList<String> contacts = JDBC.getContactNames();
-
-        for (String contact : contacts) {
-            String contactID = String.valueOf(JDBC.getContactId(contact));
-            report += "Contact Name: " + contact + " (ID: " + contactID + ")\n\n";
-            report += "---------------\n";
-
-            ObservableList<String> appointments = JDBC.contactAppointmentsById(contactID);
-            if(appointments.isEmpty()) {
-                report += "  No appointments for contact \n\n";
-            }
-            for (String appointment : appointments) {
-                report += appointment;
-            }
+        String rentalStrings = "";
+        report += "List of current customer rentals:\n";
+        String rental = "SELECT * FROM sales ORDER BY Customer_ID";
+        PreparedStatement getRentals = JDBC.connection.prepareStatement(rental);
+        ResultSet rentalResults = getRentals.executeQuery();
+        while (rentalResults.next()) {
+            rentalStrings = "Rental ID: " + rentalResults.getString("Sale_ID") + " Customer ID: " +
+                    rentalResults.getString("Customer_ID") + " Product Name: " + rentalResults.getString("Product_Name") +
+                    " Product ID: " + rentalResults.getString("Product_ID") + " Rental Date: " + rentalResults.getString("Sale_Date") + "\n";
+            report += rentalStrings;
         }
+        getRentals.close();
         return report;
     }
+
+    /** Method to generate report of all VIP customers @return String report of all VIP customers */
+    public static String createVIPCustomers() throws SQLException {
+        String report = "";
+        String customerStrings = "";
+        report += "List of all VIP customers:\n";
+        String customer = "SELECT * FROM customers WHERE is_VIP = 'Yes'";
+        PreparedStatement getCustomers = JDBC.connection.prepareStatement(customer);
+        ResultSet customerResults = getCustomers.executeQuery();
+        while (customerResults.next()) {
+            customerStrings = "Customer ID: " + customerResults.getString("Customer_ID") + " Name: " +
+                    customerResults.getString("Customer_Name") + " Address: " + customerResults.getString("Address") +
+                    " Phone: " + customerResults.getString("Phone") + " VIP: " + customerResults.getString("is_VIP") + "\n";
+            report += customerStrings;
+        }
+        getCustomers.close();
+        return report;
+    }
+
+
+
+
+    /** Method to generate schedule for each contact in the organization
+     * @return String schedule for each contact in the organization */
+//    public String createCustomerRentals() throws SQLException {
+//        String report = "";
+//        ObservableList<String> customers = JDBC.getCustomerNames();
+//
+//        for (String customer : customers) {
+//            String customerID = String.valueOf(JDBC.getCustomerId(customer));
+//            report += "Customer Name: " + customer + " (ID: " + customerID + ")\n\n";
+//            report += "---------------\n";
+//
+//            ObservableList<Sale> rentals = JDBC.getSalesByCustomerId(Integer.parseInt(customerID));
+//            if(rentals.isEmpty()) {
+//                report += "  No rentals for this customer. \n\n";
+//            }
+//            for (Sale rental : rentals) {
+//                report += rental;
+//            }
+//        }
+//        return report;
+//    }
 
     /**
      * Show schedule for each user in the organization
@@ -544,7 +593,7 @@ public class CustomerForm extends Helper implements Initializable {
         dateFilter.setValue(LocalDate.now());
         addingAppointment = false;
         addingCustomer = false;
-        ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Contact Schedules", "User Schedules");
+        ObservableList<String> reports = FXCollections.observableArrayList("# of Customer Appointments by Type/Month", "Customer Rentals", "VIP Customers", "User Schedules");
         reportChoice.setItems(reports);
         // Fill Customers Table
         try {
