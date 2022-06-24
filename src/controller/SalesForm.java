@@ -69,6 +69,8 @@ public class SalesForm extends Helper implements Initializable {
             } catch (SQLException e) {
                 Helper.errorDialog("Error adding rental! Please try again.");
             }
+        } else {
+            Helper.errorDialog("Please select a customer and product.");
         }
         }
     }
