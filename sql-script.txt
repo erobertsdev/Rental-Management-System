@@ -1,7 +1,7 @@
 # CAPSTONE SQL SCRIPT
 # Remove contacts table
 ALTER TABLE `client_schedule`.`appointments` DROP FOREIGN KEY fk_contact_id;
-ALTER TABLE client_schedule.appointments DROP COLUMN Contact_ID;
+ALTER TABLE `client_schedule.appointments` DROP COLUMN Contact_ID;
 DROP TABLE `client_schedule`.`contacts`;
 
 # Creat the products and sales tables
@@ -19,7 +19,7 @@ CREATE TABLE `sales` (
 	`User_ID` INT NOT NULL,
 	`Product_ID` INT NOT NULL,
 	`Product_Name` VARCHAR(100) NOT NULL,
-      `Sale_Date` DATETIME NOT NULL DEFAULT NOW()
+      `Sale_Date` DATETIME NOT NULL DEFAULT NOW(),
 	PRIMARY KEY (`Sale_ID`),
 	FOREIGN KEY (Product_ID) REFERENCES products(Product_ID),
 	FOREIGN KEY (Customer_ID) REFERENCES customers(Customer_ID),
