@@ -1,0 +1,62 @@
+# CAPSTONE SQL SCRIPT
+# Remove contacts table
+ALTER TABLE `client_schedule`.`appointments` DROP FOREIGN KEY fk_contact_id;
+ALTER TABLE client_schedule.appointments DROP COLUMN Contact_ID;
+DROP TABLE `client_schedule`.`contacts`;
+
+# Creat the products and sales tables
+CREATE TABLE `products` (
+	`Product_ID` INT NOT NULL AUTO_INCREMENT,
+	`Name` VARCHAR(100),
+	`Price` DOUBLE,
+	PRIMARY KEY (`Product_ID`)
+);
+
+CREATE TABLE `sales` (
+	`Sale_ID` INT NOT NULL AUTO_INCREMENT,
+	`Price` DOUBLE NOT NULL,
+	`Customer_ID` INT NOT NULL,
+	`User_ID` INT NOT NULL,
+	`Product_ID` INT NOT NULL,
+	`Product_Name` VARCHAR(100) NOT NULL,
+      `Sale_Date` DATETIME NOT NULL DEFAULT NOW()
+	PRIMARY KEY (`Sale_ID`),
+	FOREIGN KEY (Product_ID) REFERENCES products(Product_ID),
+	FOREIGN KEY (Customer_ID) REFERENCES customers(Customer_ID),
+	FOREIGN KEY (User_ID) REFERENCES users(User_ID)
+);
+
+# Change "test" user to "user" user
+UPDATE client_schedule.users SET User_Name = 'user' WHERE User_ID = 1;
+UPDATE client_schedule.users SET Password = 'user' WHERE User_ID = 1;
+
+# Add VIP status to customers table
+ALTER TABLE client_schedule.customers ADD is_VIP VARCHAR(3) NOT NULL DEFAULT "No";
+
+# Add fake customers and parts for testing
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Bob Hagerty","123 Fake Street","84564","555-888-7777",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,3,"Yes");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Jack Sparrow","286 Waggy Dog Way","24875","555-111-1111",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,10,"No");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("John Dillinger","888 Tree Street","12345","555-222-2222",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,11,"Yes");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Rick Hammel","2041 Cat Lane","54784","555-333-3333",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,12,"No");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Regina Davis","8812 Blanket Drive","96587","555-444-4444",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,13,"Yes");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Marsha Brady","57783 Pillow Street","21458","555-555-5555",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,14,"No");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Courtney Cox","4372 Speaker Court","35489","555-666-6666",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,15,"Yes");
+INSERT INTO client_schedule.customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP) 
+VALUES ("Richard Hammond","738 Wiggle Place","54871","555-777-7777",CURRENT_TIMESTAMP,"script",CURRENT_TIMESTAMP,2,16,"No");
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Crown Block", 2500.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Catline Boom", 1500.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Top Drive", 4680.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Blowout Valve", 590.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Shale Shaker", 2000.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Accumulator", 980.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Degasser", 800.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Electric Control Hose", 2500.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Desilter", 350.00);
+INSERT INTO client_schedule.products (Name, Price) VALUES ("Mast Line", 880.00);
