@@ -1,11 +1,11 @@
-# Scheduling Application - C195 Performance Evaluation 
+# Customer and Rental Management System - Capstone
 - Author: Elias Adams-Roberts
 - Email:  eadamsr@wgu.edu
 - Version: 1.0
-- Date: 6/6/2022
+- Date: 6/25/2022
 
 ## PURPOSE:
-Project for C195 WGU Performance Evaluation - A Scheduling Application
+Capstone Project for WGU - Customer and Rental Management System
 
 ## IDE and MySQL Connector Information:
 - IDE: IntelliJ IDEA 2021.3.2 (Edu)
@@ -16,13 +16,11 @@ Project for C195 WGU Performance Evaluation - A Scheduling Application
 - JavaFX SDK: openjfx-17.0.2
 - JDBC: mysql-connector-java-8.0.29
 
-##Additional Report:
-- The additional report creates a schedule for all Users, similar to the schedule for contacts report.
-
 ##Directions to Run:
 - Unzip contents of code repository to a folder of your choice
 - Download mysql-connector-java-8.0.29 jar here https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.29 and add to project
-- Open the root folder in IDE of your choice
-- Click the run button in your IDE, (Green arrow in upper right when using IntelliJ)
+- Navigate to the folder you unzipped the project to and open "sql-script.txt"
+- Open MySQL Workbench and open the connection to the already existing database
+-
 
 
