@@ -90,7 +90,6 @@ public class SalesForm extends Helper implements Initializable {
     public void handleSelectCustomer(ActionEvent event) throws SQLException {
         int customerId = JDBC.getCustomerId((String) customerCombo.getSelectionModel().getSelectedItem());
         ObservableList<Sale> sales = JDBC.getSalesByCustomerId(customerId);
-        System.out.println(sales.size());
         populateSalesTableView(sales);
     }
 

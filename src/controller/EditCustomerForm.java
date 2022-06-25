@@ -83,9 +83,6 @@ public class EditCustomerForm extends Helper implements Initializable {
         String customerPostal = customerPostalTextField.getText();
         String customerStreet = customerStreetTextField.getText();
         // Sanitize inputs
-        System.out.println("Name: " + Helper.checkSpecialCharacters(customerName));
-        System.out.println("Postal: " + Helper.checkSpecialCharacters(customerPostal));
-        System.out.println("Street: " + Helper.checkSpecialCharacters(customerStreet));
         if (!Helper.checkSpecialCharacters(customerName) || !Helper.checkSpecialCharacters(customerPostal) || !Helper.checkSpecialCharacters(customerStreet)) {
             Helper.errorDialog("Special characters are not allowed in the customer name, street, or postal code.");
             return;
