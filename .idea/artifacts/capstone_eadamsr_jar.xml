@@ -1,0 +1,29 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="capstone-eadamsr:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/capstone_eadamsr_jar</output-path>
+    <root id="archive" name="capstone-eadamsr.jar">
+      <element id="module-output" name="capstone-eadamsr" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mockito-all-1.9.1-20110911.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-4.13.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hamcrest-core-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-jupiter-5.8.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-jupiter-api-5.8.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/opentest4j-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-platform-commons-1.8.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/apiguardian-api-1.1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-jupiter-params-5.8.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-jupiter-engine-5.8.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-platform-engine-1.8.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="bin" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx-swt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.web.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.fxml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.media.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PATH_TO_FX$/javafx.graphics.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/mysql-connector-java-8.0.29.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
