@@ -703,8 +703,8 @@ public abstract class JDBC {
      * @param contactId int
      * @throws SQLException
      */
-    public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
-        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
+    public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId) throws SQLException {
+        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?)";
         // convert start and end time to UTC
         start = Helper.toUTC(start);
         end = Helper.toUTC(end);
@@ -719,7 +719,6 @@ public abstract class JDBC {
         ps.setString(8, getCurrentUserName(currentUser));
         ps.setInt(9, customerId);
         ps.setInt(10, userId);
-        ps.setInt(11, contactId);
         ps.executeUpdate();
     }
 
@@ -734,11 +733,10 @@ public abstract class JDBC {
      * @param end Timestamp
      * @param customerId int
      * @param userId int
-     * @param contactId int
      * @throws SQLException
      */
-    public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
-        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+    public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId) throws SQLException {
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ? WHERE Appointment_ID = ?";
         // convert start and end time to UTC
         start = Helper.toUTC(start);
         end = Helper.toUTC(end);
@@ -752,8 +750,7 @@ public abstract class JDBC {
         ps.setString(7, getCurrentUserName(currentUser));
         ps.setInt(8, customerId);
         ps.setInt(9, userId);
-        ps.setInt(10, contactId);
-        ps.setInt(11, appointmentId);
+        ps.setInt(10, appointmentId);
         ps.executeUpdate();
     }
 

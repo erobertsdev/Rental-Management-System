@@ -26,8 +26,11 @@ import java.util.regex.Pattern;
 abstract public class Helper {
     private static ZoneId timezone;
 
-    /** Set Locale
-     * @return The locale of the system */
+    /**
+     * Set Locale
+     *
+     * @return The locale of the system
+     */
     private static Locale setLocale() {
         Locale locale = Locale.getDefault();
         if (Objects.equals(locale.getLanguage(), "fr")) {
@@ -176,10 +179,10 @@ abstract public class Helper {
      * @return timestamp local time
      */
     public static Timestamp toLocal(Timestamp timestamp) {
-            return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
-                    ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
-                    Helper.getLocalTimezone().getId())).toLocalDateTime());
-        }
+        return Timestamp.valueOf(timestamp.toLocalDateTime().atZone(
+                ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of(
+                Helper.getLocalTimezone().getId())).toLocalDateTime());
+    }
 
     /**
      * Convert local time to UTC
@@ -216,8 +219,8 @@ abstract public class Helper {
     public static boolean mainCheck(Timestamp start, Timestamp end) {
         LocalDateTime appointmentStart = Helper.localToEST(start).toLocalDateTime();
         LocalDateTime appointmentEnd = Helper.localToEST(end).toLocalDateTime();
-        LocalTime openTime = LocalTime.of(8,00);
-        LocalTime closeTime = LocalTime.of(22,00);
+        LocalTime openTime = LocalTime.of(8, 00);
+        LocalTime closeTime = LocalTime.of(22, 00);
 
         // Checks that start time is before end time
         if (appointmentStart.isAfter(appointmentEnd)) {
@@ -280,9 +283,7 @@ abstract public class Helper {
 
         if (!mainCheck(start, end)) {
             return false;
-        }
-
-        else if (mainCheck(start, end)) {
+        } else if (mainCheck(start, end)) {
             FilteredList<Appointment> customerAppointments = JDBC.getAppointments().filtered(
                     appointment -> appointment.getCustomer_id() == customer_id);
 
@@ -318,12 +319,11 @@ abstract public class Helper {
         for (Appointment a : customerAppointments) {
             LocalDateTime apptStart = Helper.localToEST(a.getStart()).toLocalDateTime();
             LocalDateTime apptEnd = Helper.localToEST(a.getEnd()).toLocalDateTime();
-            if (a.getId() != id){
-                if(!overlapCheck(appointmentStart, appointmentEnd, apptStart, apptEnd, a.getId())){
+            if (a.getId() != id) {
+                if (!overlapCheck(appointmentStart, appointmentEnd, apptStart, apptEnd, a.getId())) {
                     passed = false;
                 }
-            }
-            else {
+            } else {
                 passed = true;
             }
         }
@@ -403,11 +403,9 @@ abstract public class Helper {
      * @return boolean false if special characters found
      */
     public static boolean checkSpecialCharacters(String str) {
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher matcher = pattern.matcher(str);
-        return !matcher.find();
+        // Check that str is letters and numbers only
+        return str.matches("^[0-9a-zA-Z \b]+$");
     }
-
 }
 
 

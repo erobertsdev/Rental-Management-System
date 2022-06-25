@@ -10,3 +10,59 @@ Successful: true
 Login attempt: 2022-06-25T11:15:03.114719900-06:00[America/Denver]
 Username: admin
 Successful: true
+
+Login attempt: 2022-06-25T11:49:03.235574400-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T11:50:19.002663-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T11:52:53.466675700-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T11:54:38.786177700-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T11:56:33.081114600-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T12:00:42.648190200-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T12:07:51.580243300-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T12:13:10.453859100-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T12:13:21.445759600-06:00[America/Denver]
+Username: &^%*&^
+Successful: false
+
+Login attempt: 2022-06-25T12:13:29.108049300-06:00[America/Denver]
+Username: admin89(&*&@
+Successful: false
+
+Login attempt: 2022-06-25T12:13:32.373117900-06:00[America/Denver]
+Username: admin-
+Successful: false
+
+Login attempt: 2022-06-25T12:13:35.092865900-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T12:14:22.709339600-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T12:16:37.372301-06:00[America/Denver]
+Username: admin
+Successful: true

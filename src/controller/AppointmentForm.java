@@ -35,7 +35,6 @@ public class AppointmentForm implements Initializable {
     @FXML private TextField appointmentTitleTextField;
     @FXML private TextField appointmentTypeTextField;
     @FXML private Button cancelButton;
-    @FXML private ComboBox<String> contactCombo;
     @FXML private ComboBox<String> customerCombo;
     @FXML private AnchorPane endDate;
     @FXML private DatePicker endDatePicker;
@@ -57,7 +56,7 @@ public class AppointmentForm implements Initializable {
      */
     public boolean checkInputs() {
         return !appointmentDescriptionTextField.getText().isEmpty() && !appointmentLocationTextField.getText().isEmpty() && !appointmentTitleTextField.getText().isEmpty() &&
-                !appointmentTypeTextField.getText().isEmpty() && contactCombo.getValue() != null && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
+                !appointmentTypeTextField.getText().isEmpty() && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
                 endDatePicker.getValue() != null && startHourChoice.getValue() != null && startMinuteChoice.getValue() != null && endHourChoice.getValue() != null &&
                 endMinuteChoice.getValue() != null;
     }
@@ -91,7 +90,7 @@ public class AppointmentForm implements Initializable {
                 if (passedChecks) {
                     // Update appointment
                     JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()));
                     if (LoginForm.language.equals("fr")) {
                         Helper.errorDialog("Rendez-vous mis à jour avec succès.");
                     } else {
@@ -109,7 +108,7 @@ public class AppointmentForm implements Initializable {
                 if (passedChecks) {
                     // Add appointment to database
                     JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
+                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()));
                     if (LoginForm.language.equals("fr")) {
                         Helper.errorDialog("Rendez-vous ajouté avec succès.");
                     } else {
