@@ -21,6 +21,9 @@ Capstone Project for WGU - Customer and Rental Management System
 - Download mysql-connector-java-8.0.29 jar here https://mvnrepository.com/artifact/mysql/mysql-connector-java/8.0.29 and add to project
 - Navigate to the folder you unzipped the project to and open "sql-script.txt"
 - Open MySQL Workbench and open the connection to the already existing database
--
+- Paste the entire contents of "sql-script.txt" into the Query window of MySQL Workbench.
+- Run the script and refresh the database, ensuring everything ran without errors.
+- Project is now ready to be tested.
+
 
 

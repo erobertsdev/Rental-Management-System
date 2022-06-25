@@ -673,7 +673,7 @@ public class CustomerForm extends Helper implements Initializable {
                         Customer element = row.getItem();
                         int col = element.getId();
                         try {
-                            appointmentsTableview.getItems().setAll(getAppointmentsById(String.valueOf(col)));
+                            appointmentsTableview.setItems(getAppointmentsById(String.valueOf(col)));
                             appointmentIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
                             appointmentTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
                             appointmentDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));

@@ -1,0 +1,12 @@
+
+Login attempt: 2022-06-25T10:47:18.518409700-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T11:01:25.879859600-06:00[America/Denver]
+Username: admin
+Successful: true
+
+Login attempt: 2022-06-25T11:15:03.114719900-06:00[America/Denver]
+Username: admin
+Successful: true
