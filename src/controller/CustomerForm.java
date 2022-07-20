@@ -157,11 +157,7 @@ public class CustomerForm extends Helper implements Initializable {
         try {
             // Throw error if no customer selected
             if (customersTableview.getSelectionModel().getSelectedItem() == null) {
-                if (LoginForm.language.equals("fr")) {
-                    Helper.errorDialog("Veuillez sélectionner un client à modifier.");
-                } else {
-                    Helper.errorDialog("Please select a customer to edit.");
-                }
+                Helper.errorDialog("Please select a customer to edit.");
             } else {
             // Get selected customer info
                 selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
@@ -173,11 +169,7 @@ public class CustomerForm extends Helper implements Initializable {
             }
         } catch (IOException e){
             e.printStackTrace();
-            if (LoginForm.language.equals("fr")) {
-                Helper.errorDialog("Problème lors de l'édition du client. Veuillez réessayer.");
-            } else {
-                Helper.errorDialog("Problem editing customer. Please try again.");
-            }
+            Helper.errorDialog("Problem editing customer. Please try again.");
         }
     }
 
@@ -204,22 +196,16 @@ public class CustomerForm extends Helper implements Initializable {
      * @throws SQLException the sql exception
      */
     public void handleDeleteCustomer() throws SQLException {
+
         selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
         // Throw error if no customer selected
         if (customersTableview.getSelectionModel().getSelectedItem() == null) {
-            if (LoginForm.language.equals("fr")) {
-                Helper.errorDialog("Veuillez sélectionner un client à supprimer.");
-            } else {
-                Helper.errorDialog("Please select a customer to delete.");
-            }
+            Helper.errorDialog("Please select a customer to delete.");
         } else {
             if (checkForAppointments(selectedCustomer.getId())) {
-                if (LoginForm.language.equals("fr")) {
-                    Helper.errorDialog("Tous les rendez-vous d'un client doivent être supprimés avant que le client puisse être supprimé.");
-                } else {
-                    Helper.errorDialog("All of a customer's appointments must be deleted before the customer can be deleted.");
-                }
+                Helper.errorDialog("All of a customer's appointments must be deleted before the customer can be deleted.");
             } else {
+                // TODO: ADD CHECK IF USER IS ADMIN OR NOT TO DELETE CUSTOMER
                 // Get selected customer info
                 Customer selectedCustomer = customersTableview.getSelectionModel().getSelectedItem();
                 // Delete customer from database
@@ -227,11 +213,7 @@ public class CustomerForm extends Helper implements Initializable {
                     JDBC.deleteCustomer(selectedCustomer.getId());
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    if (LoginForm.language.equals("fr")) {
-                        Helper.errorDialog("Problème lors de la suppression du client. Veuillez réessayer..");
-                    } else {
-                        Helper.errorDialog("Problem deleting customer. Please try again.");
-                    }
+                    Helper.errorDialog("Problem deleting customer. Please try again.");
                 }
                 // Refresh tableview
                 Helper.errorDialog("Customer ID: " + selectedCustomer.getId() + " with the name " + selectedCustomer.getName() + " successfully deleted.");
@@ -250,11 +232,7 @@ public class CustomerForm extends Helper implements Initializable {
         try {
             // Throw error if no appointment selected
             if (appointmentsTableview.getSelectionModel().getSelectedItem() == null) {
-                if (LoginForm.language.equals("fr")) {
-                    Helper.errorDialog("Veuillez sélectionner un rendez-vous à modifier.");
-                } else {
-                    Helper.errorDialog("Please select an appointment to edit.");
-                }
+                Helper.errorDialog("Please select an appointment to edit.");
             } else {
                 // Get selected appointment info
                 selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
@@ -266,11 +244,7 @@ public class CustomerForm extends Helper implements Initializable {
             }
         } catch (IOException e){
             e.printStackTrace();
-            if (LoginForm.language.equals("fr")) {
-                Helper.errorDialog("Problème d'édition de rendez-vous. Veuillez réessayer.");
-            } else {
-                Helper.errorDialog("Problem editing appointment. Please try again.");
-            }
+            Helper.errorDialog("Problem editing appointment. Please try again.");
         }
     }
 
@@ -297,22 +271,14 @@ public class CustomerForm extends Helper implements Initializable {
         selectedAppointment = appointmentsTableview.getSelectionModel().getSelectedItem();
         // Throw error if no appointment selected
         if (appointmentsTableview.getSelectionModel().getSelectedItem() == null) {
-            if (LoginForm.language.equals("fr")) {
-                Helper.errorDialog("Veuillez sélectionner un rendez-vous à supprimer.");
-            } else {
-                Helper.errorDialog("Please select an appointment to delete.");
-            }
+            Helper.errorDialog("Please select an appointment to delete.");
         } else {
             // Delete appointment from database
             try {
                 JDBC.deleteAppointment(selectedAppointment.getId());
             } catch (SQLException e) {
                 e.printStackTrace();
-                if (LoginForm.language.equals("fr")) {
-                    Helper.errorDialog("Problème de suppression de rendez-vous. Veuillez réessayer.");
-                } else {
-                    Helper.errorDialog("Problem deleting appointment. Please try again.");
-                }
+                Helper.errorDialog("Problem deleting appointment. Please try again.");
             }
             // Refresh tableview
             // Throw error with deleted appointment ID and Type of appointment
@@ -356,21 +322,25 @@ public class CustomerForm extends Helper implements Initializable {
         for (Appointment appointment : JDBC.getUserAppointments()) {
             if (Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() <= 15 &&
                     Duration.between(LocalDateTime.now(), appointment.getStart().toLocalDateTime()).toMinutes() >= 0) {
+
                 if (LoginForm.language.equals("fr")) {
                     Helper.noticeDialog("Vous avez un rendez-vous à venir:\n" + "Rendez-vous: " + appointment.getId() + "\nCommence à: " + appointment.getStart());
                 } else {
                     Helper.noticeDialog("You have an upcoming appointment:\n" + "Appointment: " + appointment.getId() + "\nStarts at: " + appointment.getStart());
                 }
+
                 hasAppointments = true;
                 break;
             }
         }
         if (!hasAppointments) {
+
             if (LoginForm.language.equals("fr")) {
                 Helper.noticeDialog("Vous n'avez aucun rendez-vous à venir.");
             } else {
                 Helper.noticeDialog("You have no upcoming appointments.");
             }
+
         }
     }
 

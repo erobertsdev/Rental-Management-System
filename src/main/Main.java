@@ -7,8 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 import java.sql.SQLException;
 import java.util.Objects;
+
 
 /**
  * @author Elias Adams-Roberts
@@ -28,6 +30,7 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         JDBC.openConnection(); // Opens DB connection
 
+
         // Add Test Products to database if none present
         if (JDBC.getProducts().isEmpty()) {
             JDBC.addProduct("Flywheel", 250.00);
@@ -35,6 +38,7 @@ public class Main extends Application {
             JDBC.addProduct("Engine", 1000.00);
         }
 //        JDBC.closeConnection(); // Closes DB Connection
+
         launch(args);
     }
 }
