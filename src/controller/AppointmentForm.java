@@ -96,6 +96,7 @@ public class AppointmentForm implements Initializable {
                     } else {
                         Helper.errorDialog("Appointment updated successfully.");
                     }
+
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -114,6 +115,7 @@ public class AppointmentForm implements Initializable {
                     } else {
                         Helper.errorDialog("Appointment added successfully.");
                     }
+
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
