@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="437.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="controller.ProductForm">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="437.0" prefWidth="630.0" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProductForm">
    <children>
       <TableView fx:id="productsTableView" layoutX="252.0" layoutY="77.0" onMouseClicked="#populateProductTextFields" prefHeight="245.0" prefWidth="330.0">
         <columns>
@@ -28,9 +28,9 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="exitButton" layoutX="458.0" layoutY="390.0" mnemonicParsing="false" onAction="#handleExitButton" text="Back to Main Screen" />
-      <Button fx:id="deleteButton" layoutX="487.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Product" />
-      <Button fx:id="saveButton" layoutX="82.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save/Update" />
+      <Button fx:id="exitButton" layoutX="446.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleExitButton" text="Back to Main Screen" />
+      <Button fx:id="deleteButton" layoutX="458.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete Product" />
+      <Button fx:id="saveButton" layoutX="67.0" layoutY="314.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save/Update" />
       <Button fx:id="clearButton" layoutX="252.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleClearSelectionButton" text="Clear Selection" />
       <Label layoutX="14.0" layoutY="359.0" prefHeight="59.0" prefWidth="409.0" text="To add product: Use &quot;Clear Selection&quot; button and ensure the ID field is empty before clicking &quot;Save/Update&quot;." textOverrun="CLIP" wrapText="true">
          <font>
