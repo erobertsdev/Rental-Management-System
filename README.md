@@ -1,4 +1,4 @@
-# Customer and Rental Management System - Capstone
+#Rental Management System
 - Author: Elias Adams-Roberts
 - Email:  eadamsr@wgu.edu
 - Version: 1.0
