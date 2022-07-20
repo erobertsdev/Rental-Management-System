@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="318.0" prefWidth="231.0" stylesheets="@../styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditCustomerForm">
+   <children>
+      <Label layoutX="40.0" layoutY="67.0" text="Product ID" />
+      <TextField fx:id="productIdTextField" disable="true" layoutX="40.0" layoutY="84.0" />
+      <Label layoutX="42.0" layoutY="124.0" text="Product Name" />
+      <TextField fx:id="productNameTextField" layoutX="42.0" layoutY="141.0" />
+      <Label layoutX="41.0" layoutY="186.0" text="Price (Format: [xx.xx])" />
+      <TextField fx:id="productPriceTextField" layoutX="41.0" layoutY="203.0" />
+      <Button fx:id="saveButton" layoutX="38.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
+      <Button fx:id="cancelButton" layoutX="139.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
+      <Label layoutX="25.0" layoutY="20.0" text="Add/Edit Product">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -11,20 +11,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 /**
  * Contains methods to be used in the login form
@@ -36,8 +31,18 @@ public class LoginForm extends Helper implements Initializable {
     @FXML private TextField usernameTextField;
     @FXML private TextField passwordTextField;
     @FXML private Button loginButton;
+    /**
+     * The constant language.
+     */
     public static final String language = Helper.getLanguage();
+    /**
+     * The constant initialLogon.
+     */
     public static boolean initialLogon = true;
+    /**
+     * The constant currentUser.
+     */
+    public static String currentUser = "";
 
     /**
      * Check username and password to login, displays error if login unsuccessful, logs all login attempts
@@ -47,11 +52,19 @@ public class LoginForm extends Helper implements Initializable {
     @FXML private void handleLogin(ActionEvent event) throws Exception {
     final String userName = usernameTextField.getText();
     final String password = passwordTextField.getText();
+    // Sanitize username input
+    if (!Helper.checkSpecialCharacters(userName)) {
+        Helper.errorDialog("Special characters are not allowed in the username");
+        return;
+    }
+    // Check password for SQL injection
+
 
     if ((userName.length() != 0) && (password.length() != 0)) {
         // Check DB for user/pw match
         boolean match = JDBC.checkLogin(userName, password);
         if (match) {
+            currentUser = userName;
             loginTracker(true);
             Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("..\\view\\customerForm.fxml"))));
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -72,7 +85,6 @@ public class LoginForm extends Helper implements Initializable {
         } else {
             Helper.errorDialog("Username and password are required.");
         }
-
         }
     }
 
@@ -89,6 +101,7 @@ public class LoginForm extends Helper implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        loginButton.setDefaultButton(true);
         Helper.getTimeZone();
         if (Helper.getLanguage().equals("fr")) {
             usernameLabel.setText("Nom d'utilisateur");
@@ -96,6 +109,6 @@ public class LoginForm extends Helper implements Initializable {
             loginButton.setText("Connexion");
         }
         // Outputs TimeZone information to label
-        zoneLabel.setText("Zone ID: " + Helper.getLocalTimezone().toString() + "\nTimeZone: " + TimeZone.getDefault().getDisplayName());
+//        zoneLabel.setText("Zone ID: " + Helper.getLocalTimezone().toString() + "\nTimeZone: " + TimeZone.getDefault().getDisplayName());
     }
 }

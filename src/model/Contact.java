@@ -2,8 +2,9 @@ package model;
 
 /**
  * @author Elias Adams-Roberts
- * contains all methods having to do with contact model
+ * @deprecated This class is no longer used.
  */
+
 public class Contact {
     private int contactId;
     private String contactName;

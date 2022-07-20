@@ -10,14 +10,16 @@ public class Customer {
     private int division;
     private String postalCode;
     private String phoneNumber;
+    private String isVIP;
 
-    public Customer(int id, String name, String address, int division, String postalCode, String phoneNumber) {
+    public Customer(int id, String name, String address, int division, String postalCode, String phoneNumber, String isVIP) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.division = division;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
+        this.isVIP = isVIP;
     }
 
     public int getId() {
@@ -67,4 +69,6 @@ public class Customer {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public String getIsVIP() { return isVIP; }
 }

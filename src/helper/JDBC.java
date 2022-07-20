@@ -177,11 +177,195 @@ public abstract class JDBC {
             int customerDivision = rs.getInt("Division_ID");
             String customerPostal = rs.getString("Postal_Code");
             String customerPhone = rs.getString("Phone");
-            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone);
+            String isVIP = rs.getString("is_VIP");
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
             customers.add(customer);
         }
         return customers;
     }
+
+    /**
+     * Method to retrieve list customers whose name matches search term */
+    public static ObservableList<Customer> getCustomersBySearch(String searchTerm) throws SQLException {
+        String sql = "SELECT * FROM CUSTOMERS WHERE Customer_Name LIKE '%" + searchTerm + "%'";
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int customerId = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            int customerDivision = rs.getInt("Division_ID");
+            String customerPostal = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+            String isVIP = rs.getString("is_VIP");
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
+            customers.add(customer);
+        }
+        return customers;
+    }
+
+    /** Method to retrieve list of customers where Is_VIP = 1 */
+    public static ObservableList<Customer> getVIPCustomers() throws SQLException {
+        String sql = "SELECT * FROM CUSTOMERS WHERE is_VIP = 'Yes'";
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int customerId = rs.getInt("Customer_ID");
+            String customerName = rs.getString("Customer_Name");
+            String customerAddress = rs.getString("Address");
+            int customerDivision = rs.getInt("Division_ID");
+            String customerPostal = rs.getString("Postal_Code");
+            String customerPhone = rs.getString("Phone");
+            String isVIP = rs.getString("is_VIP");
+            Customer customer = new Customer(customerId, customerName, customerAddress, customerDivision, customerPostal, customerPhone, isVIP);
+            customers.add(customer);
+        }
+        return customers;
+    }
+
+    /** Method to retrieve VIP status of customer using customer ID */
+    public static String getVIPStatus(int customerId) throws SQLException {
+        String sql = "SELECT Is_VIP FROM CUSTOMERS WHERE Customer_ID = " + customerId;
+        String VIP = null;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            VIP = rs.getString("is_VIP");
+        }
+        return VIP;
+    }
+
+    /** Method to retrieve list of all products */
+    public static ObservableList<Product> getProducts() throws SQLException {
+        String sql = "SELECT * FROM PRODUCTS";
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int productId = rs.getInt("Product_ID");
+            String productName = rs.getString("Name");
+            double productPrice = rs.getDouble("Price");
+            Product product = new Product(productId, productName, productPrice);
+            products.add(product);
+        }
+        return products;
+    }
+
+    /** Method to retrieve list of all product names */
+    public static ObservableList<String> getProductNames() throws SQLException {
+        String sql = "SELECT Name FROM PRODUCTS";
+        ObservableList<String> productNames = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            String productName = rs.getString("Name");
+            productNames.add(productName);
+        }
+        return productNames;
+    }
+
+    /** Method to retrieve product price using product name */
+    public static double getProductPrice(String productName) throws SQLException {
+        String sql = "SELECT Price FROM PRODUCTS WHERE Name = '" + productName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        double productPrice = 0;
+        while(rs.next()) {
+            productPrice = rs.getDouble("Price");
+        }
+        return productPrice;
+    }
+
+    /** Method to retrieve product ID using product name */
+    public static int getProductId(String productName) throws SQLException {
+        String sql = "SELECT Product_ID FROM PRODUCTS WHERE Name = '" + productName + "'";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        int productId = 0;
+        while(rs.next()) {
+            productId = rs.getInt("Product_ID");
+        }
+        return productId;
+    }
+
+    /** Method to add a new product to the database */
+    public static void addProduct(String name, double price) throws SQLException {
+        String sql = "INSERT INTO PRODUCTS (Name, Price) VALUES (?, ?)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setDouble(2, price);
+        ps.executeUpdate();
+    }
+
+    /** Method to update a product in the database */
+    public static void updateProduct(int productId, String name, double price) throws SQLException {
+        String sql = "UPDATE PRODUCTS SET Name = ?, Price = ? WHERE Product_ID = " + productId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setDouble(2, price);
+        ps.executeUpdate();
+    }
+
+    /** Method to delete a product from the database */
+    public static void deleteProduct(int productId) throws SQLException {
+        String sql = "DELETE FROM PRODUCTS WHERE Product_ID = " + productId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
+    /** Method to add a sale to the database */
+    public static void addSale(double price, int customerId, int userId, int productId, String productName) throws SQLException {
+        String sql = "INSERT INTO SALES (Price, Customer_ID, User_ID, Product_ID, Product_Name, Sale_Date) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.setDouble(1, price);
+        ps.setInt(2, customerId);
+        ps.setInt(3, userId);
+        ps.setInt(4, productId);
+        ps.setString(5, productName);
+        ps.executeUpdate();
+    }
+
+    /** Method which returns true if product ID exists in sales table */
+    public static boolean productExists(int productId) throws SQLException {
+        String sql = "SELECT * FROM SALES WHERE Product_ID = " + productId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        boolean exists = false;
+        while(rs.next()) {
+            exists = true;
+        }
+        return exists;
+    }
+
+    /** Method to remove a sale from the database */
+    public static void removeSale(int saleId) throws SQLException {
+        String sql = "DELETE FROM SALES WHERE Sale_ID = " + saleId;
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ps.executeUpdate();
+    }
+
+    /** Retrieve list of sales by customer name */
+    public static ObservableList<Sale> getSalesByCustomerId(int id) throws SQLException {
+        String sql = "SELECT * FROM SALES WHERE Customer_ID = " + id;
+        ObservableList<Sale> sales = FXCollections.observableArrayList();
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while(rs.next()) {
+            int saleId = rs.getInt("Sale_ID");
+            double price = rs.getDouble("Price");
+            int customerId = rs.getInt("Customer_ID");
+            int userId = rs.getInt("User_ID");
+            int productId = rs.getInt("Product_ID");
+            String productName = rs.getString("Product_Name");
+            Timestamp saleDate = rs.getTimestamp("Sale_Date");
+            Sale sale = new Sale(saleId, price, customerId, userId, productId, productName, saleDate);
+            sales.add(sale);
+        }
+        return sales;
+    }
+
 
     /**
      * Retrieve Appointments associated with Customer_ID
@@ -217,14 +401,13 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
 //            Timestamp start = Helper.toLocal(appointmentStart);
 //            Timestamp end = Helper.toLocal(appointmentEnd);
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -249,14 +432,13 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
 //            Timestamp start = Helper.toLocal(appointmentStart);
 //            Timestamp end = Helper.toLocal(appointmentEnd);
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -281,12 +463,11 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
             Timestamp start = Helper.toLocal(appointmentStart);
             Timestamp end = Helper.toLocal(appointmentEnd);
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -311,12 +492,11 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int appointmentCustomer = rs.getInt("Customer_ID");
             int appointmentUser = rs.getInt("User_ID");
-            int appointmentContact = rs.getInt("Contact_ID");
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
             Appointment appointment = new Appointment(appointmentId, appointmentTitle, appointmentDescription,
                     appointmentLocation, appointmentType, start,
-                    end, appointmentCustomer, appointmentUser, appointmentContact);
+                    end, appointmentCustomer, appointmentUser);
 
             appointments.add(appointment);
         }
@@ -341,17 +521,17 @@ public abstract class JDBC {
             Timestamp appointmentEnd = rs.getTimestamp("End");
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
-            int contactId = rs.getInt("Contact_ID");
 //            Timestamp start = Helper.toLocal(appointmentStart);
 //            Timestamp end = Helper.toLocal(appointmentEnd);
             Timestamp start = Timestamp.valueOf(appointmentStart.toLocalDateTime());
             Timestamp end = Timestamp.valueOf(appointmentEnd.toLocalDateTime());
 
-            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId, contactId);
+            Appointment appointment = new Appointment(appointmentId, title, description, location, type, start, end, customerId, userId);
             appointments.add(appointment);
         }
         return appointments;
     }
+
 
     /**
      * Retrieve All Divisions
@@ -388,37 +568,34 @@ public abstract class JDBC {
         ps.executeUpdate();
     }
 
-    /**
-     * Method to retrieve all contacts from database
-     * @return Observablelist contacts */
-    public static ObservableList<Contact> getContacts() throws SQLException {
-        String sql = "SELECT * FROM CONTACTS";
-        ObservableList<Contact> contacts = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
-        while(rs.next()) {
-            int contactId = rs.getInt("Contact_ID");
-            String contactName = rs.getString("Contact_Name");
-            String contactEmail = rs.getString("Email");
-            Contact contact = new Contact(contactId, contactName, contactEmail);
-            contacts.add(contact);
-        }
-        return contacts;
-    }
+// ********* Contacts have been removed from the database ********
+//    public static ObservableList<Contact> getContacts() throws SQLException {
+//        String sql = "SELECT * FROM CONTACTS";
+//        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ResultSet rs = ps.executeQuery(sql);
+//        while(rs.next()) {
+//            int contactId = rs.getInt("Contact_ID");
+//            String contactName = rs.getString("Contact_Name");
+//            String contactEmail = rs.getString("Email");
+//            Contact contact = new Contact(contactId, contactName, contactEmail);
+//            contacts.add(contact);
+//        }
+//        return contacts;
+//    }
 
-    /** Method to retrieve and return all contact names
-     * @return Observablelist of contact names */
-    public static ObservableList<String> getContactNames() throws SQLException {
-        String sql = "SELECT Contact_Name FROM CONTACTS";
-        ObservableList<String> contactNames = FXCollections.observableArrayList();
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
-        while(rs.next()) {
-            String contactName = rs.getString("Contact_Name");
-            contactNames.add(contactName);
-        }
-        return contactNames;
-    }
+
+//    public static ObservableList<String> getContactNames() throws SQLException {
+//        String sql = "SELECT Contact_Name FROM CONTACTS";
+//        ObservableList<String> contactNames = FXCollections.observableArrayList();
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ResultSet rs = ps.executeQuery(sql);
+//        while(rs.next()) {
+//            String contactName = rs.getString("Contact_Name");
+//            contactNames.add(contactName);
+//        }
+//        return contactNames;
+//    }
 
     /** Method to retrieve and return all customer names
      * @return Observablelist of all customer names */
@@ -472,11 +649,11 @@ public abstract class JDBC {
      * @param postal String
      * @param phone String
      * @param divisionID int
-     * */
+     * */ // TODO: FIX isVIP error
     public static void updateCustomer(int customerId, String customerName, String address, String postal,
-                                      String phone, int divisionID) throws SQLException {
+                                      String phone, int divisionID, String isVIP) throws SQLException {
         String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, "+
-                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ? WHERE Customer_ID = ?";
+                "Last_Update = CURRENT_TIMESTAMP, Last_Updated_by = ?, Division_ID = ?, is_VIP = ? WHERE Customer_ID = ?";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);
@@ -484,7 +661,9 @@ public abstract class JDBC {
         ps.setString(4, phone);
         ps.setInt(5, getCurrentUser());
         ps.setInt(6, divisionID);
-        ps.setInt(7, customerId);
+        ps.setString(7, isVIP);
+        ps.setInt(8, customerId);
+
         ps.executeUpdate();
     }
 
@@ -495,10 +674,10 @@ public abstract class JDBC {
      * @param postal String
      * */
     public static void addCustomer(String customerName, String address, String postal,
-                                   String phone, int divisionID) throws SQLException {
+                                   String phone, int divisionID, String isVIP) throws SQLException {
         String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, "+
-                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)"+
-                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?)";
+                "Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID, is_VIP)"+
+                "VALUES (?,?,?,?,CURRENT_TIMESTAMP,?,CURRENT_TIMESTAMP,?,?,?)";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.setString(1, customerName);
         ps.setString(2, address);
@@ -507,6 +686,7 @@ public abstract class JDBC {
         ps.setString(5, getCurrentUserName(currentUser));
         ps.setInt(6, getCurrentUser());
         ps.setInt(7, divisionID);
+        ps.setString(8, isVIP);
         ps.executeUpdate();
     }
 
@@ -523,8 +703,8 @@ public abstract class JDBC {
      * @param contactId int
      * @throws SQLException
      */
-    public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
-        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
+    public static void addAppointment(String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId) throws SQLException {
+        String sql = "INSERT INTO APPOINTMENTS (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP, ?, ?, ?)";
         // convert start and end time to UTC
         start = Helper.toUTC(start);
         end = Helper.toUTC(end);
@@ -539,7 +719,6 @@ public abstract class JDBC {
         ps.setString(8, getCurrentUserName(currentUser));
         ps.setInt(9, customerId);
         ps.setInt(10, userId);
-        ps.setInt(11, contactId);
         ps.executeUpdate();
     }
 
@@ -554,11 +733,10 @@ public abstract class JDBC {
      * @param end Timestamp
      * @param customerId int
      * @param userId int
-     * @param contactId int
      * @throws SQLException
      */
-    public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId, int contactId) throws SQLException {
-        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+    public static void updateAppointment(int appointmentId, String title, String description, String location, String type, Timestamp start, Timestamp end, int customerId, int userId) throws SQLException {
+        String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, Last_Update = CURRENT_TIMESTAMP, Last_Updated_By = ?, Customer_ID = ?, User_ID = ? WHERE Appointment_ID = ?";
         // convert start and end time to UTC
         start = Helper.toUTC(start);
         end = Helper.toUTC(end);
@@ -572,8 +750,7 @@ public abstract class JDBC {
         ps.setString(7, getCurrentUserName(currentUser));
         ps.setInt(8, customerId);
         ps.setInt(9, userId);
-        ps.setInt(10, contactId);
-        ps.setInt(11, appointmentId);
+        ps.setInt(10, appointmentId);
         ps.executeUpdate();
     }
 
@@ -665,37 +842,37 @@ public abstract class JDBC {
     /** Method to generate appointments report for all contacts
      * @param id Contact ID
      * @return ObservableList with contact's appointment details */
-    public static ObservableList<String> contactAppointmentsById(String id) throws SQLException {
-        ObservableList<String> appointments = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM APPOINTMENTS WHERE Contact_ID = ?";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, id);
-        ResultSet results = ps.executeQuery();
-
-        while (results.next()) {
-            String appointmentId = results.getString("Appointment_ID");
-            String title = results.getString("Title");
-            String type = results.getString("Type");
-            String description = results.getString("Description");
-            Timestamp start = results.getTimestamp("Start");
-            Timestamp end = results.getTimestamp("End");
-            String customerId = results.getString("Customer_ID");
-//            Timestamp localStart = Helper.toLocal(start);
-//            Timestamp localEnd = Helper.toLocal(end);
-            Timestamp localStart = Timestamp.valueOf(start.toLocalDateTime());
-            Timestamp localEnd = Timestamp.valueOf(end.toLocalDateTime());
-
-            String line = "Appointment ID: " + appointmentId + "\n";
-            line += "Title: " + title + "\n";
-            line += "Type: " + type + "\n";
-            line += "Description: " + description + "\n";
-            line += "Start date/time: " + localStart + " " + TimeZone.getDefault().getDisplayName() + "\n";
-            line += "End date/time: " + localEnd + " " + TimeZone.getDefault().getDisplayName() + "\n";
-            line += "Customer ID: " + customerId + "\n\n";
-            appointments.add(line);
-        }
-        return appointments;
-    }
+//    public static ObservableList<String> contactAppointmentsById(String id) throws SQLException {
+//        ObservableList<String> appointments = FXCollections.observableArrayList();
+//        String sql = "SELECT * FROM APPOINTMENTS WHERE Contact_ID = ?";
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ps.setString(1, id);
+//        ResultSet results = ps.executeQuery();
+//
+//        while (results.next()) {
+//            String appointmentId = results.getString("Appointment_ID");
+//            String title = results.getString("Title");
+//            String type = results.getString("Type");
+//            String description = results.getString("Description");
+//            Timestamp start = results.getTimestamp("Start");
+//            Timestamp end = results.getTimestamp("End");
+//            String customerId = results.getString("Customer_ID");
+////            Timestamp localStart = Helper.toLocal(start);
+////            Timestamp localEnd = Helper.toLocal(end);
+//            Timestamp localStart = Timestamp.valueOf(start.toLocalDateTime());
+//            Timestamp localEnd = Timestamp.valueOf(end.toLocalDateTime());
+//
+//            String line = "Appointment ID: " + appointmentId + "\n";
+//            line += "Title: " + title + "\n";
+//            line += "Type: " + type + "\n";
+//            line += "Description: " + description + "\n";
+//            line += "Start date/time: " + localStart + " " + TimeZone.getDefault().getDisplayName() + "\n";
+//            line += "End date/time: " + localEnd + " " + TimeZone.getDefault().getDisplayName() + "\n";
+//            line += "Customer ID: " + customerId + "\n\n";
+//            appointments.add(line);
+//        }
+//        return appointments;
+//    }
 
     /**
      *

@@ -35,7 +35,6 @@ public class AppointmentForm implements Initializable {
     @FXML private TextField appointmentTitleTextField;
     @FXML private TextField appointmentTypeTextField;
     @FXML private Button cancelButton;
-    @FXML private ComboBox<String> contactCombo;
     @FXML private ComboBox<String> customerCombo;
     @FXML private AnchorPane endDate;
     @FXML private DatePicker endDatePicker;
@@ -50,20 +49,24 @@ public class AppointmentForm implements Initializable {
     private final ObservableList<String> minutes = FXCollections.observableArrayList();
     private final Appointment selectedAppointment = CustomerForm.getSelectedAppointment();
 
-    /** Method to check that no fields are null
-     * @return boolean false if there are empty inputs */
+    /**
+     * Method to check that no fields are null
+     *
+     * @return boolean false if there are empty inputs
+     */
     public boolean checkInputs() {
         return !appointmentDescriptionTextField.getText().isEmpty() && !appointmentLocationTextField.getText().isEmpty() && !appointmentTitleTextField.getText().isEmpty() &&
-                !appointmentTypeTextField.getText().isEmpty() && contactCombo.getValue() != null && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
+                !appointmentTypeTextField.getText().isEmpty() && customerCombo.getValue() != null && startDatePicker.getValue() != null &&
                 endDatePicker.getValue() != null && startHourChoice.getValue() != null && startMinuteChoice.getValue() != null && endHourChoice.getValue() != null &&
                 endMinuteChoice.getValue() != null;
     }
 
     /**
      * Method to handle save button being clicked, determines whether to update or add
-     * @param event
-     * @throws SQLException
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws SQLException the sql exception
+     * @throws IOException  the io exception
      */
     public void handleSaveButton(ActionEvent event) throws SQLException, IOException {
         if (!checkInputs()) {
@@ -87,8 +90,13 @@ public class AppointmentForm implements Initializable {
                 if (passedChecks) {
                     // Update appointment
                     JDBC.updateAppointment(selectedAppointment.getId(), appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                    Helper.errorDialog("Appointment updated successfully.");
+                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()));
+                    if (LoginForm.language.equals("fr")) {
+                        Helper.errorDialog("Rendez-vous mis à jour avec succès.");
+                    } else {
+                        Helper.errorDialog("Appointment updated successfully.");
+                    }
+
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -101,8 +109,13 @@ public class AppointmentForm implements Initializable {
                 if (passedChecks) {
                     // Add appointment to database
                     JDBC.addAppointment(appointmentTitleTextField.getText(), appointmentDescriptionTextField.getText(), appointmentLocationTextField.getText(),
-                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()), JDBC.getContactId(contactCombo.getValue()));
-                    Helper.errorDialog("Appointment added successfully.");
+                            appointmentTypeTextField.getText(), startTime, endTime, JDBC.getCustomerId(customerCombo.getValue()), JDBC.getUserId(userCombo.getValue()));
+                    if (LoginForm.language.equals("fr")) {
+                        Helper.errorDialog("Rendez-vous ajouté avec succès.");
+                    } else {
+                        Helper.errorDialog("Appointment added successfully.");
+                    }
+
                     Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
                     Scene scene = new Scene(parent);
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -115,8 +128,9 @@ public class AppointmentForm implements Initializable {
 
     /**
      * Method to handle cancel button being clicked
-     * @param event
-     * @throws IOException
+     *
+     * @param event the event
+     * @throws IOException the io exception
      */
     public void handleCancelButton(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/view/CustomerForm.fxml")));
@@ -142,17 +156,14 @@ public class AppointmentForm implements Initializable {
         endMinuteChoice.setItems(minutes);
 
         // Retrieve all contacts and populate contact combobox
-        ObservableList<String> contactNames = null;
         ObservableList<String> customerNames = null;
         ObservableList<String> userNames = null;
         try {
-            contactNames = JDBC.getContactNames();
             customerNames = JDBC.getCustomerNames();
             userNames = JDBC.getUserNames();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        contactCombo.setItems(contactNames);
         customerCombo.setItems(customerNames);
         userCombo.setItems(userNames);
 
@@ -196,7 +207,6 @@ public class AppointmentForm implements Initializable {
 
             // set combo boxes
             try {
-                contactCombo.setValue(JDBC.getContactName(selectedAppointment.getContact_id()));
                 customerCombo.setValue(JDBC.getCustomerName(selectedAppointment.getCustomer_id()));
                 userCombo.setValue(JDBC.getCurrentUserName(JDBC.getCurrentUser()));
             } catch (SQLException e) {
