@@ -18,17 +18,17 @@ Built with Java, JavaFX and MySQL
 - JDBC: mysql-connector-java-8.0.29
 
 ## Screenshots
-[Login Screen](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-login.png)
+![Login Screen](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-login.png)
 
-[Main Screen](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-main-screen.png)
+![Main Screen](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-main-screen.png)
 
-[Add/Edit Customers](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-edit-customer.png)
+![Add/Edit Customers](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-edit-customer.png)
 
-[Add/Edit Appointments](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-edit-appointment.png)
+![Add/Edit Appointments](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-edit-appointment.png)
 
-[Products Screen - Add and edit products](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-products-screen.png)
+![Products Screen - Add and edit products](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-products-screen.png)
 
-[Rentals Screen - Manage all rentals](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-rentals.png)
+![Rentals Screen - Manage all rentals](https://github.com/erobertsdev/c195-eadamsr/blob/master/screenshots/rms-rentals.png)
 
 
 
