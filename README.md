@@ -1,6 +1,5 @@
 # Rental Management System
 - Author: Elias Adams-Roberts
-- Email:  eadamsr@wgu.edu
 - Version: 1.0
 - Date: 6/25/2022
 
