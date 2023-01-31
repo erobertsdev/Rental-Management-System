@@ -6,6 +6,8 @@
 ## PURPOSE:
 Software II Project - Rental Management System
 Built with Java, JavaFX and MySQL
+
+
 Note: If you're looking through the code and wondering why error messages are both in French and English, that was a requirement. I don't speak French, unfortunately, I just Google Translated all of them.
 
 ## IDE and MySQL Connector Information:
